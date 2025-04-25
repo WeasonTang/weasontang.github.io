@@ -6,7 +6,7 @@
 
 ## cloud
 
-[weason](https://591746.xyz)
+[weason](https://weason.pages.dev)
 
 [video](https://video.weason.dpdns.org)
 
