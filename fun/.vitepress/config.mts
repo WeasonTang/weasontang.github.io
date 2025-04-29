@@ -21,6 +21,7 @@ export default defineConfig({
         items: [
           { text: 'shortcut', link: '/cyber/shortcut.md' },
           { text: 'network', link: '/cyber/network.md' },
+          { text: 'web', link: '/cyber/web.md' },
         ]
       },
       // linux
@@ -71,6 +72,7 @@ export default defineConfig({
         items: [
           { text: 'shortcut', link: '/cyber/shortcut.md' },
           { text: 'network', link: '/cyber/network.md' },
+          { text: 'web', link: '/cyber/web.md' },
         ]
       },
       {

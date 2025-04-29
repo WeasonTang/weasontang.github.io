@@ -22,6 +22,8 @@
 
 [weason](https://weason.591746.xyz)
 
+[memos](https://weamos.591746.xyz)
+
 [transfer](https://weatransfer.591746.xyz)
 
 [photo](https://weaphoto.591746.xyz)
