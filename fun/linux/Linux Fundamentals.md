@@ -620,7 +620,7 @@ tryhackme@linux3:/tmp$ cd /etc/apt
 tryhackme@linux3:/etc/apt$ ls
 apt.conf.d  auth.conf.d  preferences.d  sources.list  sources.list.d  trusted.gpg.d
 ```
-![sources.list](assets/sources.list.png)
+![sources-list](assets/sources-list.png)
 
 Whilst Operating System vendors will maintain their own repositories, you can also add community repositories to your list! This allows you to extend the capabilities of your OS. Additional repositories can be added by using the **add-apt-repository** command or by listing another provider! For example, some vendors will have a repository that is closer to their geographical location.
 
