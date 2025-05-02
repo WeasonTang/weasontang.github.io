@@ -28,11 +28,11 @@ export default defineConfig({
       {
         text: 'linux',
         items: [
-          { text: 'linux基础', link: '/linux/linux命令' },
+          { text: 'linux常用命令', link: '/linux/linux命令' },
           { text: 'vscode相关命令', link: '/linux/vscode相关命令.md' },
           { text: 'go linux相关操作', link: '/linux/go linux相关操作.md' },
           { text: 'Git相关命令操作', link: '/linux/Git相关命令操作.md' },
-          { text: 'archlinux_app', link: '/linux/archlinux_app.md' },
+          { text: 'archlinux应用', link: '/linux/archlinux_app.md' },
         ]
       },
       // docker
@@ -79,11 +79,11 @@ export default defineConfig({
         text: 'linux',
         collapsed: true,
         items: [
-          { text: 'linux基础', link: '/linux/linux命令' },
+          { text: 'linux常用命令', link: '/linux/linux命令' },
           { text: 'vscode相关命令', link: '/linux/vscode相关命令.md' },
           { text: 'go linux相关操作', link: '/linux/go linux相关操作.md' },
           { text: 'Git相关命令操作', link: '/linux/Git相关命令操作.md' },
-          { text: 'archlinux_app', link: '/linux/archlinux_app.md' },
+          { text: 'archlinux应用', link: '/linux/archlinux_app.md' },
         ]
       },
       // docker

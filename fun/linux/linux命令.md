@@ -1,22 +1,40 @@
-# 1. linux命令
+---
+title: "Linux command"
+date: 2025-05
+categories:
+  - 技术
+  - 教程
+tags: [Markdown, linux]
+description: Linux Fundamentals
+draft: false
+---
 
-## 1.1. 1.常用命令
+# Linux command
+
+## 0.常用命令
 
 ```bash
-#1.打印当前目录
+# 打印当前目录  print working directory
 pwd
-#2.新建文件夹
+# 新建文件夹
 mkdir foldername
-#3.新建文件
+# 新建文件
 touch filename
+
 #4.删除文件夹
 rm -r filename
-#5.ss命令查看端口状态
+
+# ss命令查看端口状态
 ss -lntu
 
+# Output any text that we provide
+echo "hello world"
 
+# Find out what user we're currently logged in as!
+whoami
 
-
+# 输出文件的内容 concatenate 
+cat test.txt
 
 ```
 
@@ -32,9 +50,7 @@ mkdir my_folder # 新建名为 my_folder 的文件夹
 sudo some_command # 使普通用户以 root 权限执行某些命令
 ```
 
-
-
-## 1.2. 2.系统服务
+## 1.系统服务
 
 ```bash
 systemctl start dhcpcd # 启动服务
@@ -50,7 +66,7 @@ systemctl daemon-reload dhcpcd # 重新载入 systemd 配置。扫描新增或�
 
 
 
-## 1.3. 3.文件压缩
+## 2.文件压缩
 
 ```bash
 # 一般形式
@@ -74,7 +90,7 @@ tar -jxvf xxx.tar.bz2 -C [path]
 
 
 
-## 1.4. 4.磁盘空间信息
+## 3.磁盘空间信息
 
 ```bash
 df -h # 以人类可读格式显示
@@ -82,16 +98,16 @@ df -h # 以人类可读格式显示
 
 
 
-## 1.5. 5.文件传输
+## 4.文件传输
 
 scp 命令
 
 ```bash
 ```
 
-## 1.6. 6.chown & chmod
+## 5.chown & chmod
 
-### 1.6.1. chown
+### 0.6.1. chown
 >在Linux系统中，chown命令用于改变文件或目录的所有者和/或所属群组。这个命令对于系统管理员和需要管理文件权限的用户来说是非常有用的。
 
 <div align=left><img width = '400' src = './assets/20240722_131604.png'></div> 
@@ -116,7 +132,7 @@ chown runoob:runoobgroup file1.txt
 chown -R runoob:runoobgroup *
 
 ```
-### 1.6.2. chmod
+### 6. chmod
 
 >chmod命令是Unix和Linux系统中用于改变文件或目录访问权限的命令。通过chmod，用户可以控制谁可以读取、写入或执行文件或目录。该命令有两种主要用法：数字设定法和符号设定法。
 
@@ -164,7 +180,7 @@ sudo chmod a+w /etc/hosts
 ```
 
 
-## 1.7. 7.镜像备份
+## 6.镜像备份
 
 ```zsh
 # by timeshift
@@ -178,5 +194,26 @@ sudo timeshift --list
 
 
 
+## ps -ef
+ `ps -ef` 是Unix/Linux系统中用于查看进程信息的常用命令：
+### 命令构成及含义
+- **ps**：是“process status”的缩写 ，用于显示当前系统的进程状态信息。
+- **-e**：等价于`-A` ，表示列出全部的进程，即不仅显示当前用户在当前终端启动的进程，还包括其他用户及系统层面的所有进程。
+- **-f**：表示以完整格式（full format）显示进程信息，会展示诸如进程的用户ID、父进程ID、CPU占用率、启动时间等详细字段。 
 
- 
+### 输出字段含义
+执行`ps -ef`后，会显示类似表格的信息，各列含义如下：
+- **UID**：进程的所有者用户ID，代表哪个用户启动了该进程，比如`root`表示由超级用户启动。 
+- **PID**：进程的唯一标识符，系统通过它来区分不同进程。
+- **PPID**：父进程的ID，可用于追踪进程的创建关系，若一个进程的父进程ID找不到，该进程可能是僵尸进程 。
+- **C**：CPU的占用率，以百分数形式呈现，反映进程对CPU资源的使用程度。 
+- **STIME**：进程的启动时间，记录进程开始运行的时刻。 
+- **TTY**：终端设备，是发起该进程的设备识别符号。若显示`?` ，表明该进程并非由终端发起，而是在后台运行等情况。 
+- **TIME**：进程占用CPU的总时间，体现进程自启动以来累计使用CPU的时长。 
+- **CMD**：启动进程的命令名称或路径，可直观看到进程对应的程序或指令。 
+
+### 常见用法
+- **查看所有进程**：直接运行`ps -ef` ，可列出系统中所有正在运行进程的详细信息，帮助用户全面了解系统当前的进程运行状况。
+- **查找特定进程**：常与`grep`命令结合使用，比如`ps -ef | grep nginx` ，用于筛选出与`nginx`相关的进程信息，方便排查特定服务或程序的进程状态。 
+- **提取特定列信息**：借助`awk`等工具，如`ps -ef | awk '{print $2, $8}'` ，可以从`ps -ef`的输出结果中提取指定的列，如进程ID（PID）和启动命令（CMD）等信息 。 
+- **配合其他命令管理进程**：与`kill`命令结合，先通过`ps -ef`找到目标进程的PID，再使用`kill`命令终止该进程，例如`ps -ef | grep find | awk '{print $2}' | xargs kill -9` ，可查找并强制终止与`find`相关的进程 。 
