@@ -10,6 +10,10 @@
 
 [video](https://video.weason.dpdns.org)
 
+[开发者速查表](https://devhints.io/)
+
+[docker镜像分析](https://diving.npmtrend.com/)
+
 ---
 
 ## myself
