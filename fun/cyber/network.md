@@ -265,7 +265,7 @@ LAN（Local Area Network，局域网）是一种覆盖范围较小的计算机�
 
 **Router**
 
-> t's a router's job to connect networks and pass data between them. It does this by using routing (hence the name router!).
+> It's a router's job to connect networks and pass data between them. It does this by using routing (hence the name router!).
 
 > Routing is the label given to the process of data travelling across networks. Routing involves creating a path between networks so that this data can be successfully delivered.
 

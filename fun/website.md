@@ -34,6 +34,8 @@
 
 [chat](https://weachat.591746.xyz)
 
+[AIChat](https://n8n.591746.xyz/webhook/4fb35e49-a9ff-4119-a5cd-69764a2aec7a/chat)
+
 ~~[file](https://weafile.591746.xyz)~~
 
 ~~[moniter](https://weamonitor.591746.xyz)~~
