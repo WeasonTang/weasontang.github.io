@@ -141,6 +141,21 @@ export default defineConfig({
       
       gtag('config', 'G-RJMPP58S6J');`
     ],
+    // 添加 n8n chat
+    [
+      'link',
+      { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css' }
+    ],
+    [
+      'script',
+      { type: 'module' },
+      `
+        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+        createChat({
+          webhookUrl: 'https://n8n-mmplospk.ap-northeast-1.clawcloudrun.com/webhook/4fb35e49-a9ff-4119-a5cd-69764a2aec7a/chat'
+        });
+      `
+    ],
     // vocechat
     // [
     //   'script',
