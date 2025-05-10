@@ -1,3 +1,15 @@
+---
+title: "go基础"
+categories:
+  - 技术
+  - 教程
+tags: [Markdown, go]
+description: go基础
+draft: false
+sidebar: false
+outline: deep
+---
+
 # go基础
 
 ## 0.概述

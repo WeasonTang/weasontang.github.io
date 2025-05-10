@@ -7,6 +7,8 @@ categories:
 tags: [Markdown, linux]
 description: Linux Fundamentals
 draft: false
+sidebar: true
+outline: deep
 ---
 
 # Linux command
@@ -100,14 +102,43 @@ df -h # 以人类可读格式显示
 
 ## 4.文件传输
 
-scp 命令
+`scp`（secure copy）命令用于在本地与远程主机之间安全地复制文件或目录。常用用法如下：
 
+- 从本地复制到远程：
+  ```bash
+  scp localfile user@remote_host:/remote/path/
+  ```
+
+- 从远程复制到本地：
+  ```bash
+  scp user@remote_host:/remote/path/file localdir/
+  ```
+
+- 复制整个目录（加 `-r`）：
+  ```bash
+  scp -r localdir user@remote_host:/remote/path/
+  scp -r user@remote_host:/remote/path/dir localdir/
+  ```
+
+- 指定端口（如 2222）：
+  ```bash
+  scp -P 2222 localfile user@remote_host:/remote/path/
+  ```
+
+- 常用参数说明：
+  - `-r`：递归复制整个目录
+  - `-P`：指定远程主机端口
+  - `-i`：指定私钥文件
+  - `-C`：启用压缩
+
+**示例：**
 ```bash
+scp -P 2222 -r ./myfolder user@192.168.1.10:/home/user/
 ```
 
 ## 5.chown & chmod
 
-### 0.6.1. chown
+### chown
 >在Linux系统中，chown命令用于改变文件或目录的所有者和/或所属群组。这个命令对于系统管理员和需要管理文件权限的用户来说是非常有用的。
 
 <div align=left><img width = '400' src = './assets/20240722_131604.png'></div> 
@@ -132,7 +163,7 @@ chown runoob:runoobgroup file1.txt
 chown -R runoob:runoobgroup *
 
 ```
-### 6. chmod
+### chmod
 
 >chmod命令是Unix和Linux系统中用于改变文件或目录访问权限的命令。通过chmod，用户可以控制谁可以读取、写入或执行文件或目录。该命令有两种主要用法：数字设定法和符号设定法。
 
@@ -178,8 +209,6 @@ chmod -R 755 目录名
 sudo chmod a+w /etc/hosts
 
 ```
-
-
 ## 6.镜像备份
 
 ```zsh
@@ -196,12 +225,14 @@ sudo timeshift --list
 
 ## ps -ef
  `ps -ef` 是Unix/Linux系统中用于查看进程信息的常用命令：
-### 命令构成及含义
+
+<span style="font-size: 23px;">**命令构成及含义**</span>
 - **ps**：是“process status”的缩写 ，用于显示当前系统的进程状态信息。
 - **-e**：等价于`-A` ，表示列出全部的进程，即不仅显示当前用户在当前终端启动的进程，还包括其他用户及系统层面的所有进程。
 - **-f**：表示以完整格式（full format）显示进程信息，会展示诸如进程的用户ID、父进程ID、CPU占用率、启动时间等详细字段。 
 
-### 输出字段含义
+<span style="font-size: 23px;">**输出字段含义**</span>
+
 执行`ps -ef`后，会显示类似表格的信息，各列含义如下：
 - **UID**：进程的所有者用户ID，代表哪个用户启动了该进程，比如`root`表示由超级用户启动。 
 - **PID**：进程的唯一标识符，系统通过它来区分不同进程。
@@ -212,7 +243,8 @@ sudo timeshift --list
 - **TIME**：进程占用CPU的总时间，体现进程自启动以来累计使用CPU的时长。 
 - **CMD**：启动进程的命令名称或路径，可直观看到进程对应的程序或指令。 
 
-### 常见用法
+<span style="font-size: 23px;">**常见用法**</span>
+
 - **查看所有进程**：直接运行`ps -ef` ，可列出系统中所有正在运行进程的详细信息，帮助用户全面了解系统当前的进程运行状况。
 - **查找特定进程**：常与`grep`命令结合使用，比如`ps -ef | grep nginx` ，用于筛选出与`nginx`相关的进程信息，方便排查特定服务或程序的进程状态。 
 - **提取特定列信息**：借助`awk`等工具，如`ps -ef | awk '{print $2, $8}'` ，可以从`ps -ef`的输出结果中提取指定的列，如进程ID（PID）和启动命令（CMD）等信息 。 

@@ -6,6 +6,8 @@ export default defineConfig({
   base: '/',
   title: "威森",
   description: "just for fun",
+  lastUpdated: true,
+  // cleanUrls: true,
   themeConfig: {
     logo: '/butterfly-flower.png',
     search: {
@@ -18,9 +20,9 @@ export default defineConfig({
       {
         text: 'cyber',
         items: [
-          { text: 'shortcut', link: '/cyber/shortcut.md' },
           { text: 'network', link: '/cyber/network.md' },
           { text: 'web', link: '/cyber/web.md' },
+          { text: 'networkpro', link: '/cyber/networkpro.md' },
         ]
       },
       // linux
@@ -28,10 +30,9 @@ export default defineConfig({
         text: 'linux',
         items: [
           { text: 'linux常用命令', link: '/linux/linux命令' },
-          { text: 'vscode相关命令', link: '/linux/vscode相关命令.md' },
-          { text: 'go linux相关操作', link: '/linux/go linux相关操作.md' },
-          { text: 'Git相关命令操作', link: '/linux/Git相关命令操作.md' },
-          { text: 'archlinux应用', link: '/linux/archlinux_app.md' },
+          { text: 'archlinux应用', link: '/linux/archlinuxApp.md' },
+          { text: 'LinuxFundamentals', link: '/linux/LinuxFundamentals.md' },
+          { text: 'linux shells', link: '/linux/LinuxShell.md' },
         ]
       },
       // docker
@@ -40,7 +41,7 @@ export default defineConfig({
         items: [
           { text: 'docker基础', link: '/docker/docker基础.md' },
           { text: 'docker进阶', link: '/docker/docker进阶.md' },
-          { text: 'docker_app', link: '/docker/docker_app.md' },
+          { text: 'docker应用', link: '/docker/dockerApp.md' },
         ]
       },
       // go
@@ -57,21 +58,12 @@ export default defineConfig({
 
     sidebar: [
       {
-        text: 'algo',
-        collapsed: true,
-        items: [
-          { text: 'Markdown Examples', link: '/markdown-examples' },
-          { text: 'Runtime API Examples', link: '/api-examples' },
-          { text: 'java algo', link: '/algo/java algo.md' },
-        ]
-      },
-      {
         text: 'cyber',
         collapsed: true,
         items: [
-          { text: 'shortcut', link: '/cyber/shortcut.md' },
           { text: 'network', link: '/cyber/network.md' },
           { text: 'web', link: '/cyber/web.md' },
+          { text: 'networkpro', link: '/cyber/networkpro.md' },
         ]
       },
       {
@@ -80,9 +72,9 @@ export default defineConfig({
         items: [
           { text: 'linux常用命令', link: '/linux/linux命令' },
           { text: 'vscode相关命令', link: '/linux/vscode相关命令.md' },
-          { text: 'go linux相关操作', link: '/linux/go linux相关操作.md' },
+          { text: 'go linux相关操作', link: '/linux/golinux相关操作.md' },
           { text: 'Git相关命令操作', link: '/linux/Git相关命令操作.md' },
-          { text: 'archlinux应用', link: '/linux/archlinux_app.md' },
+          { text: 'archlinux应用', link: '/linux/archlinuxApp.md' },
         ]
       },
       // docker
@@ -92,8 +84,7 @@ export default defineConfig({
         items: [
           { text: 'docker基础', link: '/docker/docker基础.md' },
           { text: 'docker进阶', link: '/docker/docker进阶.md' },
-          { text: 'docker_app', link: '/docker/docker_app.md' },
-          { text: 'DevOps_java', link: '/docker/DevOps_java.md' },
+          { text: 'docker应用', link: '/docker/dockerApp.md' },
         ]
       },
       // go
@@ -119,7 +110,6 @@ export default defineConfig({
       },
     ]
   },
-
 
   head: [
     // 添加图标

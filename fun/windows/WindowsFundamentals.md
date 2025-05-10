@@ -1,6 +1,5 @@
 ---
 title: "Windows Fundamentals"
-date: 2025-05
 quote: tryhackme
 categories:
   - 技术
@@ -8,6 +7,8 @@ categories:
 tags: [Markdown, windwos]
 description: windows Fundamentals
 draft: false
+sidebar: false
+outline: deep
 ---
 
 # Windwos Fundamentals

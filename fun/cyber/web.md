@@ -1,6 +1,5 @@
 ---
 title: "web"
-date: 2025-04
 quote: tryhackme
 categories:
   - 技术
@@ -8,6 +7,8 @@ categories:
 tags: [Markdown, web]
 description: How The Web Works
 draft: false
+sidebar: false
+outline: deep
 ---
 
 # web

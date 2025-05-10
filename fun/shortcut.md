@@ -5,6 +5,7 @@ categories:
   - 教程
 tags: [Markdown, shortcut]
 draft: false
+outline: deep
 ---
 
 # Shortcut key
@@ -31,6 +32,31 @@ Shift+Alt + ↓ / ↑	向上/向下复制行 Copy line up/down
    展开当前区域：Ctrl + Shift + ]
 15.匹配的括号之间跳转:  Ctrl + Shift + \
 
+```
+## windows
+
+<span style="font-size: 23px;">**1、Alt 键组合**</span>
+``` bash
+Alt + F4 ———— 关闭当前程序
+Alt + 空格 + C ———— 关闭窗口
+Alt + 空格 + N ———— 最小化当前窗口
+Alt + 空格 + R ———— 恢复最小化窗口
+Alt + 空格 + X ———— 最大化当前窗口
+Alt + 空格 + M ———— 移动窗口
+Alt + 空格 + S ———— 改变窗口大小
+Alt + 空格键 ———— 为当前窗口打开控制菜单
+Alt + 空格键 ———— 显示当前窗口的“系统”菜单
+```
+
+<span style="font-size: 23px;">**2、Windows 徽标键**</span>
+
+```bash
+Windows 徽标键 + Pause ———— 显示“系统属性”对话框。
+Windows 徽标键 + D ———— 显示桌面。
+Windows 徽标键 + M ———— 最小化所有窗口。
+Windows 徽标键 + Shift + M ———— 将最小化的窗口还原到桌面。
+Ctrl + Windows 徽标键 + 数字 ———— 切换到锁定到任务栏中的由该数字所表示位置处的程序的最后一个活动窗口。
+Alt + Windows 徽标键 + 数字 ———— 打开锁定到任务栏中的由该数字所表示位置处的程序的跳转列表。
 ```
 
 ## idea

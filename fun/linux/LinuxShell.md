@@ -7,6 +7,8 @@ categories:
 tags: [Markdown, linux]
 description: Linux Shells
 draft: false
+sidebar: false
+outline: deep
 ---
 
 # Linux Shells
@@ -78,3 +80,7 @@ else
         echo "Sorry! You are not authorized to access the secret."
 fi
 ```
+
+**常用命令:** 介绍一些在脚本中常用的 Linux 命令，例如 **if**, **then**, **else**, **for**, **while**, **echo**, **read**, **sed**, **awk**, **grep**, **find** 等。
+
+**脚本调试:** 讲解如何调试脚本，例如使用 **set -x** 开启调试模式。

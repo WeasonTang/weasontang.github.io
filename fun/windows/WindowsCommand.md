@@ -8,6 +8,8 @@ categories:
 tags: [Markdown, windwos]
 description: Windows Command Line
 draft: false
+sidebar: false
+outline: deep
 ---
 
 # Windows Command
@@ -412,3 +414,4 @@ Invoke-Command -ComputerName Server01 -Credential Domain01\User01 -ScriptBlock {
 The **ComputerName** parameter specifies the name of the remote computer. The **Credential** parameter is used to run the command in the security context of Domain01\User01, a user who has permission to run commands. The **ScriptBlock** parameter specifies the command to be run on the remote computer.
 
 In response, PowerShell requests the password and an authentication method for the User01 account. It then runs the command on the Server01 computer and returns the result.
+

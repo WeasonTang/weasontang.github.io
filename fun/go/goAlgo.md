@@ -1,4 +1,16 @@
-# 17.数据结构与算法
+---
+title: "go algo"
+categories:
+  - 技术
+  - 教程
+tags: [Markdown, go, algorithm]
+description: go算法
+draft: false
+sidebar: false
+outline: deep
+---
+
+# go algorithm
 
 ## 0.介绍
 

@@ -11,17 +11,17 @@ hero:
 
   actions:
     - theme: alt
-      text: algo
-      link: /algo/java algo.md
+      text: shortcut
+      link: /shortcut.md
     - theme: alt
-      text: cyber
-      link: /cyber/shortcut.md
-    - theme: alt
-      text: Linux
+      text: linux
       link: /linux/linux命令
     - theme: alt
       text: docker
-      link: /docker/docker_app.md
+      link: /docker/dockerApp.md
+    - theme: alt
+      text: algo
+      link: /algo/java algo.md
     - theme: alt
       text: go
       link: /go/goIssues.md

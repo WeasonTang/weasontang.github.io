@@ -1,11 +1,12 @@
 ---
 title: "tools"
-date: 2025-03
 categories:
   - 技术
   - 教程
 tags: [Markdown, web]
 draft: true
+sidebar: false
+outline: deep
 ---
 
 # tools

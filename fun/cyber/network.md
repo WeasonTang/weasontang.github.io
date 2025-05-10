@@ -1,6 +1,5 @@
 ---
 title: "networks"
-date: 2025-03
 quote: tryhackme
 categories:
   - 技术
@@ -8,6 +7,8 @@ categories:
 tags: [Markdown, network]
 description: Network Fundamentals
 draft: false
+sidebar: false
+outline: deep
 ---
 
 # Network
@@ -400,14 +401,28 @@ OSI（Open System Interconnect 开放式系统互联）模型是一个分层的�
 
 ### 1.physical
 
-> This layer is one of the easiest layers to grasp. Put simply, this layer references the physical components of the hardware used in networking and is the lowest layer that you will find. Devices use electrical signals to transfer data between each other in a binary numbering system (1's and 0's).
+> The physical layer, also referred to as layer 1, deals with the physical connection between devices; this includes the medium, such as a wire, and the definition of the binary digits 0 and 1. Data transmission can be via an electrical, optical, or wireless signal. Consequently, we need data cables or antennas, depending on our physical medium.
 
-> For example, ethernet cables connecting devices, such as in the picture below:
+> In addition to Ethernet cable, shown in the illustration below, and optical fibre cable, examples of the physical layer medium include the WiFi radio bands, the 2.4 GHz band, the 5 GHz band, and the 6 GHz band.
 
 <div align=left><img width = '400' src = './assets/20250411_092244.png'></div>
 
 
 ### 2.Data link
+
+The physical layer defines a medium to transmit our signal. The data link layer, i.e., layer 2, represents the protocol that enables data transfer between nodes on the same network segment. Let’s put it in simpler terms. The data link layer describes an agreement between the different systems on the same network segment on how to communicate. A network segment refers to a group of networked devices using a shared medium or channel for information transfer. For example, consider a company office with ten computers connected to a network switch; that’s a network segment.
+
+Examples of layer 2 include Ethernet, i.e., 802.3, and WiFi, i.e., 802.11. Ethernet and WiFi addresses are six bytes. Their address is called a MAC address, where MAC stands for Media Access Control. They are usually expressed in hexadecimal format with a colon separating each two bytes. The three leftmost bytes identify the vendor.
+
+![Data Link Layer](<assets/Data Link Layer.svg>)
+
+We expect to see two MAC addresses in each frame in real network communication over Ethernet or WiFi. The packet in the screenshot below shows:
+
+- The destination data-link address (MAC address) highlighted in yellow
+- The source data link address (MAC address) is highlighted in blue
+- The remaining bits show the data being sent
+
+![packet layer2](<assets/packet layer2.png>)
 
 > The data link layer focuses on the physical addressing of the transmission. It receives a packet from the network layer (including the IP address for the remote computer) and adds in the physical MAC (Media Access Control) address of the receiving endpoint. Inside every network-enabled computer is a Network Interface Card (NIC) which comes with a unique MAC address to identify it.
 
@@ -416,6 +431,10 @@ OSI（Open System Interconnect 开放式系统互联）模型是一个分层的�
 > Additionally, it’s also the job of the data link layer to present the data in a format suitable for transmission.
 
 ### 3.network
+
+The data link layer focuses on sending data between two nodes on the same network segment. The network layer, i.e., layer 3, is concerned with sending data between different networks. In more technical terms, the network layer handles logical addressing and routing, i.e., finding a path to transfer the network packets between the diverse networks.
+
+Examples of the network layer include Internet Protocol (IP), Internet Control Message Protocol (ICMP), and Virtual Private Network (VPN) protocols such as IPSec and SSL/TLS VPN.
 
 > The third layer of the OSI model (network layer) is where the magic of routing & re-assembly of data takes place (from these small chunks to the larger chunk). Firstly, routing simply determines the most optimal path in which these chunks of data should be sent.
 
@@ -433,6 +452,8 @@ OSI（Open System Interconnect 开放式系统互联）模型是一个分层的�
 
 
 ### 4.Transport
+
+Layer 4, the transport layer, enables end-to-end communication between running applications on different hosts. Your web browser is connected to the web server over the transport layer, which can support various functions like flow control, segmentation, and error correction.
 
 > Layer 4 of the OSI model plays a vital part in transmitting data across a network and can be a little bit difficult to grasp. When data is sent between devices, it follows one of two different protocols that are decided based upon several factors:
 > - TCP
@@ -480,6 +501,10 @@ Using the same example as before, we can now see that only Packets #1 and #3 hav
 
 ### 5.Session
 
+The session layer is responsible for establishing, maintaining, and synchronising communication between applications running on different hosts. Establishing a session means initiating communication between applications and negotiating the necessary parameters for the session. Data synchronisation ensures that data is transmitted in the correct order and provides mechanisms for recovery in case of transmission failures.
+
+Examples of the session layer are Network File System (NFS) and Remote Procedure Call (RPC).
+
 > Once data has been correctly translated or formatted from the presentation layer (layer 6), the session layer (layer 5) will begin to create and maintain the connection to other computer for which the data is destined. When a connection is established, a session is created. Whilst this connection is active, so is the session.
 
 > The session layer is also responsible for closing the connection if it hasn't been used in a while or if it is lost. Additionally, a session can contain "checkpoints," where if the data is lost, only the newest pieces of data are required to be sent, saving bandwidth. 
@@ -488,6 +513,10 @@ Using the same example as before, we can now see that only Packets #1 and #3 hav
 
 ### 6.Presentation
 
+The presentation layer ensures the data is delivered in a form the application layer can understand. Layer 6 handles data encoding, compression, and encryption. An example of encoding is character encoding, such as ASCII or Unicode.
+
+Various standards are used at the presentation layer. Consider the scenario where we want to send an image via email. First, we use JPEG, GIF, and PNG to save our images; furthermore, although hidden from the user by the email client, we use MIME (Multipurpose Internet Mail Extensions) to attach the file to our email. MIME encodes a binary file using 7-bit ASCII characters.
+
 > Layer 6 of the OSI model is the layer in which standardisation starts to take place. Because software developers can develop any software such as an email client differently, the data still needs to be handled in the same way — no matter how the software works.
 
 > This layer acts as a translator for data to and from the application layer (layer 7). The receiving computer will also understand data sent to a computer in one format destined for in another format. For example, when you send an email, the other user may have another email client to you, but the contents of the email will still need to display the same.
@@ -495,6 +524,10 @@ Using the same example as before, we can now see that only Packets #1 and #3 hav
 > Security features such as data encryption (like HTTPS when visiting a secure site) occur at this layer.
 
 ### 7.Application
+
+The application layer provides network services directly to end-user applications. Your web browser would use the HTTP protocol to request a file, submit a form, or upload a file.
+
+The application layer is the top layer, and you might have encountered many of its protocols as you use different applications. Examples of Layer 7 protocols are HTTP, FTP, DNS, POP3, SMTP, and IMAP. Don’t worry if you are not familiar with all of them.
 
 > The application layer of the OSI model is the layer that you will be most familiar with. This familiarity is because the application layer is the layer in which protocols and rules are in place to determine how the user should interact with data sent or received.
 

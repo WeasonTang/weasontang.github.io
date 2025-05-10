@@ -1,3 +1,15 @@
+---
+title: "java algo"
+categories:
+  - 技术
+  - 教程
+tags: [Markdown, java, algorithm]
+description: java算法
+draft: false
+sidebar: true
+outline: deep
+---
+
 # 数据结构和算法(java)
 
 ## 0.概述

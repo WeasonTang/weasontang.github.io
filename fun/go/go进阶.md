@@ -1,3 +1,15 @@
+---
+title: "go进阶"
+categories:
+  - 技术
+  - 教程
+tags: [Markdown, go]
+description: go进阶
+draft: false
+sidebar: false
+outline: deep
+---
+
 # go进阶
 
 ## 9.结构体-面向对象编程

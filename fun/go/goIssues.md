@@ -1,3 +1,15 @@
+---
+title: "go issues"
+categories:
+  - 技术
+  - 教程
+tags: [Markdown, go]
+description: go issues
+draft: false
+sidebar: true
+outline: deep
+---
+
 ## go开发过程中遇到的问题
 
 ### 1、Go代码引入自己创建的包，运行时出现 package 包路径 is not in GOROOT 问题
