@@ -14,7 +14,6 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'algo', link: '/algo/java algo.md' },
       // cyber
       {
         text: 'cyber',
