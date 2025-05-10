@@ -7,7 +7,7 @@ export default defineConfig({
   title: "威森",
   description: "just for fun",
   lastUpdated: true,
-  // cleanUrls: true,
+  cleanUrls: true,
   themeConfig: {
     logo: '/butterfly-flower.png',
     search: {
@@ -31,7 +31,6 @@ export default defineConfig({
         items: [
           { text: 'linux常用命令', link: '/linux/linux命令' },
           { text: 'archlinux应用', link: '/linux/archlinuxApp.md' },
-          { text: 'LinuxFundamentals', link: '/linux/LinuxFundamentals.md' },
           { text: 'linux shells', link: '/linux/LinuxShell.md' },
         ]
       },
@@ -75,6 +74,8 @@ export default defineConfig({
           { text: 'go linux相关操作', link: '/linux/golinux相关操作.md' },
           { text: 'Git相关命令操作', link: '/linux/Git相关命令操作.md' },
           { text: 'archlinux应用', link: '/linux/archlinuxApp.md' },
+          { text: 'linux基础', link: '/linux/LinuxFundamentals.md.md' },
+          { text: 'linux shells', link: '/linux/LinuxShells.md' },
         ]
       },
       // docker
@@ -96,6 +97,15 @@ export default defineConfig({
           { text: 'go algo', link: '/go/goAlgo.md' },
           { text: 'go基础', link: '/go/go基础.md' },
           { text: 'go进阶', link: '/go/go进阶.md' },
+        ]
+      },
+      // windows
+      {
+        text: 'windows',
+        collapsed: true,
+        items: [
+          { text: 'windows常用命令', link: '/windows/WindowsCommand.md' },
+          { text: 'windows基础', link: '/windows/WindowsFundamentals.md' },
         ]
       },
     ],
