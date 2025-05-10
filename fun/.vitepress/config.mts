@@ -74,8 +74,8 @@ export default defineConfig({
           { text: 'go linux相关操作', link: '/linux/golinux相关操作.md' },
           { text: 'Git相关命令操作', link: '/linux/Git相关命令操作.md' },
           { text: 'archlinux应用', link: '/linux/archlinuxApp.md' },
-          { text: 'linux基础', link: '/linux/LinuxFundamentals.md.md' },
-          { text: 'linux shells', link: '/linux/LinuxShells.md' },
+          { text: 'linux基础', link: '/linux/LinuxFundamentals.md' },
+          { text: 'linux shells', link: '/linux/LinuxShell.md' },
         ]
       },
       // docker

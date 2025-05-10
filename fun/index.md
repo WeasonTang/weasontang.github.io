@@ -21,7 +21,7 @@ hero:
       link: /docker/dockerApp.md
     - theme: alt
       text: algo
-      link: /algo/java algo.md
+      link: /algo/javaAlgo.md
     - theme: alt
       text: go
       link: /go/goIssues.md
