@@ -562,7 +562,9 @@ The application layer is the top layer, and you might have encountered many of i
 |   Source Address    | The IP address of the device that the packet is being sent **from** so that data knows where to **return to**. |
 | Destination Address | The device's IP address the packet is being sent to so that data knows where to travel next. |
 
-### TCP/IP (The Three-Way Handshake)
+### TCP
+
+ <span style="font-size: 23px;">**TCP/IP(The Three-Way Handshake)**</span>
 
 > TCP (or Transmission Control Protocol for short) is another one of these rules used in networking.
 

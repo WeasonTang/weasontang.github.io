@@ -701,7 +701,7 @@ The screenshot below shows the exchanged messages between the client and the ser
 
 ![imap Wireshark](<assets/imap Wireshark.png>)
 
-### omt
+### one more thing
 
 The table below summarizes the default port numbers of the protocols we have covered so far.
 
@@ -733,3 +733,121 @@ confidentiality, integrity, and authenticity.
 
 ### TLS
 
+TLS（Transport Layer Security，传输层安全协议）是一种用于保护网络通信安全的加密协议。它是 SSL（Secure Sockets Layer，安全套接字层协议）的继任者，常用于为 HTTP、SMTP、IMAP、POP3 等协议提供加密和身份验证。
+
+**主要作用：**
+
+- 加密数据，防止被窃听
+- 确保数据完整性，防止被篡改
+- 验证通信双方身份，防止中间人攻击
+
+**常见应用：**
+
+- HTTPS（即 HTTP over TLS）：保护网页浏览安全
+- 邮件传输加密（如 SMTPS、IMAPS、POP3S）
+- VPN、即时通讯等安全通信场景
+
+**CA**, or **Certificate Authority**, is a trusted organisation that verifies the digital identity of entities like websites, individuals, or companies by issuing digital certificates.
+
+The first step for every server (or client) that needs to identify itself is to get a signed TLS certificate. Generally, the server administrator creates a Certificate Signing Request (CSR) and submits it to a Certificate Authority (CA); the CA verifies the CSR and issues a digital certificate. Once the (signed) certificate is received, it can be used to identify the server (or the client) to others, who can confirm the validity of the signature. For a host to confirm the validity of a signed certificate, the certificates of the signing authorities need to be installed on the host. In the non-digital world, this is similar to recognising the stamps of various authorities. The screenshot below shows the trusted authorities installed in a web browser.
+
+![Certificate Authority](<assets/Certificate Authority.png>)
+
+Generally speaking, getting a certificate signed requires paying an annual fee. However, [Let’s Encrypt](https://letsencrypt.org) allows you to get your certificate signed for free.
+
+Finally, we should mention that some users opt to create a self-signed certificate. A self-signed certificate cannot prove the server’s authenticity as no third party has confirmed it.
+
+### HTTPS
+
+[HTTP](./web.md#http-in-detail) relies on [TCP](./network.md#tcp) and uses port 80 by default.All HTTP traffic was sent in cleartext for anyone to intercept and monitor. 
+
+Let’s take a minute to review the most common steps before a web browser can request a page over HTTP. After resolving the domain name to an IP address, the client will carry out the following two steps:
+
+1. Establish a TCP three-way handshake with the target server
+2. Communicate using the HTTP protocol; for example, issue HTTP requests, such as `GET / HTTP/1.1`
+
+The two steps described above are shown in the window below. The three packets for the TCP handshake (marked with 1) precede the first HTTP packet with `GET` in it. The HTTP communication is marked with 2. The last three displayed packets are for TCP connection termination and are marked with 3.
+
+![http request packet](<assets/http request packet.png>)
+
+<span style="font-size: 23px;">**HTTP Over TLS**</span>
+
+HTTPS stands for Hypertext Transfer Protocol Secure. It is basically HTTP over TLS. Consequently, requesting a page over HTTPS will require the following three steps (after resolving the domain name):
+
+1. Establish a TCP three-way handshake with the target server
+2. Establish a TLS session
+3. Communicate using the HTTP protocol; for example, issue HTTP requests, such as `GET / HTTP/1.1`
+
+The screenshot below shows that a TCP session is established in the first three packets, marked with `1`. Then, several packets are exchanged to negotiate the TLS protocol, marked with` 2`. `1` and `2` are where the `TLS negotiation and establishment` take place.
+
+Finally, HTTP application data is exchanged, marked with `3`. Looking at the Wireshark screenshot, we see that it says “Application Data” because there is no way to know if it is indeed HTTP or some other protocol sent over port 443.
+
+![https request packets](<assets/https request packets.png>)
+
+As expected, if one tries to follow the stream of packets and combine all their contents, they will only get gibberish, as shown in the screenshot below. The exchanged traffic is encrypted; the red is sent by the client, and the blue is sent by the server. There is no way to know the contents without acquiring the encryption key.
+
+![gibberish](assets/gibberish.png)
+
+<span style="font-size: 23px;">**Getting the Encryption Key**</span>
+
+Adding TLS to HTTP leads to all the packets being encrypted. We can no longer see the contents of the exchanged packets unless we get access to the private key. Although it is improbable that we will have access to the keys used for encryption in a TLS session, we repeated the above screenshots after providing the decryption key to Wireshark. The TCP and TLS handshakes don’t change; the main difference starts with the HTTP protocol marked 3. For instance, we can see when the client issues a `GET`.
+
+![https request packets with decryption](<assets/https request packets with decryption.png>)
+
+If you want to see the data exchanged, now is your chance! It is still regular HTTP traffic hidden from prying eyes.
+
+![gibberish with decryption](<assets/gibberish with decryption.png>)
+
+The key takeaway is that TLS offered security for HTTP without requiring any changes in the lower or higher layer protocols. In other words, TCP and IP were not modified, while HTTP was sent over TLS the way it would be sent over TCP.
+
+### others
+
+Adding TLS to SMTP, POP3, and IMAP is no different than adding TLS to HTTP. Similar to how HTTP gets an appended S for Secure and becomes HTTPS, SMTP, POP3, and IMAP become SMTPS, POP3S, and IMAPS, respectively. Using these protocols over TLS is no different than using HTTP over TLS; therefore, almost all the points from the HTTPS discussion apply to these protocols.
+
+The insecure and secure versions use the default TCP port numbers shown in the table below：
+
+| Protocol    | insecure  Port      | secure  Port        |
+| :---------: | :-----------------: | :-----------------: |
+| HTTP(S)     | 80                  | 443                 |
+| SMTP(S)     | 25                  | 465 and 587         |
+| POP3(S)     | 110                 | 995                 |
+| IMAP(S)     | 143                 | 993                 | 
+| FTS(S)      | 21                  | 990                 | 
+
+### SSH
+
+**Secure Shell (SSH)** refers to a cryptographic network protocol used in secure communication between devices. SSH encrypts data using cryptographic algorithms, such as Advanced Encryption System (AES) and is often used when logging in remotely to a computer or server.
+
+OpenSSH offers several benefits. We will list a few key points:
+
+- **Secure authentication**: Besides password-based authentication, SSH supports public key and two-factor authentication.
+- **Confidentiality**: OpenSSH provides end-to-end encryption, protecting against eavesdropping. Furthermore, it notifies you of new server keys to protect against man-in-the-middle attacks.
+- **Integrity**: In addition to protecting the confidentiality of the exchanged data, cryptography also protects the integrity of the traffic.
+- **Tunneling**: SSH can create a secure “tunnel” to route other protocols through SSH. This setup leads to a VPN-like connection.
+- **X11 Forwarding**: If you connect to a Unix-like system with a graphical user interface, SSH allows you to use the graphical application over the network.
+
+While the TELNET server listens on port 23, the SSH server listens on port 22.
+
+### SFTP and FTPS
+
+SFTP stands for SSH File Transfer Protocol and allows secure file transfer. It is part of the SSH protocol suite and shares the same port number, 22. If enabled in the OpenSSH server configuration, you can connect using a command such as `sftp username@hostname`. Once logged in, you can issue commands such as `get filename` and `put filename` to download and upload files, respectively. Generally speaking, SFTP commands are Unix-like and can differ from FTP commands.
+
+SFTP should not be confused with FTPS. You are right to think that FTPS stands for File Transfer Protocol Secure. How is FTPS secured? Yes, you are correct to estimate that it is secured using TLS, just like HTTPS. While FTP uses port 21, FTPS usually uses port 990. It requires certificate setup, and it can be tricky to allow over strict firewalls as it uses separate connections for control and data transfer.
+
+### VPN
+
+[VPN Basics](./network.md#vpn-basics)
+
+When the Internet was designed, the TCP/IP protocol suite focused on delivering packets. For example, if a router gets out of service, the routing protocols can adapt and pick a different route to send their packets. If a packet was not acknowledged, TCP has built-in mechanisms to detect this situation and resend. However, no mechanisms are in place to ensure that **all data** leaving or entering a computer is protected from disclosure and alteration. A popular solution was the setup of a VPN connection. The focus here is on the P for Private in VPN.
+
+Almost all companies require “private” information exchange in their virtual network. So, a VPN provides a very convenient and relatively inexpensive solution. The main requirements are Internet connectivity and a VPN server and client.
+
+The network diagram below shows an example of a company with two remote branches connecting to the main branch. A VPN client in the remote branches is expected to connect to the VPN server in the main branch. In this case, the VPN client will encrypt the traffic and pass it to the main branch via the established VPN tunnel (shown in blue). The VPN traffic is limited to the blue lines; the green lines would carry the decrypted VPN traffic.
+
+![vpn1](assets/VPN1.svg)
+
+In the network diagram below, we see two remote users using VPN clients to connect to the VPN server in the main branch. In this case, the VPN client connects a single device.
+
+![vpn2](assets/VPN2.svg)
+
+Finally, although in many scenarios, one would establish a VPN connection to route all the traffic over the VPN tunnel, some VPN connections don’t do this. The VPN server may be configured to give you access to a private network but not to route your traffic. Furthermore, some VPN servers leak your actual IP address, although they are expected to route all your traffic over the VPN. Depending on why you are using a VPN connection, you might need to run a few more tests, such as a DNS leak test.

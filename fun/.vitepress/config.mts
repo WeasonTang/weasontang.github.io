@@ -58,7 +58,7 @@ export default defineConfig({
     sidebar: [
       {
         text: 'cyber',
-        collapsed: true,
+        collapsed: false,
         items: [
           { text: 'network', link: '/cyber/network.md' },
           { text: 'web', link: '/cyber/web.md' },
@@ -67,7 +67,7 @@ export default defineConfig({
       },
       {
         text: 'linux',
-        collapsed: true,
+        collapsed: false,
         items: [
           { text: 'linux常用命令', link: '/linux/linux命令' },
           { text: 'vscode相关命令', link: '/linux/vscode相关命令.md' },
@@ -81,7 +81,7 @@ export default defineConfig({
       // docker
       {
         text: 'docker',
-        collapsed: true,
+        collapsed: false,
         items: [
           { text: 'docker基础', link: '/docker/docker基础.md' },
           { text: 'docker进阶', link: '/docker/docker进阶.md' },
@@ -112,12 +112,17 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/WeasonTang' },
-      { icon: 'bilibili', link: 'https://video.weason.dpdns.org/' },
+      { icon: 'bilibili', link: 'https://tv.weason.dpdns.org' },
       {
         icon: {
-          svg: '<img src="/花卉.png" alt="Custom Icon" style="width: 24px; height: 24px;">'
-        }, link: 'https://chat.weason.dpdns.org/'
+          svg: '<img src="/notebooklm.svg" alt="Custom Icon" style="width: 24px; height: 24px;">'
+        }, link: 'https://notebooklm.google.com'
       },
+      // {
+      //   icon: {
+      //     svg: '<img src="/花卉.png" alt="Custom Icon" style="width: 24px; height: 24px;">'
+      //   }, link: 'https://chat.weason.dpdns.org'
+      // },
     ]
   },
 

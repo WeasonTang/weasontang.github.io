@@ -6,7 +6,7 @@ categories:
 tags: [Markdown, java, algorithm]
 description: java算法
 draft: false
-sidebar: true
+sidebar: false
 outline: deep
 ---
 
@@ -363,7 +363,7 @@ public class CircularQueue {
 
   1). 栈 stack
 
-  2). 栈是一个**先入后出（FILO-First In Last ）**的有序列表。
+  2). 栈是一个**先入后出**(**FILO-First In Last Out**)的有序列表。
 
   3). 栈(stack)是限制线性表中元素的插入和删除只能在线性表的同一端进行的一种特殊线性表。
 

@@ -8,7 +8,7 @@ tags: [Markdown, linux]
 description: Linux Fundamentals
 draft: false
 sidebar: true
-outline: deep
+outline: 2
 ---
 
 # Linux command
