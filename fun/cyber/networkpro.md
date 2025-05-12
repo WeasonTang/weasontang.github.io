@@ -158,6 +158,8 @@ Explore networking protocols from automatic configuration to routing packets to 
 
 ### DHCP: Give Me My Network Settings
 
+[DHCP介绍](./network.md#dhcp)
+
 Whenever we want to access a network, at the very least, we need to configure the following:
 
 - IP address along with subnet mask
@@ -198,6 +200,8 @@ At the end of the DHCP process, our device would have received all the configura
 - A DNS server to resolve domain names
 
 ### ARP: Bridging Layer 3 Addressing to Layer 2 Addressing
+
+[ARP介绍](./network.md#arp)
 
 We have stated in the Networking Concepts room that as two hosts communicate over a network, an IP packet is encapsulated within a data link frame as it travels over layer 2. Remember that the two common data link layers we use are Ethernet (IEEE 802.3) and WiFi (IEEE 802.11). Whenever one host needs to communicate with another host on the same Ethernet or WiFi, it must send the IP packet within a data link layer frame. Although it knows the IP address of the target host, it needs to look up the target’s MAC address so the proper data link header can be created.
 

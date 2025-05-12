@@ -250,7 +250,7 @@ LAN（Local Area Network，局域网）是一种覆盖范围较小的计算机�
    - `traceroute`：追踪数据包路径。
    - `nmap`：扫描局域网内的活动设备（如`nmap -sn 192.168.1.0/24`）。
 
-### 1.LAN Topology
+### LAN Topology
 
    Ring Topology
    Bus Topology
@@ -324,7 +324,7 @@ LAN（Local Area Network，局域网）是一种覆盖范围较小的计算机�
 
 [OSI model](#osi) <a id="back2router"></a>
 
-### 2.Subnetting 
+### Subnetting 
 
 > As we've previously discussed throughout the module so far, Networks can be found in all shapes and sizes - ranging from small to large. Subnetting is the term given to splitting up a network into smaller, miniature networks within itself. Think of it as slicing up a cake for your friends. There's only a certain amount of cake to go around, but everybody wants a piece. Subnetting is you deciding who gets what slice & reserving such a slice of this metaphorical cake.
 
@@ -346,27 +346,29 @@ Let's split these three up to understa
 | Default Gateway | The default gateway address is a special address assigned to a device on the network that is capable of sending information to another network | Any data that needs to go to a device that isn't on the same network (i.e. isn't on 192.168.1.0) will be sent to this device. These devices can use any host address but usually use either the first or last host address in a network (.1 or .254) | 192.168.1.254 |
 
 
-### 3.ARP
+### ARP
 
-> Recalling from our previous tasks that devices can have two identifiers: A MAC address and an IP address, the **Address Resolution Protocol** or ARP for short, is the technology that is responsible for allowing devices to identify themselves on a network.
+**Address Resolution Protocol (ARP)** is responsible for finding the MAC (hardware) address related to a specific IP address. It works by broadcasting an ARP query, "Who has this IP address? Tell me." And the response is of the form, "The IP address is at this MAC address."
 
-> Simply, ARP allows a device to associate its MAC address with an IP address on the network. Each device on a network will keep a log of the MAC addresses associated with other devices.
+Recalling from our previous tasks that devices can have two identifiers: A MAC address and an IP address, the **Address Resolution Protocol** or ARP for short, is the technology that is responsible for allowing devices to identify themselves on a network.
 
-> Each device within a network has a ledger to store information on, which is called a cache. In the context of ARP, this cache stores the identifiers of other devices on the network.
+Simply, ARP allows a device to associate its MAC address with an IP address on the network. Each device on a network will keep a log of the MAC addresses associated with other devices.
 
-> In order to map these two identifiers together (IP address and MAC address), ARP sends two types of messages:
+Each device within a network has a ledger to store information on, which is called a cache. In the context of ARP, this cache stores the identifiers of other devices on the network.
+
+In order to map these two identifiers together (IP address and MAC address), ARP sends two types of messages:
 
 - ARP Request
 - ARP Reply
 
-> When an ARP request is sent, a message is broadcasted on the network to other devices asking, "What is the mac address that owns this IP address?" When the other devices receive that message, they will only respond if they own that IP address and will send an ARP reply with its MAC address. The requesting device can now remember this mapping and store it in its ARP cache for future use.
+When an ARP request is sent, a message is broadcasted on the network to other devices asking, "What is the mac address that owns this IP address?" When the other devices receive that message, they will only respond if they own that IP address and will send an ARP reply with its MAC address. The requesting device can now remember this mapping and store it in its ARP cache for future use.
 
 This process is illustrated in the diagram below:
 
 ![ARP](<assets/Address resolution protocol.png>)
 
 
-### 4.DHCP
+### DHCP
 
 > IP addresses can be assigned either manually, by entering them physically into a device, or automatically and most commonly by using a DHCP (Dynamic Host Configuration Protocol) server. When a device connects to a network, if it has not already been manually assigned an IP address, it sends out a request (DHCP Discover) to see if any DHCP servers are on the network. The DHCP server then replies back with an IP address the device could use (DHCP Offer). The device then sends a reply confirming it wants the offered IP Address (DHCP Request), and then lastly, the DHCP server sends a reply acknowledging this has been completed, and the device can start using the IP Address (DHCP ACK).
 
