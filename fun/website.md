@@ -8,6 +8,12 @@
 
 [weason](https://weason.pages.dev)
 
+[小霸王](https://www.yikm.net/)
+
+[网易云无损解析](https://api.toubiec.cn/wyapi.html)
+
+[aistudio](https://aistudio.google.com/)
+
 [tv](https://tv.weason.dpdns.org)
 
 [开发者速查表](https://devhints.io/)
@@ -43,8 +49,6 @@
 [chat](https://weachat.591746.xyz)
 
 [chatCF](https://chat.weason.dpdns.org)
-
-[AIChat](https://n8n.591746.xyz/webhook/4fb35e49-a9ff-4119-a5cd-69764a2aec7a/chat)
 
 ~~[file](https://weafile.591746.xyz)~~
 

@@ -9,6 +9,7 @@ sidebar: false
 outline: deep
 ---
 
+
 # tools
 
 ---
@@ -339,5 +340,152 @@ Earlier, we used `-sn` to discover the live hosts. In this task, we want to disc
 
 By design, TCP has 65,535 ports, and the same applies to UDP. How can we determine which ports have a service bound to it? Let’s find out.
 
+| Option | Explanation |
+| ------ | ----------- |
+| `-sT` | TCP connect scan – complete three-way handshake |
+| `-sS` | TCP SYN – only first step of the three-way handshake |
+| `-sU` | UDP scan |
+| `-F` | Fast mode – scans the 100 most common ports |
+| `-p[range]` | Specifies a range of port numbers – `-p-` scans all the ports | 
 
----
+<span style="font-size: 23px;">**Scanning TCP Ports**</span>
+
+**Connect Scan**
+
+The connect scan can be triggered using `-sT`. It tries to complete the TCP three-way handshake with every target TCP port. If the TCP port turns out to be open and Nmap connects successfully, Nmap will tear down the established connection.
+
+In the screenshot below, our scanning machine has the IP address `192.168.124.148` and the target system has TCP port 22 open and port 23 closed. In the part marked with 1, you can see how the TCP three-way handshake was completed and later torn down with a TCP RST-ACK packet by Nmap. The part marked with 2 shows a connection attempt to a closed port, and the target system responded with a TCP RST-ACK packet.
+
+![Connect Scan](<assets/nmap Connect Scan.png>)
+
+**SYN Scan (Stealth)**
+
+Unlike the connect scan, which tries to **connect** to the target TCP port, i.e., complete a three-way handshake, the SYN scan only executes the first step: it sends a TCP SYN packet. Consequently, the TCP three-way handshake is never completed. The advantage is that this is expected to lead to fewer logs as the connection is never established, and hence, it is considered a relatively stealthy scan. You can select the SYN scan using the `-sS` flag.
+
+In the screenshot below, we scan the same system with port 22 open. The part marked with 1 shows the listening service replying with a TCP SYN-ACK packet. However, Nmap responded with a TCP RST packet instead of completing the TCP three-way handshake. The part marked with 2 shows a TCP connection attempt to a closed port. In this case, the packet exchange is the same as in the connect scan.
+
+![SYN Scan](<assets/nmap SYN Scan.png>)
+
+<span style="font-size: 23px;">**Scanning UDP Ports**</span>
+
+Although most services use TCP for communication, many use UDP. Examples include DNS, DHCP, NTP (Network Time Protocol), SNMP (Simple Network Management Protocol), and VoIP (Voice over IP). UDP does not require establishing a connection and tearing it down afterwards. Furthermore, it is very suitable for real-time communication, such as live broadcasts. All these are reasons to consider scanning for and discovering services listening on UDP ports.
+
+Nmap offers the option `-sU` to scan for UDP services. Because UDP is simpler than TCP, we expect the traffic to differ. The screenshot below shows several ICMP destination unreachable (port unreachable) responses as Nmap sends UDP packets to closed UDP ports.
+
+![nmap udp scan](<assets/nmap udp scan.png>)
+
+<span style="font-size: 23px;">**Limiting the Target Ports**</span>
+
+Nmap scans the most common 1,000 ports by default. However, this might not be what you are looking for. Therefore, Nmap offers you a few more options.
+
+- `-F` is for Fast mode, which scans the 100 most common ports (instead of the default 1000).
+- `-p[range]` allows you to specify a range of ports to scan. For example, `-p10-1024` scans from port 10 to port 1024, while `-p-25` will scan all the ports between 1 and 25. Note that `-p-` scans all the ports and is equivalent to `-p1-65535` and is the best option if you want to be as thorough as possible.
+
+### Version Detection
+
+**Version Detection: Extract More Information**
+
+| Option | Explanation |
+| ------ | ----------- |
+| `-O`  | OS detection |
+| `-sV` | Service and version detection |
+| `-A`  | OS detection, version detection, and other additions |
+| `-Pn` | Scan hosts that appear to be down | 
+
+<span style="font-size: 23px;">**OS Detection**</span>
+
+You can enable OS detection by adding the `-O` option. As the name implies, the OS detection option triggers Nmap to rely on various indicators to make an educated guess about the target OS. In this case, it is detecting the target has Linux 4.x or 5.x running. That’s actually true. However, there is no perfectly accurate OS detector. The statement that it is between 4.15 and 5.8 is very close as the target host’s OS is 5.15.
+
+```bash
+root@tryhackme:~# nmap -sS -O 192.168.124.211 
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-08-13 13:37 EEST
+Nmap scan report for ubuntu22lts-vm (192.168.124.211)
+Host is up (0.00043s latency).
+Not shown: 999 closed tcp ports (reset)
+PORT   STATE SERVICE
+22/tcp open  ssh
+MAC Address: 52:54:00:54:FA:4E (QEMU virtual NIC)
+Device type: general purpose
+Running: Linux 4.X|5.X
+OS CPE: cpe:/o:linux:linux_kernel:4 cpe:/o:linux:linux_kernel:5
+OS details: Linux 4.15 - 5.8
+Network Distance: 1 hop
+
+OS detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 1.44 seconds
+```
+
+<span style="font-size: 23px;">**Service and Version Detection**</span>
+
+You discovered several open ports and want to know what services are listening on them. `-sV` enables version detection. This is very convenient for gathering more information about your target with fewer keystrokes. The terminal output below shows an additional column called “VERSION”, indicating the detected SSH server version.
+
+```bash
+root@tryhackme:~# nmap -sS -sV 192.168.124.211
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2024-08-13 13:33 EEST
+Nmap scan report for ubuntu22lts-vm (192.168.124.211)
+Host is up (0.000046s latency).
+Not shown: 999 closed tcp ports (reset)
+PORT   STATE SERVICE VERSION
+22/tcp open  ssh     OpenSSH 8.9p1 Ubuntu 3ubuntu0.10 (Ubuntu Linux; protocol 2.0)
+MAC Address: 52:54:00:54:FA:4E (QEMU virtual NIC)
+Service Info: OS: Linux; CPE: cpe:/o:linux:linux_kernel
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 0.25
+```
+What if you can have both `-O`, `-sV` and some more in one option? That would be `-A`. This option enables OS detection, version scanning, and traceroute, among other things.
+
+<span style="font-size: 23px;">**Forcing the Scan**</span>
+
+When we run our port scan, such as using `-sS`, there is a possibility that the target host does not reply during the host discovery phase (e.g. a host doesn’t reply to ICMP requests). Consequently, Nmap will mark this host as down and won’t launch a port scan against it. We can ask Nmap to treat all hosts as online and port scan every host, including those that didn’t respond during the host discovery phase. This choice can be triggered by adding the `-Pn` option.
+
+### Timing
+
+How Fast is **Fast**
+
+Nmap provides various options to control the scan speed and timing.
+
+| Option | Explanation |
+| ------ | ----------- |
+| `-T<0-5>` | Timing template – paranoid (0), sneaky (1), polite (2), normal (3), aggressive (4), and insane (5) |
+| `--min-parallelism <numprobes>` and `--max-parallelism <numprobes>` | Minimum and maximum number of parallel probes |
+| `--min-rate <number>` and `--max-rate <number>` | Minimum and maximum rate (packets/second) |
+| `--host-timeout` | Maximum amount of time to wait for a target host | 
+
+### Output
+
+**Output: Controlling What You See**
+
+<span style="font-size: 23px;">**Verbosity and Debugging**</span>
+
+In some cases, the scan takes a very long time to finish or to produce any output that will be displayed on the screen. Furthermore, sometimes you might be interested in more real-time information about the scan progress. The best way to get more updates about what’s happening is to enable verbose output by adding `-v`. 
+
+Most likely, the `-v` option is more than enough for verbose output; however, if you are still unsatisfied, you can increase the verbosity level by adding another “v” such as `-vv` or even `-vvvv`. You can also specify the verbosity level directly, for example, `-v2` and `-v4`. You can even increase the verbosity level by pressing “v” after the scan already started.
+
+If all this verbosity does not satisfy your needs, you must consider the `-d` for debugging-level output. Similarly, you can increase the debugging level by adding one or more “d” or by specifying the debugging level directly. The maximum level is `-d9`; before choosing that, make sure you are ready for thousands of information and debugging lines.
+
+<span style="font-size: 23px;">**Saving Scan Report**</span>
+
+In many cases, we would need to save the scan results. Nmap gives us various formats. The three most useful are normal (human-friendly) output, XML output, and grepable output, in reference to the `grep` command. You can select the scan report format as follows:
+
+- `-oN <filename>` - Normal output
+- `-oX <filename>` - XML output
+- `-oG <filename>` - grep-able output (useful for `grep` and `awk`)
+- `-oA <basename>` - Output in all major formats
+
+In the terminal below, we can see an example of using the `-oA` option. It resulted in three reports with the extensions `nmap`, `xml`, and `gnmap` for normal, XML, and grep-able output.
+
+```bash
+root@tryhackme:~# nmap -sS 192.168.139.1 -oA gateway
+Starting Nmap 7.92 ( https://nmap.org ) at 2024-08-13 19:35 EEST
+Nmap scan report for g5000 (192.168.139.1)
+Host is up (0.0000070s latency).
+Not shown: 999 closed tcp ports (reset)
+PORT    STATE SERVICE
+902/tcp open  iss-realsecure
+
+Nmap done: 1 IP address (1 host up) scanned in 0.13 seconds
+
+# ls
+gateway.gnmap  gateway.nmap  gateway.xml
+```
