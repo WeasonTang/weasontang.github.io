@@ -13,6 +13,10 @@ export default defineConfig({
     search: {
       provider: 'local'
     },
+    footer: {
+      message: 'Released under the MIT License.',
+      copyright: 'Copyright © 2025-present WeasonTang'
+    },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
@@ -112,7 +116,7 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/WeasonTang' },
-      { icon: 'bilibili', link: 'https://tv.weason.dpdns.org' },
+      { icon: 'bilibili', link: 'https://weavideo.pages.dev' },
       {
         icon: {
           svg: '<img src="/notebooklm.svg" alt="Custom Icon" style="width: 24px; height: 24px;">'

@@ -14,8 +14,6 @@
 
 [aistudio](https://aistudio.google.com/)
 
-[tv](https://tv.weason.dpdns.org)
-
 [开发者速查表](https://devhints.io/)
 
 [iconfont](https://www.iconfont.cn/)
@@ -28,6 +26,8 @@
 
 [docker镜像分析](https://diving.npmtrend.com/)
 
+[在线计算](https://www.wolframalpha.com/)
+
 ---
 
 ![Nemophila](public/Nemophila.jpg)
@@ -38,7 +38,9 @@
 
 **If can't connect, I didn't turn on my server**
 
-[weason](https://weason.591746.xyz)
+[weason](https://591746.xyz)
+
+[video](https://video.591746.xyz)
 
 [memos](https://weamos.591746.xyz)
 
