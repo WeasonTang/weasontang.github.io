@@ -6,7 +6,9 @@
 
 ## cloud
 
-[weason](https://weason.pages.dev)
+[FMHY](https://fmhy.net/beginners-guide)
+
+[yiov网址导航](https://nav.yiov.top)
 
 [小霸王](https://www.yikm.net/)
 
@@ -28,6 +30,8 @@
 
 [在线计算](https://www.wolframalpha.com/)
 
+[sha256algorithm](https://sha256algorithm.com/)
+
 ---
 
 ![Nemophila](public/Nemophila.jpg)
@@ -40,7 +44,7 @@
 
 [weason](https://591746.xyz)
 
-[video](https://video.591746.xyz)
+[tv](https://tv.591746.xyz)
 
 [memos](https://weamos.591746.xyz)
 

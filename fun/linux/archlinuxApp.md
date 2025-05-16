@@ -1,8 +1,21 @@
-# archlinux app
+---
+title: "Archlinux app"
+date: 2025-05
+categories:
+  - 技术
+  - 教程
+tags: [Markdown, linux]
+description: Archlinux 应用
+draft: false
+sidebar: false
+outline: 2
+---
+
+# Archlinux app
 
 ---
 
-## 0.nginx
+## nginx
 
 ### 安装
 
@@ -49,7 +62,7 @@ sudo systemctl reload nginx
 ```
 ---
 
-## 1. IPv6 防火墙（ip6tables）
+## IPv6 防火墙（ip6tables）
 
 ### 1.安装ip6tables
 通常，ip6tables 已经包含在 iptables 包中，如果你还没有安装，可以使用以下命令进行安装：
@@ -212,7 +225,7 @@ sudo ip6tables-restore /etc/iptables/ip6tables.rules
 ```
 ---
 
-## 2.ssh
+## ssh
 
 ---
 
@@ -256,7 +269,7 @@ sudo systemctl restart sshd
 ```
 ---
 
-### 5. 测试 SSH 连接
+### 5.测试 SSH 连接
 从另一台机器连接：
 ```bash
 ssh 用户名@ArchLinux的IP地址 -p 端口号
@@ -265,7 +278,7 @@ ssh 用户名@ArchLinux的IP地址 -p 端口号
 
 ---
 
-### 6. 生成密钥对（推荐）
+### 6.生成密钥对（推荐）
 为了更安全和便捷地连接，建议使用密钥认证代替密码认证。以下是具体步骤：
 生成 SSH 密钥对
 在本地终端中执行以下命令来生成 SSH 密钥对：
@@ -292,7 +305,7 @@ ssh-copy-id -p 端口号 用户名@ArchLinux的IP地址
 
 ---
 
-## 3.rclone
+## rclone
 
 在 Arch Linux 上安装和配置 `rclone` 可按以下步骤进行：
 
@@ -347,7 +360,7 @@ rclone copy remote_name:remote_file local_folder
 
 ---
 
-## 4.steam++
+## steam++
 
 >安装版本 Steam++_linux_x64_v2.8.6.tar.zst
 解压到相应文件夹运行脚本即可
@@ -367,7 +380,7 @@ sudo chmod a+r /etc/hosts
 ```
 ---
 
-## 5.vitepress本地部署
+## vitepress本地部署
 
 ### 1.实现方式
 

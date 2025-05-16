@@ -8,6 +8,9 @@ export default defineConfig({
   description: "just for fun",
   lastUpdated: true,
   cleanUrls: true,
+  sitemap: {
+    hostname: 'https://weason.pages.dev'
+  },
   themeConfig: {
     logo: '/butterfly-flower.png',
     search: {
@@ -15,7 +18,7 @@ export default defineConfig({
     },
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright © 2025-present WeasonTang'
+      copyright: 'Copyright © 2025-present Weason Tang'
     },
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -115,8 +118,8 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/WeasonTang' },
-      { icon: 'bilibili', link: 'https://weavideo.pages.dev' },
+      { icon: 'github', link: 'https://github.com/Anduin2017/HowToCook' },
+      { icon: 'bilibili', link: 'https://weatv.vercel.app' },
       {
         icon: {
           svg: '<img src="/notebooklm.svg" alt="Custom Icon" style="width: 24px; height: 24px;">'
