@@ -8,9 +8,9 @@ export default defineConfig({
   description: "just for fun",
   lastUpdated: true,
   cleanUrls: true,
-  sitemap: {
-    hostname: 'https://weason.pages.dev'
-  },
+  // sitemap: {
+  //   hostname: 'https://weasontang.github.io'
+  // },
   themeConfig: {
     logo: '/butterfly-flower.png',
     search: {
@@ -119,7 +119,7 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/Anduin2017/HowToCook' },
-      { icon: 'bilibili', link: 'https://weatv.vercel.app' },
+      { icon: 'bilibili', link: 'https://tv.591746.xyz/' },
       {
         icon: {
           svg: '<img src="/notebooklm.svg" alt="Custom Icon" style="width: 24px; height: 24px;">'
