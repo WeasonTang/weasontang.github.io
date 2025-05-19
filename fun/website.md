@@ -6,31 +6,31 @@
 
 ## cloud
 
-[FMHY](https://fmhy.net/beginners-guide)
+* [FMHY](https://fmhy.net/beginners-guide)
 
-[yiov网址导航](https://nav.yiov.top)
+* [yiov网址导航](https://nav.yiov.top)
 
-[小霸王](https://www.yikm.net/)
+* [小霸王](https://www.yikm.net/)
 
-[网易云无损解析](https://api.toubiec.cn/wyapi.html)
+* [网易云无损解析](https://api.toubiec.cn/wyapi.html)
 
-[aistudio](https://aistudio.google.com/)
+* [aistudio](https://aistudio.google.com/)
 
-[开发者速查表](https://devhints.io/)
+* [开发者速查表](https://devhints.io/)
 
-[iconfont](https://www.iconfont.cn/)
+* [iconfont](https://www.iconfont.cn/)
 
-[vectorCraftr免费SVG插图](https://vectorcraftr.com/)
+* [vectorCraftr免费SVG插图](https://vectorcraftr.com/)
 
-[图片背景消除](https://www.remove.bg/zh)
+* [图片背景消除](https://www.remove.bg/zh)
 
-[Indie Hackers](https://www.indiehackers.com/)
+* [Indie Hackers](https://www.indiehackers.com/)
 
-[docker镜像分析](https://diving.npmtrend.com/)
+* [docker镜像分析](https://diving.npmtrend.com/)
 
-[在线计算](https://www.wolframalpha.com/)
+* [在线计算](https://www.wolframalpha.com/)
 
-[sha256algorithm](https://sha256algorithm.com/)
+* [sha256algorithm](https://sha256algorithm.com/)
 
 ---
 
@@ -42,23 +42,23 @@
 
 **If can't connect, I didn't turn on my server**
 
-[weason](https://591746.xyz)
+* [weason](https://591746.xyz)
 
-[tv](https://tv.591746.xyz)
+* [tv](https://tv.591746.xyz)
 
-[memos](https://weamos.591746.xyz)
+* [memos](https://weamos.591746.xyz)
 
-[transfer](https://weatransfer.591746.xyz)
+* [transfer](https://weatransfer.591746.xyz)
 
-[photo](https://weaphoto.591746.xyz)
+* [photo](https://weaphoto.591746.xyz)
 
-[chat](https://weachat.591746.xyz)
+* [chat](https://weachat.591746.xyz)
 
-[chatCF](https://chat.weason.dpdns.org)
+* [chatCF](https://chat.weason.dpdns.org)
 
-~~[file](https://weafile.591746.xyz)~~
+* ~~[file](https://weafile.591746.xyz)~~
 
-~~[moniter](https://weamonitor.591746.xyz)~~
+* ~~[moniter](https://weamonitor.591746.xyz)~~
 
 ---
 

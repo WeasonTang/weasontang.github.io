@@ -314,7 +314,7 @@ Reply from 8.8.8.8: bytes=32 time=20ms TTL=117
 
 ### NAT
 
-**NAT（Network Address Translation，网络地址转换）**是一种网络技术，用于在局域网（内网）和广域网（外网/互联网）之间转换 IP 地址。
+NAT(**Network Address Translation**，网络地址转换)是一种网络技术，用于在局域网（内网）和广域网（外网/互联网）之间转换 IP 地址。
 
 **主要作用：**
 

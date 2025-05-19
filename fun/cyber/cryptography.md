@@ -235,6 +235,15 @@ a25513c7e0f6eaa80a3337ee18081b9e2ed09e00af8531c8f7bb2542764027e7  file2.txt
 ```
 The output of a hash function is typically raw bytes, which are then encoded. Common encodings are base64 or hexadecimal. `md5sum`, `sha1sum`, `sha256sum`, and `sha512sum` produce their outputs in hexadecimal format. Remember that hexadecimal format prints each raw byte as two hexadecimal digits.
 
+Hashing functions are designed as **one-way functions**. In other words, it is easy to calculate the hash value of a given input; however, it is a hard problem to find the original input given the hash value. In simple terms, a hard problem quickly becomes computationally infeasible in computer science. This computational problem has its roots in mathematics as P vs NP.
+
+In computer science, P and NP are two classes of problems that help us understand the efficiency of algorithms:
+
+- **P (Polynomial Time)**: Class P covers the problems whose solution can be found in polynomial time. Consider sorting a list in increasing order. The longer the list, the longer it would take to sort; however, the increase in time is not exponential.
+- **NP (Non-deterministic Polynomial Time)**: Problems in the class NP are those for which a given solution can be checked quickly, even though finding the solution itself might be hard. In fact, we don’t know if there is a fast algorithm to find the solution in the first place.
+
+While this is a fascinating mathematical concept that proves fundamental to computing and cryptography, it is entirely outside the scope of this section. But abstractly, the algorithm to hash the value will be “P” and can, therefore, be calculated reasonably. However, an “un-hashing” algorithm would be “NP” and intractable to solve, meaning that it cannot be computed in a reasonable time using standard computers.
+
 <span style="font-size: 23px;">**Why is Hashing Important?**</span>
 
 Hashing plays a vital role in our daily use of the Internet. Like other cryptographic functions, hashing remains hidden from the user. Hashing helps protect data’s integrity and ensure password confidentiality.
@@ -310,7 +319,7 @@ From the cyber defensive security perspective, we covered how to store passwords
 
 Automated hash recognition tools such as [hashID](https://pypi.org/project/hashID/) exist but are unreliable for many formats. For hashes that have a prefix, the tools are reliable. Use a healthy combination of context and tools.  If you find the hash in a web application database, it’s more likely to be MD5 than NTLM (NT LAN Manager). Automated hash recognition tools often get these hash types mixed up, highlighting the importance of learning yourself.
 
-<span style="font-size: 23px;">**Linux Passwords**</span>
+#### Linux Passwords
 
 On Linux, password hashes are stored in `/etc/shadow`, which is normally only readable by root. They used to be stored in `/etc/passwd`, which was readable by everyone.
 
@@ -441,7 +450,7 @@ Technically speaking, the HMAC function is calculated using the following expres
 
 Note that M and K represent the message and the key, respectively.
 
-### Conclusion
+### One more thing
 
 Distinguish between **hashing**, **encoding**, and **encryption**.
 
@@ -454,3 +463,4 @@ Another type of encoding commonly used when sending or saving data is not for an
 Encoding should not be confused with encryption, as using a specific encoding does not protect the confidentiality of the message. Encoding is reversible; anyone can change the data encoding with the right tools.
 
 Only **encryption**, which we covered in the previous sections, protects data confidentiality using a cryptographic cipher and a key. Encryption is reversible, provided we know the cipher and can access the key.
+
