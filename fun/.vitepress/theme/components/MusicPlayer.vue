@@ -9,11 +9,14 @@ import PlayingMusicController from './PlayingMusicController.vue'
  * 音乐播放器
  */
 const musics = [
-  '再会之歌.mp3',
+  '聚集记忆的时间.mp3',
+  '匿名的好友.mp3',
+  '匿名的好友-颜人中.mp3',
   'Song for the Beyond.mp3',
+  'Believe me.mp3',
 ]
 // 当前音乐
-const currentMusic = ref('/music/再会之歌.mp3')
+const currentMusic = ref('/music/聚集记忆的时间.mp3')
 // 播放器元素
 const audio = ref<HTMLAudioElement | null>()
 // 是否播放音乐: 默认: false
@@ -21,7 +24,7 @@ const isPlayed = ref(false)
 // 播放音乐的随机数字
 let random = ref(0)
 // 开一个定时器，什么时候需要销毁播放器可以直接清除该查询定时器
-let music_palyer_timer = ref<NodeJS.Timeout | null>()
+let music_palyer_timer = ref<ReturnType<typeof setInterval> | null>()
 
 const playMusic = () => {
   /**
@@ -119,7 +122,7 @@ $PlayControler-height: 20px;
     line-height: 1.3rem;
 
     svg {
-      margin: 16px 0 0 0; // 向下移动16px，可根据需要调整
+      margin: 15px 0 0 0; // 向下移动15px，可根据需要调整
       padding: 0;
       width: $PlayControler-width;
       height: $PlayControler-width;
