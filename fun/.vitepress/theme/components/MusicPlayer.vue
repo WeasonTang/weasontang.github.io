@@ -9,14 +9,16 @@ import PlayingMusicController from './PlayingMusicController.vue'
  * 音乐播放器
  */
 const musics = [
-  '聚集记忆的时间.mp3',
+  '再会之歌.mp3',
   '匿名的好友.mp3',
-  '匿名的好友-颜人中.mp3',
   'Song for the Beyond.mp3',
   'Believe me.mp3',
+  '聚集记忆的时间.mp3',
+  '转眼.mp3',
+  'GATE OF STEINER.mp3'
 ]
 // 当前音乐
-const currentMusic = ref('/music/聚集记忆的时间.mp3')
+const currentMusic = ref('/music/再会之歌.mp3')
 // 播放器元素
 const audio = ref<HTMLAudioElement | null>()
 // 是否播放音乐: 默认: false
