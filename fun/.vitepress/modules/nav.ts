@@ -33,4 +33,11 @@ export const nav = [
       { text: 'go进阶', link: '/go/go进阶.md' },
     ]
   },
+  {
+    component: 'MusicPlayer',
+    // 可选的 props 传递给组件
+    props: {
+      title: 'MusicPlayer'
+    }
+  },
 ]
