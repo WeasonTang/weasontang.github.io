@@ -6,10 +6,6 @@ node_modules
 cache
 dist
 
-# 本地环境配置
-.env*
-!.env.example
-
 # IDE 相关
 .idea
 .vscode

@@ -1,11 +1,29 @@
 import { defineConfig } from 'vitepress'
 import { nav, sidebar, socialLinks } from './modules'
+import { loadEnv } from 'vite' 
+import path from 'path'
+
+// 关键代码：手动加载环境变量
+const env = loadEnv(
+  process.env.NODE_ENV || 'development',
+  process.cwd() + '/fun',  // 如果 .env 在 fun/ 目录
+  'VITE_'
+)
+
+console.log('DEBUG ->', {
+  cwd: process.cwd(),
+  envFiles: [
+    path.resolve(process.cwd(), '.env'),
+    path.resolve(process.cwd(), '.env.local'),
+  ],
+  loadedEnv: env
+})
 
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   base: '/',
-  title: "威森",
+  title: env.VITE_SITE_NAME || '默认标题',
   description: "just for fun",
   lastUpdated: true,
   cleanUrls: true,
@@ -57,7 +75,7 @@ export default defineConfig({
       `
         import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
         createChat({
-          webhookUrl: 'https://n8n-mmplospk.ap-northeast-1.clawcloudrun.com/webhook/4fb35e49-a9ff-4119-a5cd-69764a2aec7a/chat'
+          webhookUrl: '${env.VITE_N8N_WEBHOOK_URL}'
         });
       `
     ],
