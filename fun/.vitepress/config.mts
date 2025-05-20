@@ -10,14 +10,14 @@ const env = loadEnv(
   'VITE_'
 )
 
-console.log('DEBUG ->', {
-  cwd: process.cwd(),
-  envFiles: [
-    path.resolve(process.cwd(), '.env'),
-    path.resolve(process.cwd(), '.env.local'),
-  ],
-  loadedEnv: env
-})
+// console.log('DEBUG ->', {
+//   cwd: process.cwd(),
+//   envFiles: [
+//     path.resolve(process.cwd(), '.env'),
+//     path.resolve(process.cwd(), '.env.local'),
+//   ],
+//   loadedEnv: env
+// })
 
 
 // https://vitepress.dev/reference/site-config
