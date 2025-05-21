@@ -11,11 +11,8 @@ import PlayingMusicController from './PlayingMusicController.vue'
 const musics = [
   '再会之歌.mp3',
   '匿名的好友.mp3',
-  'Song for the Beyond.mp3',
-  'Believe me.mp3',
   '聚集记忆的时间.mp3',
   '转眼.mp3',
-  'GATE OF STEINER.mp3'
 ]
 // 当前音乐
 const currentMusic = ref('/music/再会之歌.mp3')
