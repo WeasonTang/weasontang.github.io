@@ -23,7 +23,7 @@ const env = loadEnv(
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   base: '/',
-  title: env.VITE_SITE_NAME || '默认标题',
+  title: '威森',
   description: "just for fun",
   lastUpdated: true,
   cleanUrls: true,
