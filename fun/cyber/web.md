@@ -7,7 +7,7 @@ categories:
 tags: [Markdown, web]
 description: How The Web Works
 draft: false
-sidebar: false
+sidebar: true
 outline: deep
 ---
 

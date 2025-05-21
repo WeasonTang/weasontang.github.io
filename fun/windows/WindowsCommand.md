@@ -8,7 +8,7 @@ categories:
 tags: [Markdown, windwos]
 description: Windows Command Line
 draft: false
-sidebar: false
+sidebar: true
 outline: deep
 ---
 

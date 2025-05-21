@@ -7,7 +7,7 @@ categories:
 tags: [Markdown, network]
 description: Network Fundamentals
 draft: false
-sidebar: false
+sidebar: true
 outline: deep
 ---
 

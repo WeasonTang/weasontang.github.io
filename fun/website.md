@@ -1,8 +1,17 @@
 ---
 layout: home
 
+
 hero:
     tagline: 网址导航
+    actions:
+      - theme: brand
+        text: cloud
+        link: website.md#cloud
+      - theme: brand
+        text: myself
+        link: website.md#myself
+
 features:
   - title: FMHY
     icon: 
@@ -31,8 +40,6 @@ features:
 </p>
 
 ## cloud
-
-* [小霸王](https://www.yikm.net/)
 
 * [aistudio](https://aistudio.google.com/)
 

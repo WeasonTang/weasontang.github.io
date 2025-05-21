@@ -48,7 +48,13 @@ export default defineConfig({
     },
     // https://vitepress.dev/reference/default-theme-config
     nav,
-    sidebar,
+    sidebar: {
+      '/cyber/': sidebar.cyber,
+      '/linux/': sidebar.linux,
+      '/docker/': sidebar.docker,
+      '/go/': sidebar.go,
+      '/windows/': sidebar.windows,
+    },
     socialLinks
   },
 
