@@ -1,18 +1,38 @@
-# Website
+---
+layout: home
 
+hero:
+    tagline: 网址导航
+features:
+  - title: FMHY
+    icon: 
+      src: /icon/FMHY.png
+    details: The largest collection of free stuff on the internet!.
+    link: https://fmhy.net/beginners-guide
+  - title: 前端导航
+    icon: 
+      src: https://fe-nav.netlify.app/logo.png
+    details: 该导航由 maomao 开发，如有引用、借鉴的请保留版权声明：https://github.com/maomao1996/vitepress-nav-template
+    link: https://fe-nav.netlify.app/nav/
+  - title: 小霸王
+    icon: 
+      src: /icon/小霸王.png
+    details: 小霸王，其乐无穷。红白机，FC在线...
+    link: https://www.yikm.net/
+  - title: 网易云无损解析
+    icon: 
+      src: /icon/网易云音乐.webp
+    details: 提供简单方便的无损解析下载服务
+    link: https://api.toubiec.cn/wyapi.html
 ---
 
-![frieren](public/frieren.jpg)
+<p align="center">
+  <img src="/frieren.jpg" alt="frieren" />
+</p>
 
 ## cloud
 
-* [FMHY](https://fmhy.net/beginners-guide)
-
-* [yiov网址导航](https://nav.yiov.top)
-
 * [小霸王](https://www.yikm.net/)
-
-* [网易云无损解析](https://api.toubiec.cn/wyapi.html)
 
 * [aistudio](https://aistudio.google.com/)
 
@@ -34,7 +54,7 @@
 
 ---
 
-![Nemophila](public/Nemophila.jpg)
+![Nemophila](/Nemophila.jpg)
 
 ## myself
 
