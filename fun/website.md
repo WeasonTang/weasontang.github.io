@@ -61,7 +61,7 @@ features:
 
 ---
 
-![Nemophila](/Nemophila.jpg)
+![Nemophila](/Nemophila.jpg){ loading=eager }
 
 ## myself
 

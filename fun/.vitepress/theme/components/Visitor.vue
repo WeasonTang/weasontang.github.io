@@ -2,12 +2,14 @@
 import { useRoute } from 'vitepress'
 
 const route = useRoute()
+
 </script>
 
 <template>
+  <!-- &p=${route.path}  -->
   <img
     class="visitor"
-    :src="`https://visitor-badge.laobi.icu/badge?page_id=weasontang.io&p=${route.path}`"
+    :src="`https://visitor-badge.laobi.icu/badge?page_id=weasontang.io`"
     onerror="this.style.display='none'"
   />
 </template>
