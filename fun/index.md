@@ -7,10 +7,10 @@ hero:
   # text: "zone to gather memories"
   tagline: 回忆是你 我生存的地方
   image:
-    src: /bc.png
+    src: /bcre.png
 
   actions:
-    - theme: alt
+    - theme: brand
       text: shortcut
       link: /shortcut.md
     - theme: alt
