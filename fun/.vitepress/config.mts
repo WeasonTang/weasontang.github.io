@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress'
 import { nav, sidebar, socialLinks } from './modules'
 import { loadEnv } from 'vite' 
-import path from 'path'
+
 
 // 关键代码：手动加载环境变量
 const env = loadEnv(
@@ -27,9 +27,9 @@ export default defineConfig({
   description: "just for fun",
   lastUpdated: true,
   cleanUrls: true,
-  // sitemap: {
-  //   hostname: 'https://weasontang.github.io'
-  // },
+  sitemap: {
+    hostname: 'https://weasontang.github.io'
+  },
   themeConfig: {
     logo: '/butterfly-flower.png',
     search: {
