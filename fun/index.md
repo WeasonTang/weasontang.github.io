@@ -16,7 +16,7 @@ hero:
     - theme: alt
       text: linux
       link: /linux/linux命令
-    - theme: alt
+    - theme: brand
       text: docker
       link: /docker/dockerApp.md
     - theme: alt

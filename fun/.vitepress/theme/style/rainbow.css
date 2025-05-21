@@ -418,7 +418,39 @@
     --vp-home-hero-name-color: transparent;
     --vp-home-hero-name-background: -webkit-linear-gradient(120deg, var(--rainbow-prev) 30%, var(--rainbow-next));
 
-    /*hero logo背景渐变色 */
+    /* hero logo背景渐变色 */
     --vp-home-hero-image-background-image: linear-gradient(-45deg, var(--rainbow-prev) 30%, var(--rainbow-next));
     --vp-home-hero-image-filter: blur(80px);
+
+    /* brand 按钮渐变色 */
+    /* 在原有的 :root 选择器中添加或修改以下内容 */
+    :root {
+        /* brand 按钮 - 使用渐变 */
+        --vp-c-brand-1: var(--rainbow-prev);
+        /* 作为回退色 */
+        --vp-c-brand-2: var(--rainbow-next);
+        /* 作为回退色 */
+        --vp-c-brand-3: var(--rainbow-prev);
+        /* 作为回退色 */
+    }
+
+    /* 为按钮添加渐变背景 */
+    .VPButton.brand {
+        background: linear-gradient(120deg, var(--rainbow-prev), var(--rainbow-next));
+        border-color: transparent;
+        color: white !important;
+    }
+
+    /* 悬停效果 */
+    .VPButton.brand:hover {
+        background: linear-gradient(120deg, var(--rainbow-next), var(--rainbow-prev));
+        opacity: 0.9;
+    }
+
+    /* 活动状态效果 */
+    .VPButton.brand:active {
+        opacity: 0.8;
+    }
+
+
 }
