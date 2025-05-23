@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /public/*
+
+Allow: /index
+Allow: /go/*
+Allow: /algo/
+Allow: /docker/*
+
+Sitemap: https://weasontang.github.io/sitemap.xml
