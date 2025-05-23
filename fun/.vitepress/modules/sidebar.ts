@@ -1,5 +1,8 @@
+// `.vitepress/config.js`
+// import { generateSidebar } from 'vitepress-sidebar';
+
 export const sidebar = {
-  cyber: [
+  '/cyber/': [
     {
       text: 'cyber',
       collapsed: false,
@@ -10,7 +13,7 @@ export const sidebar = {
       ]
     }
   ],
-  linux: [
+  '/linux/': [
     {
       text: 'linux',
       collapsed: false,
@@ -25,7 +28,7 @@ export const sidebar = {
       ]
     }
   ],
-  docker: [
+  '/docker/': [
     {
       text: 'docker',
       collapsed: false,
@@ -36,7 +39,7 @@ export const sidebar = {
       ]
     }
   ],
-  go: [
+  '/go/': [
     {
       text: 'go',
       collapsed: false,
@@ -48,14 +51,15 @@ export const sidebar = {
       ]
     }
   ],
-  windows: [
-    {
-      text: 'windows',
-      collapsed: false,
-      items: [
-        { text: 'windows常用命令', link: '/windows/WindowsCommand.md' },
-        { text: 'windows基础', link: '/windows/WindowsFundamentals.md' },
-      ]
-    }
-  ]
+  '/windows/':
+    [
+      {
+        text: 'windows',
+        collapsed: false,
+        items: [
+          { text: 'WindowsCommand', link: 'windows/WindowsCommand' },
+          { text: 'WindowsFundamentals', link: 'windows/WindowsFundamentals' }
+        ]
+      }
+    ],
 }
