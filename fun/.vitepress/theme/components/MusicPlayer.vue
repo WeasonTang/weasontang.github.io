@@ -9,19 +9,18 @@ import PlayingMusicController from './PlayingMusicController.vue'
  * 音乐播放器
  */
 const musics = [
-  '再会之歌.mp3',
+  '转眼.mp3',
   '匿名的好友.mp3',
   '聚集记忆的时间.mp3',
-  '转眼.mp3',
 ]
 // 当前音乐
-const currentMusic = ref('/music/再会之歌.mp3')
+const currentMusic = ref('/music/转眼.mp3')
 // 播放器元素
 const audio = ref<HTMLAudioElement | null>()
 // 是否播放音乐: 默认: false
 const isPlayed = ref(false)
 // 播放音乐的随机数字
-let random = ref(0)
+let random = ref(Math.floor(Math.random() * musics.length))
 // 开一个定时器，什么时候需要销毁播放器可以直接清除该查询定时器
 let music_palyer_timer = ref<ReturnType<typeof setInterval> | null>()
 
@@ -31,7 +30,7 @@ const playMusic = () => {
    * https://blog.csdn.net/s18813688772/article/details/121103802
    */
   isPlayed.value = !isPlayed.value
-  console.log('播放状态: ', isPlayed.value ? '播放' : '不播放')
+  // console.log('播放状态: ', isPlayed.value ? '播放' : '不播放')
 
   if (isPlayed.value) {
     // 如果是播放状态，则播放音乐
@@ -54,7 +53,7 @@ const generateRandom = () => {
 onMounted(() => {
   // 挂在完成后给一个随机音乐
   random.value = generateRandom()
-  console.log(`%c第${random.value + 1}首音乐.`, 'color: green; font-weight: bolder;')
+  // console.log(`%c第${random.value + 1}首音乐：${musics[random.value].slice(0, -4)}`, 'color: green; font-weight: bolder;')
   currentMusic.value = `/music/${musics[random.value]}`
 
   // 提示用户可以播放音乐
@@ -66,10 +65,10 @@ onMounted(() => {
   music_palyer_timer.value = setInterval(function () {
     // 如果音频播放器获取到了，就监听是否结束的事件
     if (audio.value?.ended) {
-      console.log('%c音乐结束, 下一曲~', 'color: oranger; font-weight: bold;')
+      // console.log('%c音乐结束, 下一曲~', 'color: oranger; font-weight: bold;')
       // 以播放结束的标志判断
       random.value = generateRandom()
-      console.log(`%c第${random.value}首音乐.`, 'color: green; font-weight: bolder;')
+      // console.log(`%c第${random.value + 1}首音乐：${musics[random.value].slice(0, -4)}`, 'color: green; font-weight: bolder;')
       currentMusic.value = `/music/${musics[random.value]}`
       /*audio.value.onended = function () {
                 // 以播放结束的事件监听形式控制
