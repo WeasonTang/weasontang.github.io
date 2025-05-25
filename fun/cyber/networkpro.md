@@ -1,857 +1,624 @@
 ---
-title: "networks advancement"
-quote: tryhackme
+title: "Network进阶"
 categories:
   - 技术
   - 教程
-tags: [Markdown, network]
-description: Network Fundamentals
+tags: [Markdown, web]
+description: Network进阶
 draft: false
 sidebar: false
 outline: deep
---- 
-
-# NetworkPro
-
 ---
 
-## Networking Concepts
-
-<span style="font-size: 23px;">**Objectives**</span>
-
-- ISO OSI network model
-- IP addresses, subnets, and routing
-- TCP, UDP, and port numbers
-- How to connect to an open TCP port from the command line
-
-### OSI Model
-
-![OSI model](<assets/OSI model.gif>)
-
-The **OSI (Open Systems Interconnection)** model is a conceptual model developed by the International Organization for Standardization (ISO) that describes how communications should occur in a computer network. In other words, the OSI model defines a framework for computer network communications. Although this model is **theoretical**, it is vital to learn and understand as it helps grasp networking concepts on a deeper level. The OSI model is composed of seven layers:
-
-![OSI](<assets/OSI 7.svg>)
-
-| Layer Number | Layer Name | Main Function | Example Protocols and Standards |
-| :---: | :---: | :---: | :---: |
-| Layer 7 | Application layer | Providing services and interfaces to applications | HTTP, FTP, DNS, POP3, SMTP, IMAP |
-| Layer 6 | Presentation layer | Data encoding, encryption, and compression | Unicode, MIME, JPEG, PNG, MPEG |
-| Layer 5 | Session layer | Establishing, maintaining, and synchronising sessions | NFS, RPC |
-| Layer 4 | Transport layer | End - to - end communication and data segmentation | UDP, TCP |
-| Layer 3 | Network layer | Logical addressing and routing between networks | IP, ICMP, IPSec |
-| Layer 2 | Data link layer | Reliable data transfer between adjacent nodes | Ethernet (802.3), WiFi (802.11) |
-| Layer 1 | Physical layer | Physical data transmission media | Electrical, optical, and wireless signals | 
-
-### TCP/IP Model
-
-TCP/IP stands for Transmission Control Protocol/Internet Protocol and was developed in the 1970s by the Department of Defense (DoD). I hear you ask why DoD would create such a model. One of the strengths of this model is that it allows a network to continue to function as parts of it are out of service, for instance, due to a military attack. This capability is possible in part due to the design of the routing protocols to adapt as the network topology changes.
-
-In our presentation of the ISO OSI model, we went from bottom to top, from layer 1 to layer 7. In this task, let’s look at things from a different perspective, from top to bottom. From top to bottom, we have:
-
-- Application Layer: The OSI model application, presentation and session layers, i.e., layers 5, 6, and 7, are grouped into the application layer in the TCP/IP model.
-- Transport Layer: This is layer 4.
-- Internet Layer: This is layer 3. The OSI model’s network layer is called the Internet layer in the TCP/IP model.
-- Link Layer: This is layer 2.
-
-![tcp map2osi](<assets/tcp map2osi.png>)
-
-### IP Addresses and Subnets
-
-![ip](assets/20250319_104847.png)
-
-At the risk of oversimplifying things, the 0 and 255 are reserved for the network and broadcast addresses, respectively. In other words, 192.168.1.0 is the network address, while 192.168.1.255 is the broadcast address. Sending to the broadcast address targets all the hosts on the network. With simple math, you can conclude that we cannot have more than 4 billion unique IPv4 addresses. If you are curious about the math, it is approximately 232 because we have 32 bits. This number is approximate because we didn’t consider network and broadcast addresses.
-
-
-<span style="font-size: 23px;">**Private Addresses**</span>
-
-RFC 1918 defines the following three ranges of private IP addresses:
-
-- 10.0.0.0 - 10.255.255.255 (10/8)
-- 172.16.0.0 - 172.31.255.255 (172.16/12)
-- 192.168.0.0 - 192.168.255.255 (192.168/16)
-
-### UDP and TCP
-
-The IP protocol allows us to reach a destination host on the network; the host is identified by its IP address. We need protocols that would enable processes on networked hosts to communicate with each other. There are two transport protocols to achieve that: UDP and TCP.
-
-<span style="font-size: 23px;">**UDP**</span>
-
-**UDP (User Datagram Protocol)** allows us to reach a specific process on this target host. UDP is a simple connectionless protocol that operates at the transport layer, i.e., layer 4. Being connectionless means that it does not need to establish a connection. UDP does not even provide a mechanism to know that the packet has been delivered.
-
-An IP address identifies the host; we need a mechanism to determine the sending and receiving process. This can be achieved by using port numbers. A port number uses two octets; consequently, it ranges between 1 and 65535; port 0 is reserved. (The number 65535 is calculated by the expression 216 − 1.)
-
-<span style="font-size: 23px;">**TCP**</span>
-
-**TCP (Transmission Control Protocol)** is a connection-oriented transport protocol. It uses various mechanisms to ensure reliable data delivery sent by the different processes on the networked hosts. Like UDP, it is a layer 4 protocol. Being connection-oriented, it requires the establishment of a TCP connection before any data can be sent.
-
-In TCP, each data octet has a sequence number; this makes it easy for the receiver to identify lost or duplicated packets. The receiver, on the other hand, acknowledges the reception of data with an acknowledgement number specifying the last received octet.
-
-A TCP connection is established using what’s called a three-way handshake. Two flags are used: SYN (Synchronise) and ACK (Acknowledgment). The packets are sent as follows:
-
-1. SYN Packet: The client initiates the connection by sending a SYN packet to the server. This packet contains the client’s randomly chosen initial sequence number.
-2. SYN-ACK Packet: The server responds to the SYN packet with a SYN-ACK packet, which adds the initial sequence number randomly chosen by the server.
-3. ACK Packet: The three-way handshake is completed as the client sends an ACK packet to acknowledge the reception of the SYN-ACK packet.
-
-![three-way handshake](<assets/three-way handshake2.svg>)
-
-### Encapsulation
-
-In this context, encapsulation refers to the process of every layer adding a header (and sometimes a trailer) to the received unit of data and sending the “encapsulated” unit to the layer below.
-
-**Encapsulation** is an essential concept as it allows each layer to focus on its intended function. In the image below, we have the following four steps:
-
-- **Application data:** It all starts when the user inputs the data they want to send into the application. For example, you write an email or an instant message and hit the send button. The application formats this data and starts sending it according to the application protocol used, using the layer below it, the transport layer.
-- **Transport protocol segment or datagram:** The transport layer, such as TCP or UDP, adds the proper header information and creates the **TCP segment** (or **UDP datagram**). This segment is sent to the layer below it, the network layer.
-- **Network packet:** The network layer, i.e. the Internet layer, adds an IP header to the received TCP segment or UDP datagram. Then, this IP packet is sent to the layer below it, the data link layer.
-- **Data link frame:** The Ethernet or WiFi receives the IP packet and adds the proper header and trailer, creating a **frame**.
-
-We start with application data. At the transport layer, we add a TCP or UDP header to create a TCP segment or UDP datagram. Again, at the network layer, we add the proper IP header to get an IP packet that can be routed over the Internet. Finally, we add the appropriate header and trailer to get a WiFi or Ethernet frame at the link layer.
-
-![encapsulation](assets/encapsulation.svg)
-
-The process has to be reversed on the receiving end until the application data is extracted.
-
-<span style="font-size: 23px;">**The Life of a Packet**</span>
-
-Based on what we have studied so far, we can explain a simplified version of the packet’s life. Let’s consider the scenario where you search for a room on TryHackMe.
-
-1. On the TryHackMe search page, you enter your search query and hit enter.
-2. Your web browser, using HTTPS, prepares an HTTP request and pushes it to the layer below it, the transport layer.
-3. The TCP layer needs to establish a connection via a three-way handshake between your browser and the TryHackMe web server. After establishing the TCP connection, it can send the HTTP request containing the search query. Each TCP segment created is sent to the layer below it, the Internet layer.
-4. The IP layer adds the source IP address, i.e., your computer, and the destination IP address, i.e., the IP address of the TryHackMe web server. For this packet to reach the router, your laptop delivers it to the layer below it, the link layer.
-5. Depending on the protocol, The link layer adds the proper link layer header and trailer, and the packet is sent to the router.
-6. The router removes the link layer header and trailer, inspects the IP destination, among other fields, and routes the packet to the proper link. Each router repeats this process until it reaches the router of the target server.
-
-The steps will then be reversed as the packet reaches the router of the destination network.
-
-### Telnet
-
-The **TELNET (Teletype Network) protocol** is a network protocol for remote terminal connection. In simpler words, **telnet**, a TELNET client, allows you to connect to and communicate with a remote system and issue text commands. Although initially it was used for remote administration, we can use **telnet** to connect to any server listening on a TCP port number.
-
-[案例](#http) <a id="back2telnet"></a>
-
-<span style="font-size: 23px;">**工作原理**</span>
-
-基于客户端 / 服务器模式 。本地计算机运行 Telnet 客户端程序，向目标计算机（运行 Telnet 服务器程序 ）发起 TCP 连接（默认端口 23 ）。连接建立后，用户在本地输入的命令经客户端传输给服务器，服务器执行命令并将结果返回给客户端显示 ，就像在本地操作目标计算机一样。
-
-**优缺点**
-
-- 优点：简单易用，几乎所有计算机操作系统都支持；连接速度快，操作界面响应灵敏，适合快速命令行操作 。
-- 缺点：所有登录凭证（用户名、密码等 ）和传输数据都是明文形式，在网络传输过程中容易被截取，安全性差，在不安全网络（如公共 Wi-Fi ）中易遭受中间人攻击 。
-
-随着网络安全需求提升，更安全的 SSH（Secure Shell ）协议逐渐取代 Telnet 成为远程登录首选 ，SSH 支持用户名、密码、密钥等多重身份验证，且数据加密传输 。 但在一些对安全性要求不高的内部网络或特定测试场景中，Telnet 仍有一定应用 。
-
----
-
-## Networking Essentials
-
-Explore networking protocols from automatic configuration to routing packets to the destination.
-
-<span style="font-size: 23px;">**Objectives**</span>
-
-- Dynamic Host Configuration Protocol (DHCP)
-- Address Resolution Protocol (ARP)
-- Network Address Translation (NAT)
-- Internet Control Message Protocol (ICMP)
-  - Ping
-  - Traceroute
-
-### DHCP: Give Me My Network Settings
-
-[DHCP介绍](./network.md#dhcp)
-
-Whenever we want to access a network, at the very least, we need to configure the following:
-
-- IP address along with subnet mask
-- Router (or gateway)
-- DNS server
-
-DHCP is an application-level protocol that relies on UDP; the server listens on UDP port 67, and the client sends from UDP port 68. Your smartphone and laptop are configured to use DHCP by default.
-
-![DHCP](assets/DHCP.svg)
-
-DHCP follows four steps: Discover, Offer, Request, and Acknowledge (DORA):
-
-1. **DHCP Discover:** The client broadcasts a DHCPDISCOVER message seeking the local DHCP server if one exists.
-2. **DHCP Offer:** The server responds with a DHCPOFFER message with an IP address available for the client to accept.
-3. **DHCP Request:** The client responds with a DHCPREQUEST message to indicate that it has accepted the offered IP.
-4. **DHCP Acknowledge:** The server responds with a DHCPACK message to confirm that the offered IP address is now assigned to this client.
-
-![DORA](assets/DORA.svg)
-
-The following packet capture shows the four steps explained above. In this example, the client gets the address `192.168.66.133`.
-
-```bash
-user@TryHackMe$ tshark -r DHCP-G5000.pcap -n
-    1   0.000000      0.0.0.0 → 255.255.255.255 DHCP 342 DHCP Discover - Transaction ID 0xfb92d53f
-    2   0.013904 192.168.66.1 → 192.168.66.133 DHCP 376 DHCP Offer    - Transaction ID 0xfb92d53f
-    3   4.115318      0.0.0.0 → 255.255.255.255 DHCP 342 DHCP Request  - Transaction ID 0xfb92d53f
-    4   4.228117 192.168.66.1 → 192.168.66.133 DHCP 376 DHCP ACK      - Transaction ID 0xfb92d53f
-```
-In the DHCP packet exchange, we can notice the following:
-
-- The client starts without any IP network configuration. It only has a MAC address. In the first and third packets, DHCP Discover and DHCP Request, the client searching for a DHCP server still has no IP network configuration and has not yet used the DHCP server’s offered IP address. Therefore, it sends packets from the IP address `0.0.0.0` to the broadcast IP address `255.255.255.255`. 
-- As for the link layer, in the first and third packets, the client sends to the broadcast MAC address, `ff:ff:ff:ff:ff:ff` (not shown in the output above). The DHCP server offers an available IP address along with the network configuration in the DHCP offer. It uses the client’s destination MAC address. (It used the proposed IP address in this example system.)
-
-At the end of the DHCP process, our device would have received all the configuration needed to access the network or even the Internet. In particular, we expect that the DHCP server has provided us with the following:
-
-- The leased IP address to access network resources
-- The gateway to route our packets outside the local network
-- A DNS server to resolve domain names
-
-### ARP: Bridging Layer 3 Addressing to Layer 2 Addressing
-
-[ARP介绍](./network.md#arp)
-
-We have stated in the Networking Concepts room that as two hosts communicate over a network, an IP packet is encapsulated within a data link frame as it travels over layer 2. Remember that the two common data link layers we use are Ethernet (IEEE 802.3) and WiFi (IEEE 802.11). Whenever one host needs to communicate with another host on the same Ethernet or WiFi, it must send the IP packet within a data link layer frame. Although it knows the IP address of the target host, it needs to look up the target’s MAC address so the proper data link header can be created.
-
-MAC address is a 48-bit number typically represented in hexadecimal notation; for example, `7C:DF:A1:D3:8C:5C` and `44:DF:65:D8:FE:6C` are two MAC addresses on my network.
-
-However, the devices on the same Ethernet network do not need to know each other’s MAC addresses all the time; they only need to know each other’s MAC addresses while communicating. Everything revolves around IP addresses. Consider this scenario: You connect your device to a network, and if the network has a DHCP server, your device is automatically configured to use a specific gateway (router) and DNS server. Consequently, your device knows the IP address of the DNS server to resolve any domain name; moreover, it knows the IP address of the router when it needs to send packets over the Internet. In all this scenario, no MAC addresses are revealed. However, two devices on the same Ethernet cannot communicate without knowing each other’s MAC addresses.
-
-As a reminder, in the screenshot below, we see an IP packet within an Ethernet frame. The Ethernet frame header contains:
-
-- Destination MAC address
-- Source MAC address
-- Type (IPv4 in this case)
-
-![Ethernet frame](<assets/Ethernet frame.png>)
-
-Address Resolution Protocol (ARP) makes it possible to find the MAC address of another device on the Ethernet. In the example below, a host with the IP address `192.168.66.89` wants to communicate with another system with the IP address `192.168.66.1`. It sends an ARP Request asking the host with the IP address `192.168.66.1` to respond. The ARP Request is sent from the MAC address of the requester to the broadcast MAC address, `ff:ff:ff:ff:ff:ff` as shown in the first packet. The ARP Reply arrived shortly afterwards, and the host with the IP address `192.168.66.1` responded with its MAC address. From this point, the two hosts can exchange data link layer frames.
-
-```bash
-user@TryHackMe$ tshark -r arp.pcapng -Nn
-    1 0.000000000 cc:5e:f8:02:21:a7 → ff:ff:ff:ff:ff:ff ARP 42 Who has 192.168.66.1? Tell 192.168.66.89
-    2 0.003566632 44:df:65:d8:fe:6c → cc:5e:f8:02:21:a7 ARP 42 192.168.66.1 is at 44:df:65:d8:fe:6c
-```
-
-If we use **tcpdump**, the packets will be displayed differently. It uses the terms ARP **Request** and ARP **Reply**. For your information, the output is shown in the terminal below.
-
-```bash
-user@TryHackMe$ tcpdump -r arp.pcapng -n -v
-17:23:44.506615 ARP, Ethernet (len 6), IPv4 (len 4), Request who-has 192.168.66.1 tell 192.168.66.89, length 28
-17:23:44.510182 ARP, Ethernet (len 6), IPv4 (len 4), Reply 192.168.66.1 is-at 44:df:65:d8:fe:6c, length 28
-```
-An ARP Request or ARP Reply is not encapsulated within a UDP or even IP packet; it is encapsulated directly within an Ethernet frame. The following ARP Reply shows this.
-
-![Ethernet frame2](<assets/Ethernet frame2.png>)
-
-ARP is considered layer 2 because it deals with MAC addresses. Others would argue that it is part of layer 3 because it supports IP operations. What is essential to know is that ARP allows the translation from layer 3 addressing to layer 2 addressing.
-
-### ICMP: Troubleshooting Networks
-
-**Internet Control Message Protocol (ICMP)** is mainly used for network diagnostics and error reporting. Two popular commands rely on ICMP, and they are instrumental in network troubleshooting and network security. The commands are:
-
-- `ping`: This command uses ICMP to test connectivity to a target system and measures the round-trip time (RTT). In other words, it can be used to learn that the target is alive and that its reply can reach our system.
-- `traceroute`: This command is called `traceroute` on Linux and UNIX-like systems and `tracert` on MS Windows systems. It uses ICMP to discover the route from your host to the target.
-
-<span style="font-size: 23px;">**Ping**</span>
-
-The `ping` command sends an ICMP Echo Request (ICMP Type `8`). The screenshot below shows the ICMP message within an IP packet.
-
-![ping1](assets/ping1.png)
-
-The computer on the receiving end responds with an ICMP Echo Reply (ICMP Type `0`).
-
-![ping2](assets/ping2.png)
-
-<span style="font-size: 23px;">**Traceroute**</span>
-
-The Internet protocol has a field called Time-to-Live (TTL) that indicates the maximum number of routers a packet can travel through before it is dropped. The router decrements the packet’s TTL by one before it sends it across. When the TTL reaches zero, the router drops the packet and sends an ICMP Time Exceeded message (ICMP Type `11`). (In this context, “time” is measured in the number of routers, not seconds.)
-
-<span style="font-size: 23px;">**如何测试ICMP？**</span>
-
-1. **Ping命令**  
-
-   ```bash
-   ping example.com  # 发送ICMP回显请求
-   ```
-
-2. **Traceroute命令**  
-
-   ```bash
-   traceroute example.com  # 在Linux/macOS中使用
-   tracert example.com    # 在Windows中使用
-   ```
-
-`TTL` 代表 **Time To Live**（生存时间）。
-
-**作用：**
-- TTL 是 IP 数据包头中的一个字段，用于限制数据包在网络中被转发的次数，防止数据包在网络中无限循环。
-- 每经过一个路由器（跳数），TTL 就减 1。当 TTL 减到 0 时，数据包会被丢弃，并返回 ICMP 超时消息。
-
-**在 ping 结果中的含义：**
-- TTL 数值越大，说明数据包经过的路由器（跳数）越少，目标主机离你越近。
-- 常见初始值：Windows 默认 128，Linux/Unix 默认 64，部分设备为 255。
-
-**示例：**
-```
-Reply from 8.8.8.8: bytes=32 time=20ms TTL=117
-```
-这里的 TTL=117，表示数据包从初始值（如 128）经过了 11 个路由器到达你。
-
-### Routing 
-
-路由（Routing）通常指的是在网络中确定数据包从源地址到目标地址的传输路径的过程。
-
-更具体地说，它可以指：
-
-**网络路由：** 在计算机网络中，路由器负责根据目标 IP 地址选择最佳路径，将数据包转发到下一个网络节点，最终到达目的地。 路由协议（如 RIP、OSPF、BGP）用于路由器之间交换路由信息，构建路由表，以便做出最佳的转发决策。
-
-**Web 应用程序路由：** 在 Web 应用程序中，路由指的是根据用户请求的 URL，将请求映射到相应的处理程序（例如，控制器方法或视图）。 路由机制使得 Web 应用程序可以根据不同的 URL 提供不同的内容或执行不同的操作。 常见的 Web 框架（如 Django、Flask、Rails）都提供了强大的路由功能。
-
-简单来说，路由就是**确定数据传输路径的过程**，无论是在计算机网络中还是在 Web 应用程序中。 它可以确保数据能够高效、准确地到达目的地。
-
-<span style="font-size: 23px;">**some routing protocols**</span>
-
-- **OSPF (Open Shortest Path First):** OSPF is a routing protocol that allows routers to share information about the network topology and calculate the most efficient paths for data transmission. It does this by having routers exchange updates about the state of their connected links and networks. This way, each router has a complete map of the network and can determine the best routes to reach any destination.
-
-- **EIGRP (Enhanced Interior Gateway Routing Protocol):** EIGRP is a Cisco proprietary routing protocol that combines aspects of different routing algorithms. It allows routers to share information about the networks they can reach and the cost (like bandwidth or delay) associated with those routes. Routers then use this information to choose the most efficient paths for data transmission.
-
-- **BGP (Border Gateway Protocol):** BGP is the primary routing protocol used on the Internet. It allows different networks (like those of Internet Service Providers) to exchange routing information and establish paths for data to travel between these networks. BGP helps ensure data can be routed efficiently across the Internet, even when traversing multiple networks.
-
-- **RIP (Routing Information Protocol):** RIP is a simple routing protocol often used in small networks. Routers running RIP share information about the networks they can reach and the number of hops (routers) required to get there. As a result, each router builds a routing table based on this information, choosing the routes with the fewest hops to reach each destination.
-
-### NAT
-
-NAT(**Network Address Translation**，网络地址转换)是一种网络技术，用于在局域网（内网）和广域网（外网/互联网）之间转换 IP 地址。
-
-**主要作用：**
-
-- 允许多个内网设备通过一个（或少量）公网 IP 地址访问互联网。
-- 节省公网 IP 地址资源，提升网络安全性（内网地址对外不可见）。
-
-It was clear that the IPv4 address space would be depleted quickly. One solution to address depletion is Network Address Translation (NAT).
-
-The idea behind NAT lies in using **one public IP** address to provide Internet access to **many private IP addresses**. In other words, if you are connecting a company with twenty computers, you can provide Internet access to all twenty computers by using a single public IP address instead of twenty public IP addresses. (Note: Technically speaking, the number of IP addresses is always expressed as a power of two. To be technically accurate, with NAT, you reserve two public IP addresses instead of thirty-two. Consequently, you would have saved thirty public IP addresses.)
-
-Unlike routing, which is the natural way to route packets to the destination host, routers that support NAT must find a way to track ongoing connections. Consequently, NAT-supporting routers maintain a table translating network addresses between internal and external networks. Generally, the internal network would use a private IP address range, while the external network would use a public IP address.
-
-In the diagram below, multiple devices access the Internet via a router that supports NAT. The router maintains a table that maps the internal IP address and port number with its external IP address and port number. For instance, the laptop might establish a connection with some web server. From the laptop perspective, the connection is initiated from its IP address `192.168.0.129` from TCP source port number `15401`; however, the web server will see this same connection as being established from `212.3.4.5` and TCP port number `19273`, as shown in the translation table. The router does this address translation seamlessly.
-
-![NAT](assets/NAT.svg)
-
-### one more thing
-
-<span style="font-size: 23px;">**DHCP 和 NAT 有什么关系**</span>
-
-DHCP 和 NAT 是两种不同但常常一起使用的网络技术：
-
-- **DHCP（动态主机配置协议）**：用于自动分配 IP 地址、网关、DNS 等网络参数给局域网内的设备。它让设备自动获得内网私有 IP，无需手动配置。
-
-- **NAT（网络地址转换）**：用于将局域网内的私有 IP 地址转换为公网 IP 地址，实现多个内网设备共享一个公网 IP 上网。
-
-**它们的关系：**
-- 在实际网络中，DHCP 负责给每台内网设备分配唯一的私有 IP 地址；NAT 则负责把这些私有 IP 转换为公网 IP，实现上网。
-- 两者通常都由同一个路由器或网关设备实现，协同工作，使内网设备能自动获取地址并访问互联网。
-
-**总结：**
-DHCP 负责“分配内网地址”，NAT 负责“地址转换和共享上网”，它们一起让局域网设备能方便、安全地访问互联网。
-
----
-
-## Networking Core Protocols
-
-<span style="font-size: 23px;">**Objectives**</span>
-
-- WHOIS
-- DNS
-- HTTP and FTP
-- SMTP, POP3, and IMAP
-
-### DNS: Remembering Addresses
-
-详情见[DNS in Detail](./web.md#dns-in-detail)
-
-### WHOIS
-
-[lookup website](https://lookup.icann.org/zh/lookup)
-
-linux命令
-```bash
-root@ip-10-10-163-23:~# whois x.com
-   Domain Name: X.COM
-   Registry Domain ID: 1026563_DOMAIN_COM-VRSN
-   Registrar WHOIS Server: whois.godaddy.com
-   Registrar URL: http://www.godaddy.com
-   Updated Date: 2024-12-03T21:03:37Z
-   Creation Date: 1993-04-02T05:00:00Z
-   Registry Expiry Date: 2034-10-20T19:56:17Z
-   Registrar: GoDaddy.com, LLC
-   Registrar IANA ID: 146
-   Registrar Abuse Contact Email: abuse@godaddy.com
-   Registrar Abuse Contact Phone: 480-624-2505
-
-```
-
-### HTTP
-
-<span style="font-size: 23px;">**HTTP(S): Accessing the Web**</span>
-
-[HTTP in detail](./web.md#http-in-detail)
-
-```bash
-root@ip-10-10-151-56:~# telnet 10.10.106.125 80
-Trying 10.10.106.125...
-Connected to 10.10.106.125.
-Escape character is '^]'.
-GET / HTTP/1.1
-Host: anything
-
-HTTP/1.1 200 OK
-Server: nginx/1.18.0 (Ubuntu)
-Date: Sat, 10 May 2025 15:16:57 GMT
-Content-Type: text/html
-Content-Length: 2252
-Last-Modified: Thu, 27 Jun 2024 06:58:01 GMT
-Connection: keep-alive
-ETag: "667d0d79-8cc"
-Accept-Ranges: bytes
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
-```
-
-Use telnet to access the file flag.html on 10.10.106.125. What is the hidden flag?
-```bash
-root@ip-10-10-151-56:~# telnet 10.10.106.125 80
-Trying 10.10.106.125...
-Connected to 10.10.106.125.
-Escape character is '^]'.
-GET /flag.html HTTP/1.1
-Host: anything
-
-HTTP/1.1 200 OK
-Server: nginx/1.18.0 (Ubuntu)
-Date: Sat, 10 May 2025 15:20:46 GMT
-Content-Type: text/html
-Content-Length: 478
-Last-Modified: Thu, 27 Jun 2024 07:28:15 GMT
-Connection: keep-alive
-ETag: "667d148f-1de"
-Accept-Ranges: bytes
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hidden Message</title>
-    <style>
-        body {
-            background-color: white;
-            color: white;
-            font-family: Arial, sans-serif;
-        }
-        .hidden-text {
-            font-size: 1px;
-        }
-    </style>
-</head>
-<body>
-    <div class="hidden-text">THM{TELNET-HTTP}</div>
-</body>
-</html>
-
-```
-[back2telnet](#back2telnet)
-
-### FTP
-
-<span style="font-size: 23px;">**FTP: Transferring Files**</span>
-
-**File Transfer Protocol (FTP)** is a protocol designed to help the efficient transfer of files between different and even non-compatible systems. It supports two modes for file transfer: binary and ASCII (text).
-
-Unlike HTTP, which is designed to retrieve web pages, File Transfer Protocol (FTP) is designed to transfer files. As a result, FTP is very efficient for file transfer, and when all conditions are equal, it can achieve higher speeds than HTTP.
-
-Example commands defined by the FTP protocol are:
-
-- `USER` is used to input the username
-- `PASS` is used to enter the password
-- `RETR` (retrieve) is used to download a file from the FTP server to the client.
-- `STOR` (store) is used to upload a file from the client to the FTP server.
-
-FTP server listens on TCP port 21 by default; data transfer is conducted via another connection from the client to the server.
-
-In the terminal below we executed the command ftp `10.10.106.125` to connect to the remote FTP server using the local ftp client. Then we went through the following steps:
-
-- We used the username `anonymous` to log in
-- We didn’t need to provide any password
-- Issuing `ls` returned a list of files available for download
-- `type ascii` switched to ASCII mode as this is a text file
-- `get coffee.txt` allowed us to retrieve the file we want
-The command exchange via the FTP client is shown in the terminal below:
-
-```bash
-root@ip-10-10-151-56:~# ftp 10.10.106.125
-Connected to 10.10.106.125.
-220 (vsFTPd 3.0.5)
-Name (10.10.106.125:root): anonymous
-331 Please specify the password.
-Password:
-230 Login successful.
-Remote system type is UNIX.
-Using binary mode to transfer files.
-ftp> ls
-200 PORT command successful. Consider using PASV.
-150 Here comes the directory listing.
--rw-r--r--    1 0        0            1480 Jun 27  2024 coffee.txt
--rw-r--r--    1 0        0              14 Jun 27  2024 flag.txt
--rw-r--r--    1 0        0            1595 Jun 27  2024 tea.txt
-226 Directory send OK.
-ftp> type ascii
-200 Switching to ASCII mode.
-ftp> get coffee.txt
-local: coffee.txt remote: coffee.txt
-200 PORT command successful. Consider using PASV.
-150 Opening BINARY mode data connection for coffee.txt (1480 bytes).
-WARNING! 47 bare linefeeds received in ASCII mode
-File may not have transferred correctly.
-226 Transfer complete.
-1480 bytes received in 0.00 secs (2.5616 MB/s)
-ftp> quit
-221 Goodbye.
-```
-
-We used Wireshark to examine the exchanged messages more closely. The client’s messages are in **red**, while the server’s responses are in **blue**. Notice how various commands differ between the client and the server. For example, when you type `ls` on the client, the client sends `LIST` to the server. One last thing to note is that the directory listing and the file we downloaded are sent over a separate connection each.
-
-![ftp wireshark](<assets/ftp wireshark.png>)
-
-### SMTP
-
-<span style="font-size: 23px;">**SMTP: Sending Email**</span>
-
-**Simple Mail Transfer Protocol (SMTP)** is a protocol used to send the email to an SMTP server, more specifically to a Mail Submission Agent (MSA) or a Mail Transfer Agent (MTA).
-
-As with browsing the web and downloading files, sending email needs its own protocol. Simple Mail Transfer Protocol (SMTP) defines how a mail client talks with a mail server and how a mail server talks with another.
-
-The analogy for the SMTP protocol is when you go to the local post office to send a package. You greet the employee, tell them where you want to send your package, and provide the sender’s information before handing them the package. Depending on the country you are in, you might be asked to show your identity card. This process is not very different from an SMTP session.
-
-Let’s present some of the commands used by your mail client when it transfers an email to an SMTP server:
-
-- `HELO` or `EHLO` initiates an SMTP session
-- `MAIL FROM` specifies the sender’s email address
-- `RCPT TO` specifies the recipient’s email address
-- `DATA` indicates that the client will begin sending the content of the email message
-- `.` is sent on a line by itself to indicate the end of the email message
-
-The terminal below shows an example of an email sent via telnet. The SMTP server listens on TCP port 25 by default.
-
-```bash
-root@ip-10-10-151-56:~# telnet 10.10.106.125 25
-Trying 10.10.106.125...
-Connected to 10.10.106.125.
-Escape character is '^]'.
-220 example.thm ESMTP Exim 4.95 Ubuntu Sat, 10 May 2025 16:11:28 +0000
-HELO client.thm
-250 example.thm Hello client.thm [10.10.151.56]
-MAIL FROM: <user@client.thm>
-250 OK
-RCPT TO: <strategos@server.thm>
-250 Accepted
-DATA
-354 Enter message, ending with "." on a line by itself
-From: user@client.thm
-To: strategos@server.thm
-Subject: Telnet email
-
-Hello. I am using telnet to send you an email!
-.
-250 OK id=1uDmoT-0000LX-Eq
-quit
-221 example.thm closing connection
-Connection closed by foreign host.
-
-```
-Obviously, sending an email using `telnet` is quite cumbersome; however, it helps you better understand the commands that your email client issues under the hood. The Wireshark capture shows the exchange in colours; the client’s messages are in red, while the server’s responses are in blue.
-
-![smtp Wireshark](<assets/smtp Wireshark.png>)
-
-### POP3
-
-<span style="font-size: 23px;">**POP3: Receiving Email**</span>
-
-**Post Office Protocol Version 3 (POP3)** is an alternative protocol for receiving emails that downloads emails from the server to a local device. Using POP3, a recipient cannot access their emails again from a different device because they are stored locally and then deleted from the email server.
-
-You’ve received an email and want to download it to your local mail client. The Post Office Protocol version 3 (POP3) is designed to allow the client to communicate with a mail server and retrieve email messages.
-
-Without going into in-depth technical details, an email client sends its messages by relying on SMTP and retrieves them using POP3. SMTP is similar to handing your envelope or package to the post office, and POP3 is similar to checking your local mailbox for new letters or packages.
-
-Some common POP3 commands are:
-
-- `USER <username>` identifies the user
-- `PASS <password>` provides the user’s password
-- `STAT` requests the number of messages and total size
-- `LIST` lists all messages and their sizes
-- `RETR <message_number>` retrieves the specified message
-- `DELE <message_number>` marks a message for deletion
-- `QUIT` ends the POP3 session applying changes, such as deletions
-
-In the terminal below, we can see a POP3 session over telnet. Since the POP3 server listens on TCP port 110 by default, the command to connect to the TELNET port is `telnet 10.10.106.125 110`. The exchange below retrieves the email message sent in the previous task.
-
-```bash
-user@TryHackMe$ telnet 10.10.106.125 110
-Trying 10.10.106.125...
-Connected to 10.10.106.125.
-Escape character is '^]'.
-+OK [XCLIENT] Dovecot (Ubuntu) ready.
-AUTH
-+OK
-PLAIN
-.
-USER strategos
-+OK
-PASS 
-+OK Logged in.
-STAT
-+OK 3 1264
-LIST
-+OK 3 messages:
-1 407
-2 412
-3 445
-.
-RETR 3
-+OK 445 octets
-Return-path: <user@client.thm>
-Envelope-to: strategos@server.thm
-Delivery-date: Thu, 27 Jun 2024 16:19:35 +0000
-Received: from [10.11.81.126] (helo=client.thm)
-        by example.thm with smtp (Exim 4.95)
-        (envelope-from <user@client.thm>)
-        id 1sMrpq-0001Ah-UT
-        for strategos@server.thm;
-        Thu, 27 Jun 2024 16:19:35 +0000
-From: user@client.thm
-To: strategos@server.thm
-Subject: Telnet email
-
-Hello. I am using telnet to send you an email!
-.
-QUIT
-+OK Logging out.
-Connection closed by foreign host.
-```
-Someone capturing the network packets would be able to intercept the exchanged traffic. As per previous Wireshark captures, the commands in red are sent by the client, and the lines in blue are the server’s. It is also clear that someone capturing the traffic can read the passwords.
-
-![pop3 Wireshark](<assets/pop3 Wireshark.png>)
-
-
-### IMAP
-
-<span style="font-size: 23px;">**IMAP: Synchronizing Email**</span>
-
-**The Internet Message Access Protocol (IMAP)** is a protocol for receiving email. Protocols standardize technical processes so computers and servers can connect with each other regardless of whether or not they use the same hardware or software.
-
-POP3 is enough when working from one device, e.g., your favourite email client on your desktop computer. However, what if you want to check your email from your office desktop computer and from your laptop or smartphone? In this scenario, you need a protocol that allows synchronization of messages instead of deleting a message after retrieving it. One solution to maintaining a synchronized mailbox across multiple devices is Internet Message Access Protocol (IMAP).
-
-IMAP allows synchronizing read, moved, and deleted messages. IMAP is quite convenient when you check your email via multiple clients. Unlike POP3, which tends to minimize server storage as email is downloaded and deleted from the remote server, IMAP tends to use more storage as email is kept on the server and synchronized across the email clients.
-
-The IMAP protocol commands are more complicated than the POP3 protocol commands. We list a few examples below:
-
-- `LOGIN <username> <password>` authenticates the user
-- `SELECT <mailbox>` selects the mailbox folder to work with
-- `FETCH <mail_number> <data_item_name>` Example fetch 3 body[] to fetch message number 3, header and body.
-- `MOVE <sequence_set> <mailbox>` moves the specified messages to another mailbox
-- `COPY <sequence_set> <data_item_name>` copies the specified messages to another mailbox
-- `LOGOUT` logs out
-
-Knowing that the IMAP server listens on TCP port 143 by default, we will use `telnet` to connect to `10.10.106.125`’s port `143` and fetch the message we sent in an earlier task.
-
-```bash
-user@TryHackMe$ telnet 10.10.41.192 143
-Trying 10.10.41.192...
-Connected to 10.10.41.192.
-Escape character is '^]'.
-* OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE LITERAL+ STARTTLS AUTH=PLAIN] Dovecot (Ubuntu) ready.
-A LOGIN strategos
-A OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN CONTEXT=SEARCH LIST-STATUS BINARY MOVE SNIPPET=FUZZY PREVIEW=FUZZY PREVIEW STATUS=SIZE SAVEDATE LITERAL+ NOTIFY SPECIAL-USE] Logged in
-B SELECT inbox
-* FLAGS (\Answered \Flagged \Deleted \Seen \Draft)
-* OK [PERMANENTFLAGS (\Answered \Flagged \Deleted \Seen \Draft \*)] Flags permitted.
-* 4 EXISTS
-* 0 RECENT
-* OK [UNSEEN 2] First unseen.
-* OK [UIDVALIDITY 1719824692] UIDs valid
-* OK [UIDNEXT 5] Predicted next UID
-B OK [READ-WRITE] Select completed (0.001 + 0.000 secs).
-C FETCH 3 body[]
-* 3 FETCH (BODY[] {445}
-Return-path: <user@client.thm>
-Envelope-to: strategos@server.thm
-Delivery-date: Thu, 27 Jun 2024 16:19:35 +0000
-Received: from [10.11.81.126] (helo=client.thm)
-        by example.thm with smtp (Exim 4.95)
-        (envelope-from <user@client.thm>)
-        id 1sMrpq-0001Ah-UT
-        for strategos@server.thm;
-        Thu, 27 Jun 2024 16:19:35 +0000
-From: user@client.thm
-To: strategos@server.thm
-Subject: Telnet email
-
-Hello. I am using telnet to send you an email!
-)
-C OK Fetch completed (0.001 + 0.000 secs).
-D LOGOUT
-* BYE Logging out
-D OK Logout completed (0.001 + 0.000 secs).
-Connection closed by foreign host.
-```
-
-The screenshot below shows the exchanged messages between the client and the server as seen from Wireshark. The client only needed to send four commands, shown in red, and the “long” server responses are shown in blue.
-
-![imap Wireshark](<assets/imap Wireshark.png>)
-
-### one more thing
-
-The table below summarizes the default port numbers of the protocols we have covered so far.
-
-| Protocol | Transport Protocol | Default Port Number |
-| :------: | :----------------: | :-----------------: |
-| TELNET   | TCP                | 23                  |
-| DNS      | UDP or TCP         | 53                  |
-| HTTP     | TCP                | 80                  |
-| HTTPS    | TCP                | 443                 |
-| FTP      | TCP                | 21                  |
-| SMTP     | TCP                | 25                  |
-| POP3     | TCP                | 110                 |
-| IMAP     | TCP                | 143                 |
-
-## Networking Secure Protocols
-
-confidentiality, integrity, and authenticity.
-
-<span style="font-size: 23px;">**Objectives**</span>
-
-- SSL/TLS
-- How to secure existing plaintext protocols:
-  - HTTP
-  - SMTP
-  - POP3
-  - IMAP
-- How SSH replaced the plaintext TELNET
-- How VPN creates a secure network over an insecure one
-
-### TLS
-
-TLS（Transport Layer Security，传输层安全协议）是一种用于保护网络通信安全的加密协议。它是 SSL（Secure Sockets Layer，安全套接字层协议）的继任者，常用于为 HTTP、SMTP、IMAP、POP3 等协议提供加密和身份验证。
-
-**主要作用：**
-
-- 加密数据，防止被窃听
-- 确保数据完整性，防止被篡改
-- 验证通信双方身份，防止中间人攻击
-
-**常见应用：**
-
-- HTTPS（即 HTTP over TLS）：保护网页浏览安全
-- 邮件传输加密（如 SMTPS、IMAPS、POP3S）
-- VPN、即时通讯等安全通信场景
-
-**CA**, or **Certificate Authority**, is a trusted organisation that verifies the digital identity of entities like websites, individuals, or companies by issuing digital certificates.
-
-The first step for every server (or client) that needs to identify itself is to get a signed TLS certificate. Generally, the server administrator creates a Certificate Signing Request (CSR) and submits it to a Certificate Authority (CA); the CA verifies the CSR and issues a digital certificate. Once the (signed) certificate is received, it can be used to identify the server (or the client) to others, who can confirm the validity of the signature. For a host to confirm the validity of a signed certificate, the certificates of the signing authorities need to be installed on the host. In the non-digital world, this is similar to recognising the stamps of various authorities. The screenshot below shows the trusted authorities installed in a web browser.
-
-![Certificate Authority](<assets/Certificate Authority.png>)
-
-Generally speaking, getting a certificate signed requires paying an annual fee. However, [Let’s Encrypt](https://letsencrypt.org) allows you to get your certificate signed for free.
-
-Finally, we should mention that some users opt to create a self-signed certificate. A self-signed certificate cannot prove the server’s authenticity as no third party has confirmed it.
-
-### HTTPS
-
-[HTTP](./web.md#http-in-detail) relies on [TCP](./network.md#tcp) and uses port 80 by default.All HTTP traffic was sent in cleartext for anyone to intercept and monitor. 
-
-Let’s take a minute to review the most common steps before a web browser can request a page over HTTP. After resolving the domain name to an IP address, the client will carry out the following two steps:
-
-1. Establish a TCP three-way handshake with the target server
-2. Communicate using the HTTP protocol; for example, issue HTTP requests, such as `GET / HTTP/1.1`
-
-The two steps described above are shown in the window below. The three packets for the TCP handshake (marked with 1) precede the first HTTP packet with `GET` in it. The HTTP communication is marked with 2. The last three displayed packets are for TCP connection termination and are marked with 3.
-
-![http request packet](<assets/http request packet.png>)
-
-<span style="font-size: 23px;">**HTTP Over TLS**</span>
-
-HTTPS stands for Hypertext Transfer Protocol Secure. It is basically HTTP over TLS. Consequently, requesting a page over HTTPS will require the following three steps (after resolving the domain name):
-
-1. Establish a TCP three-way handshake with the target server
-2. Establish a TLS session
-3. Communicate using the HTTP protocol; for example, issue HTTP requests, such as `GET / HTTP/1.1`
-
-The screenshot below shows that a TCP session is established in the first three packets, marked with `1`. Then, several packets are exchanged to negotiate the TLS protocol, marked with` 2`. `1` and `2` are where the `TLS negotiation and establishment` take place.
-
-Finally, HTTP application data is exchanged, marked with `3`. Looking at the Wireshark screenshot, we see that it says “Application Data” because there is no way to know if it is indeed HTTP or some other protocol sent over port 443.
-
-![https request packets](<assets/https request packets.png>)
-
-As expected, if one tries to follow the stream of packets and combine all their contents, they will only get gibberish, as shown in the screenshot below. The exchanged traffic is encrypted; the red is sent by the client, and the blue is sent by the server. There is no way to know the contents without acquiring the encryption key.
-
-![gibberish](assets/gibberish.png)
-
-<span style="font-size: 23px;">**Getting the Encryption Key**</span>
-
-Adding TLS to HTTP leads to all the packets being encrypted. We can no longer see the contents of the exchanged packets unless we get access to the private key. Although it is improbable that we will have access to the keys used for encryption in a TLS session, we repeated the above screenshots after providing the decryption key to Wireshark. The TCP and TLS handshakes don’t change; the main difference starts with the HTTP protocol marked 3. For instance, we can see when the client issues a `GET`.
-
-![https request packets with decryption](<assets/https request packets with decryption.png>)
-
-If you want to see the data exchanged, now is your chance! It is still regular HTTP traffic hidden from prying eyes.
-
-![gibberish with decryption](<assets/gibberish with decryption.png>)
-
-The key takeaway is that TLS offered security for HTTP without requiring any changes in the lower or higher layer protocols. In other words, TCP and IP were not modified, while HTTP was sent over TLS the way it would be sent over TCP.
-
-### others
-
-Adding TLS to SMTP, POP3, and IMAP is no different than adding TLS to HTTP. Similar to how HTTP gets an appended S for Secure and becomes HTTPS, SMTP, POP3, and IMAP become SMTPS, POP3S, and IMAPS, respectively. Using these protocols over TLS is no different than using HTTP over TLS; therefore, almost all the points from the HTTPS discussion apply to these protocols.
-
-The insecure and secure versions use the default TCP port numbers shown in the table below：
-
-| Protocol    | insecure  Port      | secure  Port        |
-| :---------: | :-----------------: | :-----------------: |
-| HTTP(S)     | 80                  | 443                 |
-| SMTP(S)     | 25                  | 465 and 587         |
-| POP3(S)     | 110                 | 995                 |
-| IMAP(S)     | 143                 | 993                 | 
-| FTS(S)      | 21                  | 990                 | 
-
-### SSH
-
-**Secure Shell (SSH)** refers to a cryptographic network protocol used in secure communication between devices. SSH encrypts data using cryptographic algorithms, such as Advanced Encryption System (AES) and is often used when logging in remotely to a computer or server.
-
-OpenSSH offers several benefits. We will list a few key points:
-
-- **Secure authentication**: Besides password-based authentication, SSH supports public key and two-factor authentication.
-- **Confidentiality**: OpenSSH provides end-to-end encryption, protecting against eavesdropping. Furthermore, it notifies you of new server keys to protect against man-in-the-middle attacks.
-- **Integrity**: In addition to protecting the confidentiality of the exchanged data, cryptography also protects the integrity of the traffic.
-- **Tunneling**: SSH can create a secure “tunnel” to route other protocols through SSH. This setup leads to a VPN-like connection.
-- **X11 Forwarding**: If you connect to a Unix-like system with a graphical user interface, SSH allows you to use the graphical application over the network.
-
-While the TELNET server listens on port 23, the SSH server listens on port 22.
-
-### SFTP and FTPS
-
-SFTP stands for SSH File Transfer Protocol and allows secure file transfer. It is part of the SSH protocol suite and shares the same port number, 22. If enabled in the OpenSSH server configuration, you can connect using a command such as `sftp username@hostname`. Once logged in, you can issue commands such as `get filename` and `put filename` to download and upload files, respectively. Generally speaking, SFTP commands are Unix-like and can differ from FTP commands.
-
-SFTP should not be confused with FTPS. You are right to think that FTPS stands for File Transfer Protocol Secure. How is FTPS secured? Yes, you are correct to estimate that it is secured using TLS, just like HTTPS. While FTP uses port 21, FTPS usually uses port 990. It requires certificate setup, and it can be tricky to allow over strict firewalls as it uses separate connections for control and data transfer.
-
-### VPN
-
-[VPN Basics](./network.md#vpn-basics)
-
-When the Internet was designed, the TCP/IP protocol suite focused on delivering packets. For example, if a router gets out of service, the routing protocols can adapt and pick a different route to send their packets. If a packet was not acknowledged, TCP has built-in mechanisms to detect this situation and resend. However, no mechanisms are in place to ensure that **all data** leaving or entering a computer is protected from disclosure and alteration. A popular solution was the setup of a VPN connection. The focus here is on the P for Private in VPN.
-
-Almost all companies require “private” information exchange in their virtual network. So, a VPN provides a very convenient and relatively inexpensive solution. The main requirements are Internet connectivity and a VPN server and client.
-
-The network diagram below shows an example of a company with two remote branches connecting to the main branch. A VPN client in the remote branches is expected to connect to the VPN server in the main branch. In this case, the VPN client will encrypt the traffic and pass it to the main branch via the established VPN tunnel (shown in blue). The VPN traffic is limited to the blue lines; the green lines would carry the decrypted VPN traffic.
-
-![vpn1](assets/VPN1.svg)
-
-In the network diagram below, we see two remote users using VPN clients to connect to the VPN server in the main branch. In this case, the VPN client connects a single device.
-
-![vpn2](assets/VPN2.svg)
-
-Finally, although in many scenarios, one would establish a VPN connection to route all the traffic over the VPN tunnel, some VPN connections don’t do this. The VPN server may be configured to give you access to a private network but not to route your traffic. Furthermore, some VPN servers leak your actual IP address, although they are expected to route all your traffic over the VPN. Depending on why you are using a VPN connection, you might need to run a few more tests, such as a DNS leak test.
+# 网络进阶
+
+## 一、网络概念 (Networking Concepts)
+
+### 1.1 OSI 模型 (OSI Model)
+
+*   **定义**: OSI (Open Systems Interconnection) 模型是由国际标准化组织 (ISO) 开发的一个概念模型，描述了计算机网络中通信应如何发生。它为计算机网络通信定义了一个框架。
+*   **特性**: 尽管是理论模型，但对于深入理解网络概念至关重要。
+*   **七层结构**:
+
+| 层编号 | 层名称       | 主要功能                           | 示例协议和标准                      |
+| ------ | ------------ | ---------------------------------- | ----------------------------------- |
+| Layer 7 | Application layer | 为应用程序提供服务和接口           | HTTP, FTP, DNS, POP3, SMTP, IMAP |
+| Layer 6 | Presentation layer | 数据编码、加密和压缩               | Unicode, MIME, JPEG, PNG, MPEG     |
+| Layer 5 | Session layer | 建立、维护和同步会话               | NFS, RPC                            |
+| Layer 4 | Transport layer | 端到端通信和数据分段               | UDP, TCP                            |
+| Layer 3 | Network layer | 网络间的逻辑寻址和路由             | IP, ICMP, IPSec                     |
+| Layer 2 | Data link layer | 相邻节点间的可靠数据传输           | Ethernet (802.3), WiFi (820.11)    |
+| Layer 1 | Physical layer | 物理数据传输介质（电气、光学、无线） | Electrical, optical, and wireless signals |
+
+### 1.2 TCP/IP 模型 (TCP/IP Model)
+
+*   **发展历史**: 由国防部 (DoD) 于20世纪70年代开发。
+*   **优势**: 允许网络部分功能失常时仍能继续运行（例如，军事攻击后），这得益于路由协议能够适应网络拓扑变化的设计。
+*   **四层结构 (从上到下)**:
+    *   **Application Layer (应用层)**: 对应 OSI 模型的应用层、表示层和会话层（即第 5、6、7 层）。
+    *   **Transport Layer (传输层)**: 对应 OSI 模型的第 4 层。
+    *   **Internet Layer (互联网层)**: 对应 OSI 模型的第 3 层，在 TCP/IP 模型中称为互联网层。
+    *   **Link Layer (链路层)**: 对应 OSI 模型的第 2 层。
+
+### 1.3 IP 地址和子网 (IP Addresses and Subnets)
+
+*   **IPv4 地址限制**: 0 和 255 通常分别保留给网络地址和广播地址。例如，`192.168.1.0` 是网络地址，`192.168.1.255` 是广播地址。
+*   **地址数量**: IPv4 地址数量约为 2^32 (约40亿)，但由于网络地址和广播地址的存在，实际可用数量略少。
+*   **私有地址 (Private Addresses)**: RFC 1918 定义了以下三个私有 IP 地址范围：
+    *   `10.0.0.0` - `10.255.255.255` (`10/8`)
+    *   `172.16.0.0` - `172.31.255.255` (`172.16/12`)
+    *   `192.168.0.0` - `192.168.255.255` (`192.168/16`)
+
+### 1.4 UDP 和 TCP (UDP and TCP)
+
+IP 协议允许我们到达网络上的目标主机，但需要传输协议使网络主机上的进程相互通信。主要有两种传输协议：UDP 和 TCP。
+
+#### 1.4.1 UDP (User Datagram Protocol)
+
+*   **特性**: 简单的无连接协议，在传输层（第 4 层）运行。
+*   **无连接**: 不需建立连接。
+*   **可靠性**: 不提供数据包是否已交付的机制。
+*   **端口号**: 用于识别发送和接收进程。端口号范围为 1 到 65535（端口 0 保留）。
+
+#### 1.4.2 TCP (Transmission Control Protocol)
+
+*   **特性**: 面向连接的传输协议。
+*   **可靠性**: 使用各种机制确保网络主机上不同进程发送的数据可靠交付。
+*   **连接建立**: 需要在发送任何数据之前建立 TCP 连接。
+*   **序列号和确认**: 每个数据八位组都有序列号，方便接收方识别丢失或重复的数据包。接收方通过确认号确认数据接收。
+*   **三次握手 (Three-way Handshake)**:
+    1.  **SYN Packet**: 客户端发送 SYN 包给服务器，包含客户端的初始序列号。
+    2.  **SYN-ACK Packet**: 服务器响应 SYN 包，发送 SYN-ACK 包，包含服务器的初始序列号。
+    3.  **ACK Packet**: 客户端发送 ACK 包，确认收到 SYN-ACK 包，完成三次握手。
+
+### 1.5 封装 (Encapsulation)
+
+*   **定义**: 指每一层将数据单位（或前一层的数据）接收后，添加自己的头部（有时还有尾部），然后将“封装”后的数据单位发送给下一层的过程。
+*   **重要性**: 允许每一层专注于其预期的功能。
+*   **封装过程示例 (从上到下)**:
+    1.  **Application data (应用数据)**: 用户输入数据，应用程序格式化后通过应用协议发送给传输层。
+    2.  **Transport protocol segment or datagram (传输协议分段或数据报)**: 传输层（如 TCP 或 UDP）添加头部信息，创建 TCP 分段或 UDP 数据报，发送给网络层。
+    3.  **Network packet (网络包)**: 网络层（即互联网层）为接收到的 TCP 分段或 UDP 数据报添加 IP 头部，创建 IP 包，发送给数据链路层。
+    4.  **Data link frame (数据链路帧)**: 数据链路层（如以太网或 WiFi）接收 IP 包，添加适当的头部和尾部，创建帧。
+*   **接收端**: 接收端反向执行解封装过程，直到提取出应用数据。
+
+### 1.6 数据包的生命周期 (The Life of a Packet)
+
+以在 TryHackMe 搜索房间为例：
+
+1.  用户在 TryHackMe 搜索页面输入查询并回车。
+2.  Web 浏览器使用 HTTPS 准备 HTTP 请求，并将其推送到传输层。
+3.  TCP 层通过三次握手与 TryHackMe Web 服务器建立连接。连接建立后，发送包含搜索查询的 HTTP 请求。每个创建的 TCP 分段被发送到互联网层。
+4.  IP 层添加源 IP 地址（您的计算机）和目标 IP 地址（TryHackMe Web 服务器）。此数据包被传输到链路层。
+5.  链路层添加适当的链路层头部和尾部，数据包发送到路由器。
+6.  路由器移除链路层头部和尾部，检查 IP 目标等字段，并将数据包路由到适当的链路。每个路由器重复此过程，直到数据包到达目标服务器的路由器。
+7.  数据包到达目标网络路由器后，上述步骤将反向执行。
+
+### 1.7 Telnet
+
+*   **定义**: TELNET (Teletype Network) 协议是一种用于远程终端连接的网络协议。Telnet 客户端允许您连接远程系统并发出文本命令。
+*   **用途**: 虽然最初用于远程管理，但 Telnet 也可用于连接任何监听 TCP 端口的服务器。
+*   **工作原理**:
+    *   基于客户端/服务器模式。
+    *   本地计算机运行 Telnet 客户端程序，向目标计算机（运行 Telnet 服务器程序）发起 TCP 连接（默认端口 23）。
+    *   连接建立后，用户在本地输入的命令经客户端传输给服务器，服务器执行命令并将结果返回给客户端显示，就像在本地操作目标计算机一样。
+*   **优缺点**:
+    *   **优点**: 简单易用，几乎所有操作系统都支持；连接速度快，操作界面响应灵敏，适合快速命令行操作。
+    *   **缺点**: 所有登录凭证（用户名、密码等）和传输数据都是明文形式，容易被截取，安全性差，易遭受中间人攻击。
+*   **替代品**: 随着网络安全需求提升，更安全的 SSH 协议已取代 Telnet 成为远程登录首选，SSH 支持多重身份验证和数据加密传输。但在安全性要求不高的内部网络或特定测试场景中，Telnet 仍有应用。
+
+## 二、网络基础 (Networking Essentials)
+
+### 2.1 DHCP: 自动配置网络设置 (Give Me My Network Settings)
+
+*   **作用**: 当我们想访问网络时，至少需要配置 IP 地址、子网掩码、路由器（或网关）和 DNS 服务器。DHCP (Dynamic Host Configuration Protocol) 是一种应用层协议，依靠 UDP，服务器监听 UDP 端口 67，客户端从 UDP 端口 68 发送。
+*   **DHCP DORA 发现过程**:
+    1.  **DHCP Discover (发现)**: 客户端广播 DHCPDISCOVER 消息，寻找本地 DHCP 服务器。
+    2.  **DHCP Offer (提供)**: 服务器响应 DHCPOFFER 消息，提供一个可用的 IP 地址供客户端接受。
+    3.  **DHCP Request (请求)**: 客户端响应 DHCPREQUEST 消息，表明已接受所提供的 IP 地址。
+    4.  **DHCP Acknowledge (确认)**: 服务器响应 DHCPACK 消息，确认所提供的 IP 地址已分配给该客户端。
+*   **DHCP 包交换特点**:
+    *   客户端最初没有 IP 配置，仅有 MAC 地址。在 DHCP Discover 和 DHCP Request 包中，客户端从 IP 地址 `0.0.0.0` 发送到广播 IP 地址 `255.255.255.255`。
+    *   在链路层，客户端发送到广播 MAC 地址 `ff:ff:ff:ff:ff:ff`。
+    *   DHCP 服务器在 DHCP offer 中提供 IP 地址和网络配置，并使用客户端的目标 MAC 地址。
+*   **DHCP 过程结束后的设备配置**: 设备会收到访问网络或互联网所需的所有配置，包括：
+    *   租用的 IP 地址。
+    *   路由数据包到本地网络之外的网关。
+    *   解析域名的 DNS 服务器。
+
+### 2.2 ARP: 连接第三层和第二层寻址 (Bridging Layer 3 Addressing to Layer 2 Addressing)
+
+*   **作用**: 当两个主机在同一以太网或 WiFi 网络上通信时，IP 数据包会被封装在数据链路层帧中。虽然已知目标主机的 IP 地址，但需要查找目标的 MAC 地址以创建正确的数据链路层头部。
+*   **MAC 地址**: 48 位数字，通常以十六进制表示，例如 `7C:DF:A1:D3:8C:5C`。
+*   **ARP 协议 (Address Resolution Protocol)**: 允许在以太网中查找另一个设备的 MAC 地址。
+    *   **ARP Request**: 发送方（如 `192.168.66.89`）广播 ARP Request 询问拥有特定 IP 地址（如 `192.168.66.1`）的主机响应其 MAC 地址。请求从请求者的 MAC 地址发送到广播 MAC 地址 `ff:ff:ff:ff:ff:ff`。
+    *   **ARP Reply**: 目标主机响应其 MAC 地址。
+*   **封装**: ARP Request 或 ARP Reply 不封装在 UDP 或 IP 包中；它们直接封装在以太网帧中。
+*   **定位**: ARP 通常被认为是第 2 层协议（因处理 MAC 地址），但也有人认为它是第 3 层协议的一部分（因支持 IP 操作）。
+*   **核心功能**: ARP 实现了从第 3 层寻址到第 2 层寻址的转换。
+
+### 2.3 ICMP: 网络故障排除 (Troubleshooting Networks)
+
+*   **定义**: Internet Control Message Protocol (ICMP) 主要用于网络诊断和错误报告。
+*   **常用命令**:
+    *   `ping`: 使用 ICMP 测试与目标系统的连接性，并测量往返时间 (RTT)。用于确认目标是否存活且可达。
+        *   发送 ICMP Echo Request (ICMP Type `8`)。
+        *   接收方响应 ICMP Echo Reply (ICMP Type `0`)。
+    *   `traceroute` (Linux/UNIX) / `tracert` (MS Windows): 使用 ICMP 发现从您的主机到目标的路由路径。
+        *   利用 IP 数据包头中的 Time-to-Live (TTL) 字段。
+        *   路由器每次转发数据包时将 TTL 减 1。
+        *   当 TTL 达到零时，路由器丢弃数据包并发送 ICMP Time Exceeded 消息 (ICMP Type `11`)。
+*   **TTL (Time To Live)**:
+    *   **作用**: IP 数据包头中的字段，限制数据包在网络中被转发的次数，防止无限循环。每经过一个路由器 (跳数)，TTL 减 1。当 TTL 减到 0 时，数据包被丢弃，并返回 ICMP 超时消息。
+    *   **在 ping 结果中的含义**: TTL 数值越大，说明数据包经过的路由器（跳数）越少，目标主机离你越近。
+    *   **常见初始值**: Windows 默认 128，Linux/Unix 默认 64，部分设备为 255。
+
+### 2.4 路由 (Routing)
+
+*   **定义**: 在网络中确定数据包从源地址到目标地址的传输路径的过程。
+*   **网络路由**: 路由器根据目标 IP 地址选择最佳路径，将数据包转发到下一个网络节点。
+    *   路由协议 (如 RIP, OSPF, BGP) 用于路由器之间交换路由信息，构建路由表，以便做出最佳的转发决策。
+*   **Web 应用程序路由**: 根据用户请求的 URL，将请求映射到相应的处理程序（例如，控制器方法或视图）。
+    *   Web 框架 (如 Django, Flask, Rails) 提供路由功能，确保数据高效、准确地到达目的地。
+*   **常见路由协议**:
+    *   **OSPF (Open Shortest Path First)**: 允许路由器共享网络拓扑信息，计算最有效的数据传输路径。
+    *   **EIGRP (Enhanced Interior Gateway Routing Protocol)**: Cisco 专有路由协议，结合了不同路由算法的特点，根据成本（如带宽或延迟）选择最有效路径。
+    *   **BGP (Border Gateway Protocol)**: 互联网上主要的路由协议，允许不同网络（如 ISP）交换路由信息，建立数据传输路径。
+    *   **RIP (Routing Information Protocol)**: 简单路由协议，常用于小型网络。路由器共享可达网络信息及跳数，选择跳数最少的路径。
+
+### 2.5 NAT (Network Address Translation)
+
+*   **定义**: 一种网络技术，用于在局域网（内网）和广域网（外网/互联网）之间转换 IP 地址。
+*   **主要作用**:
+    *   允许多个内网设备通过一个（或少量）公网 IP 地址访问互联网。
+    *   节省公网 IP 地址资源，提升网络安全性（内网地址对外不可见）。
+*   **背景**: 应对 IPv4 地址枯竭的解决方案之一。
+*   **工作原理**: NAT 路由器维护一个转换表，将内部 IP 地址和端口号映射到其外部 IP 地址和端口号，实现地址的无缝转换。
+*   **与 DHCP 的关系**: DHCP 负责为内网设备分配私有 IP 地址，NAT 则负责将这些私有 IP 转换为公网 IP 以访问互联网。两者通常由同一路由器或网关设备实现，协同工作。
+
+## 三、网络核心协议 (Networking Core Protocols)
+
+### 3.1 DNS: 记住地址 (Remembering Addresses)
+
+*   **参考**: 详情见 [DNS in Detail](https://withoutsolution.pages.dev/cyber/web#dns-in-detail)。
+
+### 3.2 WHOIS
+
+*   **作用**: 用于查询域名注册信息。
+*   **示例 (Linux 命令)**:
+    ```bash
+    root@ip-10-10-163-23:~# whois x.com
+       Domain Name: X.COM
+       Registry Domain ID: 1026563_DOMAIN_COM-VRSN
+       Registrar WHOIS Server: whois.godaddy.com
+       Registrar URL: http://www.godaddy.com
+       Updated Date: 2024-12-03T21:03:37Z
+       Creation Date: 1993-04-02T05:00:00Z
+       Registry Expiry Date: 2034-10-20T19:56:17Z
+       Registrar: GoDaddy.com, LLC
+       Registrar IANA ID: 146
+       Registrar Abuse Contact Email: abuse@godaddy.com
+       Registrar Abuse Contact Phone: 480-624-2505
+    ```
+
+### 3.3 HTTP(S): 访问 Web (Accessing the Web)
+
+*   **参考**: 详情见 [HTTP in detail](https://withoutsolution.pages.dev/cyber/web#http-in-detail)。
+*   **使用 Telnet 访问 HTTP 示例**:
+    *   **请求根路径**:
+        ```bash
+        root@ip-10-10-151-56:~# telnet 10.10.106.125 80
+        Trying 10.10.106.125...
+        Connected to 10.10.106.125.
+        Escape character is '^]'.
+        GET / HTTP/1.1
+        Host: anything
+
+        HTTP/1.1 200 OK
+        Server: nginx/1.18.0 (Ubuntu)
+        Date: Sat, 10 May 2025 15:16:57 GMT
+        Content-Type: text/html
+        Content-Length: 2252
+        Last-Modified: Thu, 27 Jun 2024 06:58:01 GMT
+        Connection: keep-alive
+        ETag: "667d0d79-8cc"
+        Accept-Ranges: bytes
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+        ```
+    *   **请求 `flag.html`**:
+        ```bash
+        root@ip-10-10-151-56:~# telnet 10.10.106.125 80
+        Trying 10.10.106.125...
+        Connected to 10.10.106.125.
+        Escape character is '^]'.
+        GET /flag.html HTTP/1.1
+        Host: anything
+
+        HTTP/1.1 200 OK
+        Server: nginx/1.18.0 (Ubuntu)
+        Date: Sat, 10 May 2025 15:20:46 GMT
+        Content-Type: text/html
+        Content-Length: 478
+        Last-Modified: Thu, 27 Jun 2024 07:28:15 GMT
+        Connection: keep-alive
+        ETag: "667d148f-1de"
+        Accept-Ranges: bytes
+
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Hidden Message</title>
+            <style>
+                body {
+                    background-color: white;
+                    color: white;
+                    font-family: Arial, sans-serif;
+                }
+                .hidden-text {
+                    font-size: 1px;
+                }
+            </style>
+        </head>
+        <body>
+            <div class="hidden-text">THM{TELNET-HTTP}</div>
+        </body>
+        </html>
+        ```
+        *   **隐藏标志**: `THM{TELNET-HTTP}`
+
+### 3.4 FTP: 文件传输 (Transferring Files)
+
+*   **定义**: File Transfer Protocol (FTP) 是一种旨在帮助不同甚至不兼容系统之间高效传输文件的协议。
+*   **文件传输模式**: 支持二进制 (binary) 和 ASCII (text) 两种模式。
+*   **效率**: 相较于 HTTP，FTP 更高效，在同等条件下可实现更高传输速度。
+*   **常用命令**:
+    *   `USER`: 输入用户名。
+    *   `PASS`: 输入密码。
+    *   `RETR` (retrieve): 从 FTP 服务器下载文件到客户端。
+    *   `STOR` (store): 从客户端上传文件到 FTP 服务器。
+*   **端口**: FTP 服务器默认监听 TCP 端口 21；数据传输通过客户端到服务器的另一个连接进行。
+*   **FTP 客户端交互示例**:
+    ```bash
+    root@ip-10-10-151-56:~# ftp 10.10.106.125
+    Connected to 10.10.106.125.
+    220 (vsFTPd 3.0.5)
+    Name (10.10.106.125:root): anonymous
+    331 Please specify the password.
+    Password:
+    230 Login successful.
+    Remote system type is UNIX.
+    Using binary mode to transfer files.
+    ftp> ls
+    200 PORT command successful. Consider using PASV.
+    150 Here comes the directory listing.
+    -rw-r--r--    1 0        0            1480 Jun 27  2024 coffee.txt
+    -rw-r--r--    1 0        0              14 Jun 27  2024 flag.txt
+    -rw-r--r--    1 0        0            1595 Jun 27  2024 tea.txt
+    226 Directory send OK.
+    ftp> type ascii
+    200 Switching to ASCII mode.
+    ftp> get coffee.txt
+    local: coffee.txt remote: coffee.txt
+    200 PORT command successful. Consider using PASV.
+    150 Opening BINARY mode data connection for coffee.txt (1480 bytes).
+    WARNING! 47 bare linefeeds received in ASCII mode
+    File may not have transferred correctly.
+    226 Transfer complete.
+    1480 bytes received in 0.00 secs (2.5616 MB/s)
+    ftp> quit
+    221 Goodbye.
+    ```
+*   **Wireshark 分析**: 客户端命令（如 `ls` 对应 `LIST`）与服务器响应不同。目录列表和下载文件通过单独连接发送。
+
+### 3.5 SMTP: 发送邮件 (Sending Email)
+
+*   **定义**: Simple Mail Transfer Protocol (SMTP) 是一种用于将电子邮件发送到 SMTP 服务器（更具体地说是邮件提交代理 MSA 或邮件传输代理 MTA）的协议。
+*   **类比**: 类似去邮局寄包裹，需要打招呼、提供目的地、发件人信息等。
+*   **常用命令**:
+    *   `HELO` 或 `EHLO`: 启动 SMTP 会话。
+    *   `MAIL FROM`: 指定发件人电子邮件地址。
+    *   `RCPT TO`: 指定收件人电子邮件地址。
+    *   `DATA`: 指示客户端将开始发送电子邮件内容。
+    *   `.`: 单独一行发送，表示电子邮件消息结束。
+*   **端口**: SMTP 服务器默认监听 TCP 端口 25。
+*   **Telnet 发送邮件示例**:
+    ```bash
+    root@ip-10-10-151-56:~# telnet 10.10.106.125 25
+    Trying 10.10.106.125...
+    Connected to 10.10.106.125.
+    Escape character is '^]'.
+    220 example.thm ESMTP Exim 4.95 Ubuntu Sat, 10 May 2025 16:11:28 +0000
+    HELO client.thm
+    250 example.thm Hello client.thm [10.10.151.56]
+    MAIL FROM: <user@client.thm>
+    250 OK
+    RCPT TO: <strategos@server.thm>
+    250 Accepted
+    DATA
+    354 Enter message, ending with "." on a line by itself
+    From: user@client.thm
+    To: strategos@server.thm
+    Subject: Telnet email
+
+    Hello. I am using telnet to send you an email!
+    .
+    250 OK id=1uDmoT-0000LX-Eq
+    quit
+    221 example.thm closing connection
+    Connection closed by foreign host.
+    ```
+*   **Wireshark 分析**: 客户端消息为红色，服务器响应为蓝色。
+
+### 3.6 POP3: 接收邮件 (Receiving Email)
+
+*   **定义**: Post Office Protocol Version 3 (POP3) 是一种用于接收电子邮件的协议，它将电子邮件从服务器下载到本地设备。
+*   **特性**: 使用 POP3，收件人无法从不同设备再次访问其电子邮件，因为邮件下载到本地后会从服务器删除。
+*   **与 SMTP 关系**: SMTP 类似寄包裹，POP3 类似查收邮件。
+*   **常用命令**:
+    *   `USER <username>`: 识别用户。
+    *   `PASS <password>`: 提供用户密码。
+    *   `STAT`: 请求消息数量和总大小。
+    *   `LIST`: 列出所有消息及其大小。
+    *   `RETR <message_number>`: 检索指定消息。
+    *   `DELE <message_number>`: 标记消息删除。
+    *   `QUIT`: 结束 POP3 会话并应用更改。
+*   **端口**: POP3 服务器默认监听 TCP 端口 110。
+*   **Telnet 接收邮件示例**:
+    ```bash
+    user@TryHackMe$ telnet 10.10.106.125 110
+    Trying 10.10.106.125...
+    Connected to 10.10.106.125.
+    Escape character is '^]'.
+    +OK [XCLIENT] Dovecot (Ubuntu) ready.
+    AUTH
+    +OK
+    PLAIN
+    .
+    USER strategos
+    +OK
+    PASS
+    +OK Logged in.
+    STAT
+    +OK 3 1264
+    LIST
+    +OK 3 messages:
+    1 407
+    2 412
+    3 445
+    .
+    RETR 3
+    +OK 445 octets
+    Return-path: <user@client.thm>
+    Envelope-to: strategos@server.thm
+    Delivery-date: Thu, 27 Jun 2024 16:19:35 +0000
+    Received: from [10.11.81.126] (helo=client.thm)
+            by example.thm with smtp (Exim 4.95)
+            (envelope-from <user@client.thm>)
+            id 1sMrpq-0001Ah-UT
+            for strategos@server.thm;
+            Thu, 27 Jun 2024 16:19:35 +0000
+    From: user@client.thm
+    To: strategos@server.thm
+    Subject: Telnet email
+
+    Hello. I am using telnet to send you an email!
+    .
+    QUIT
+    +OK Logging out.
+    Connection closed by foreign host.
+    ```
+*   **安全性**: 截获网络数据包者可读取明文密码和通信内容。
+
+### 3.7 IMAP: 同步邮件 (Synchronizing Email)
+
+*   **定义**: Internet Message Access Protocol (IMAP) 是一种用于接收电子邮件的协议。它允许计算机和服务器之间连接，无论它们使用相同或不同的硬件或软件。
+*   **优势**: 当您需要从多个设备（如办公电脑、笔记本、智能手机）检查电子邮件时，IMAP 允许邮件同步，而不是检索后删除。
+*   **特性**:
+    *   同步已读、已移动和已删除的消息。
+    *   当通过多个客户端检查电子邮件时非常方便。
+    *   通常比 POP3 使用更多服务器存储空间，因为邮件保留在服务器上并跨客户端同步。
+*   **常用命令 (比 POP3 复杂)**:
+    *   `LOGIN <username> <password>`: 验证用户。
+    *   `SELECT <mailbox>`: 选择要处理的邮箱文件夹。
+    *   `FETCH <mail_number> <data_item_name>`: 检索指定消息（例: `fetch 3 body[]` 检索消息 3 的头部和正文）。
+    *   `MOVE <sequence_set> <mailbox>`: 将指定消息移动到另一个邮箱。
+    *   `COPY <sequence_set> <data_item_name>`: 将指定消息复制到另一个邮箱。
+    *   `LOGOUT`: 注销。
+*   **端口**: IMAP 服务器默认监听 TCP 端口 143。
+*   **Telnet 接收邮件示例**:
+    ```bash
+    user@TryHackMe$ telnet 10.10.41.192 143
+    Trying 10.10.41.192...
+    Connected to 10.10.41.192.
+    Escape character is '^]'.
+    * OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE LITERAL+ STARTTLS AUTH=PLAIN] Dovecot (Ubuntu) ready.
+    A LOGIN strategos
+    A OK [CAPABILITY IMAP4rev1 SASL-IR LOGIN-REFERRALS ID ENABLE IDLE SORT SORT=DISPLAY THREAD=REFERENCES THREAD=REFS THREAD=ORDEREDSUBJECT MULTIAPPEND URL-PARTIAL CATENATE UNSELECT CHILDREN NAMESPACE UIDPLUS LIST-EXTENDED I18NLEVEL=1 CONDSTORE QRESYNC ESEARCH ESORT SEARCHRES WITHIN CONTEXT=SEARCH LIST-STATUS BINARY MOVE SNIPPET=FUZZY PREVIEW=FUZZY PREVIEW STATUS=SIZE SAVEDATE LITERAL+ NOTIFY SPECIAL-USE] Logged in
+    B SELECT inbox
+    * FLAGS (\Answered \Flagged \Deleted \Seen \Draft)
+    * OK [PERMANENTFLAGS (\Answered \Flagged \Deleted \Seen \Draft \*)] Flags permitted.
+    * 4 EXISTS
+    * 0 RECENT
+    * OK [UNSEEN 2] First unseen.
+    * OK [UIDVALIDITY 1719824692] UIDs valid
+    * OK [UIDNEXT 5] Predicted next UID
+    B OK [READ-WRITE] Select completed (0.001 + 0.000 secs).
+    C FETCH 3 body[]
+    * 3 FETCH (BODY[] {445}
+    Return-path: <user@client.thm>
+    Envelope-to: strategos@server.thm
+    Delivery-date: Thu, 27 Jun 2024 16:19:35 +0000
+    Received: from [10.11.81.126] (helo=client.thm)
+            by example.thm with smtp (Exim 4.95)
+            (envelope-from <user@client.thm>)
+            id 1sMrpq-0001Ah-UT
+            for strategos@server.thm;
+            Thu, 27 Jun 2024 16:19:35 +0000
+    From: user@client.thm
+    To: strategos@server.thm
+    Subject: Telnet email
+
+    Hello. I am using telnet to send you an email!
+    )
+    C OK Fetch completed (0.001 + 0.000 secs).
+    D LOGOUT
+    * BYE Logging out
+    D OK Logout completed (0.001 + 0.000 secs).
+    Connection closed by foreign host.
+    ```
+*   **安全性**: 截获流量者仍可阅读明文密码和通信内容。
+
+### 3.8 核心协议端口总结
+
+| 协议     | 传输协议 | 默认端口号 |
+| -------- | -------- | ---------- |
+| TELNET   | TCP      | 23         |
+| DNS      | UDP or TCP | 53         |
+| HTTP     | TCP      | 80         |
+| HTTPS    | TCP      | 443        |
+| FTP      | TCP      | 21         |
+| SMTP     | TCP      | 25         |
+| POP3     | TCP      | 110        |
+| IMAP     | TCP      | 143        |
+
+## 四、网络安全协议 (Networking Secure Protocols)
+
+关注机密性 (confidentiality)、完整性 (integrity) 和真实性 (authenticity)。
+
+### 4.1 TLS (Transport Layer Security)
+
+*   **定义**: TLS (Transport Layer Security) 是一种用于保护网络通信安全的加密协议。它是 SSL (Secure Sockets Layer) 的继任者，常用于为 HTTP, SMTP, IMAP, POP3 等协议提供加密和身份验证。
+*   **主要作用**:
+    *   加密数据，防止被窃听。
+    *   确保数据完整性，防止被篡改。
+    *   验证通信双方身份，防止中间人攻击。
+*   **常见应用**:
+    *   HTTPS (HTTP over TLS): 保护网页浏览安全。
+    *   邮件传输加密 (如 SMTPS, IMAPS, POP3S)。
+    *   VPN、即时通讯等安全通信场景。
+*   **CA (Certificate Authority)**:
+    *   **定义**: 一个受信任的组织，通过颁发数字证书来验证网站、个人或公司等实体的数字身份。
+    *   **证书获取流程**: 服务器（或客户端）管理员创建证书签名请求 (CSR) 并提交给 CA；CA 验证 CSR 并颁发数字证书。一旦收到（签名）证书，即可用于向他人识别服务器（或客户端），他人可通过验证签名确认其有效性。
+    *   **免费证书**: Let’s Encrypt 提供免费证书签名服务。
+    *   **自签名证书**: 无法证明服务器的真实性，因没有第三方验证。
+
+### 4.2 HTTPS
+
+*   **HTTP 问题**: HTTP 依赖 TCP，默认使用端口 80。所有 HTTP 流量都是明文发送，易于被截获和监控。
+*   **传统 HTTP 请求步骤 (域名解析后)**:
+    1.  与目标服务器建立 TCP 三次握手。
+    2.  使用 HTTP 协议进行通信（例如，发出 `GET / HTTP/1.1` 请求）。
+*   **HTTP Over TLS (HTTPS)**: Hypertext Transfer Protocol Secure。
+*   **HTTPS 请求步骤 (域名解析后)**:
+    1.  与目标服务器建立 TCP 三次握手。
+    2.  建立 TLS 会话（TLS 协商和建立在此阶段进行）。
+    3.  使用 HTTP 协议进行通信（例如，发出 `GET / HTTP/1.1` 请求），但数据已加密。
+*   **加密性**: 所有数据包都被加密。在没有私钥的情况下，无法查看交换的数据包内容。
+*   **解密 (需要私钥)**: 如果提供解密密钥给 Wireshark，可以看到正常的 HTTP 流量，证实 TLS 提供了安全性。
+*   **核心要点**: TLS 为 HTTP 提供了安全性，无需修改底层或上层协议（TCP 和 IP 未修改，HTTP 像在 TCP 上一样通过 TLS 发送）。
+
+### 4.3 其他协议的安全性 (Others)
+
+*   **SMTP, POP3, IMAP 的 TLS 加密**: 与 HTTP 添加 TLS 类似，这些协议也通过 TLS 变得安全。
+    *   SMTP 变为 SMTPS。
+    *   POP3 变为 POP3S。
+    *   IMAP 变为 IMAPS。
+*   **端口变化**: 安全版本使用不同的默认 TCP 端口号：
+
+| 协议     | 非安全端口 | 安全端口     |
+| -------- | ---------- | ------------ |
+| HTTP(S)  | 80         | 443          |
+| SMTP(S)  | 25         | 465 and 587 |
+| POP3(S)  | 110        | 995          |
+| IMAP(S)  | 143        | 993          |
+| FTS(S)   | 21         | 990          |
+
+### 4.4 SSH (Secure Shell)
+
+*   **定义**: Secure Shell (SSH) 是一种加密网络协议，用于设备之间的安全通信。SSH 使用密码学算法（如 AES）加密数据，常用于远程登录计算机或服务器。
+*   **优势 (OpenSSH)**:
+    *   **安全认证**: 支持密码、公钥和双因素认证。
+    *   **机密性**: 提供端到端加密，防止窃听。通过新服务器密钥通知防止中间人攻击。
+    *   **完整性**: 密码学保护交换数据的完整性。
+    *   **隧道**: SSH 可创建安全“隧道”来路由其他协议，实现类似 VPN 的连接。
+    *   **X11 Forwarding**: 如果连接到具有图形用户界面的 Unix-like 系统，SSH 允许通过网络使用图形应用程序。
+*   **端口**: SSH 服务器监听 TCP 端口 22 (Telnet 监听端口 23)。
+
+### 4.5 SFTP 和 FTPS
+
+*   **SFTP (SSH File Transfer Protocol)**:
+    *   允许安全文件传输。
+    *   是 SSH 协议套件的一部分，共享 SSH 端口 22。
+    *   连接命令示例: `sftp username@hostname`。
+    *   常用命令: `get filename` (下载), `put filename` (上传)。
+    *   命令通常类似于 Unix 命令，可能与 FTP 命令不同。
+*   **FTPS (File Transfer Protocol Secure)**:
+    *   通过 TLS 协议实现安全传输。
+    *   FTP 使用端口 21，FTPS 通常使用端口 990。
+    *   需要证书设置，且由于控制和数据传输使用单独连接，可能难以在严格防火墙后允许。
+*   **区分**: SFTP 是基于 SSH 的安全文件传输，FTPS 是基于 TLS 的安全文件传输。
+
+### 4.6 VPN (Virtual Private Network)
+
+*   **基本概念**: 当互联网设计时，TCP/IP 协议套件专注于数据包交付，但未提供机制来确保所有进出计算机的数据都受到保护，防止泄露和篡改。VPN 连接应运而生。
+*   **目的**: 强调 VPN 中的“私人”特性，实现虚拟网络中的“私人”信息交换。
+*   **解决方案**: 提供方便且相对便宜的解决方案，主要要求是互联网连接和 VPN 服务器/客户端。
+*   **工作原理**:
+    *   远程分支机构的 VPN 客户端连接到主分支机构的 VPN 服务器。
+    *   VPN 客户端加密流量并通过建立的 VPN 隧道（蓝色线）传输到主分支机构。
+    *   VPN 流量限于隧道内，隧道外（绿色线）则携带解密的 VPN 流量。
+    *   VPN 也可用于单个设备连接。
+*   **注意事项**:
+    *   并非所有 VPN 连接都会路由所有流量。
+    *   一些 VPN 服务器可能泄露您的实际 IP 地址。
+    *   可能需要进行 DNS 泄露测试。
+
+## 五、常见问题解答 (FAQ)
+
+**Q1: OSI 模型和 TCP/IP 模型之间有什么主要区别？**
+A1: OSI 模型是一个理论性的七层模型，详细描述了网络通信的各个方面。TCP/IP 模型是一个更实用的四层（或五层）模型，它是互联网协议的基础，其层级结构与 OSI 模型有所映射，但更侧重于实际应用。
+
+**Q2: TCP 和 UDP 之间最关键的区别是什么？**
+A2: TCP 是面向连接的、可靠的传输协议，通过三次握手建立连接，并提供数据序列号和确认机制以确保数据完整和有序传输。UDP 是无连接的、不可靠的协议，不保证数据传输的可靠性、顺序性或完整性，但传输速度更快，开销更低。
+
+**Q3: 什么是三次握手，它用在哪种协议中？**
+A3: 三次握手是 TCP 协议用于建立可靠连接的过程。它涉及客户端发送 SYN 包，服务器响应 SYN-ACK 包，客户端最后发送 ACK 包以完成连接建立。
+
+**Q4: 封装 (Encapsulation) 在网络中是如何发生的？**
+A4: 封装是指在网络通信中，每一层协议在接收到上层数据后，会添加自己的协议头部（有时还有尾部），然后将这个新的数据单元传递给下一层。这个过程从应用层开始，逐层向下进行，直到物理层发送比特流。接收端则反向执行解封装。
+
+**Q5: DHCP DORA 过程的四个步骤是什么？**
+A5: DHCP DORA 过程包括：
+    1.  **Discover**: 客户端广播消息寻找 DHCP 服务器。
+    2.  **Offer**: 服务器提供一个 IP 地址给客户端。
+    3.  **Request**: 客户端请求接受该 IP 地址。
+    4.  **Acknowledge**: 服务器确认分配该 IP 地址。
+
+**Q6: ARP (Address Resolution Protocol) 的主要功能是什么？**
+A6: ARP 的主要功能是在局域网（如以太网）中，将第三层（IP 地址）转换为第二层（MAC 地址）。当一个设备需要与同一网络内的另一个设备通信时，它使用 ARP 来查找目标设备的 MAC 地址。
+
+**Q7: `ping` 和 `traceroute` 命令各有什么用途？**
+A7: `ping` 命令使用 ICMP Echo Request 和 Echo Reply 来测试与目标主机的连通性，并测量往返时间，确认目标是否存活。`traceroute` (或 `tracert`) 命令使用 ICMP 和 IP 包的 TTL 字段来发现从源到目标的网络路径，显示数据包经过的每个路由器（跳）。
+
+**Q8: 什么是 TTL，它在网络中的作用是什么？**
+A8: TTL (Time To Live) 是 IP 数据包头中的一个字段，用于限制数据包在网络中被转发的次数。每经过一个路由器，TTL 值减 1。当 TTL 减到 0 时，数据包被丢弃，以防止数据包无限循环，并返回 ICMP 超时消息。
+
+**Q9: NAT (Network Address Translation) 的核心作用是什么？**
+A9: NAT 的核心作用是在局域网（私有 IP 地址）和广域网（公网 IP 地址）之间进行地址转换。它允许多个内网设备共享一个或少量公网 IP 地址访问互联网，从而节省公网 IP 资源并提高网络安全性。
+
+**Q10: HTTP 和 HTTPS 之间的主要区别是什么？**
+A10: HTTP 是明文传输的 Web 协议，数据在网络中不加密。HTTPS 是 HTTP over TLS（或 SSL），通过传输层安全协议对数据进行加密，提供数据机密性、完整性保障和服务器身份认证，使得通信更加安全。
+
+**Q11: Telnet 和 SSH 相比，为什么 SSH 是更好的选择？**
+A11: Telnet 是一个明文传输协议，所有数据（包括登录凭证）都以未加密的形式发送，极易被窃听。SSH (Secure Shell) 则是一个加密网络协议，它对所有数据进行加密，提供安全认证、机密性、完整性以及隧道功能，因此在安全性方面远优于 Telnet。
+
+**Q12: FTP 和 SFTP/FTPS 有何不同？**
+A12: FTP (File Transfer Protocol) 是一个明文传输的文件传输协议。SFTP (SSH File Transfer Protocol) 是基于 SSH 的安全文件传输协议，继承了 SSH 的加密和认证能力，通常使用端口 22。FTPS (File Transfer Protocol Secure) 是基于 TLS/SSL 的安全文件传输协议，通常使用端口 990，需要证书。SFTP 和 FTPS 都提供比 FTP 更安全的传输方式。
+
+**Q13: VPN (Virtual Private Network) 的主要目的是什么？**
+A13: VPN 的主要目的是在一个不安全的公共网络（如互联网）上，创建一个安全的、加密的“私人”网络连接。它通过加密数据、验证用户身份和隧道技术，确保数据传输的机密性、完整性和真实性，常用于企业远程访问或个人隐私保护。

@@ -3,9 +3,9 @@ export const nav = [
   {
     text: 'cyber',
     items: [
-      { text: 'network', link: '/cyber/network.md' },
-      { text: 'networkpro', link: '/cyber/networkpro.md' },
-      { text: 'web', link: '/cyber/web.md' },
+      { text: 'network基础', link: '/cyber/network.md' },
+      { text: 'network进阶', link: '/cyber/networkpro.md' },
+      { text: 'web基础', link: '/cyber/web.md' },
     ]
   },
   {

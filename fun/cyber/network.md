@@ -1,833 +1,700 @@
 ---
-title: "networks"
-quote: tryhackme
+title: "network"
 categories:
   - 技术
   - 教程
-tags: [Markdown, network]
-description: Network Fundamentals
+tags: [Markdown, web]
+description: network基础
 draft: false
-sidebar: true
+sidebar: false
 outline: deep
 ---
 
-# Network
+# 网络基础 (Network Fundamentals)
 
-Learn the core concepts of how computers communicate with each other and types of network weaknesses.
+## 1. 简介 (Introduction)
 
-## introduction
+网络是设备相互连接的集合。
+*   **核心术语**：指相互连接的设备。
+*   **网络概念**：网络是连接在一起的事物，例如，因共同兴趣而连接的朋友圈。
 
-> key term for devices that are connected together
+### 1.1 网络设备识别 (Identifying Devices on a Network)
 
-> Networks are simply things connected. For example, your friendship circle: you are all connected because of similar interests, hobbies, skills and sorts.
+网络上的设备主要通过以下两种地址识别：
+*   **IP 地址 (Internet Protocol Address)**：用于在特定时间内识别网络上的主机。
+*   **MAC 地址 (Media Access Control Address)**：类似于设备的序列号，是唯一的物理地址。
 
-<div align=left><img width = '400' src = './assets/image-20250314112314575.png'></div>
+### 1.2 IP 地址 (Internet Protocol)
 
-### Identifying Devices on a Network
+IP 地址是用于在网络上识别主机的数字集合，分为四个八位字节。每个八位字节的值汇总构成了设备在网络上的 IP 地址。IP 地址可以随设备改变，但在同一网络中不能同时被多个设备激活。
 
-- An IP Address
-- A Media Access Control (MAC) Address -- think of this as being similar to a serial number.
+#### 1.2.1 公共 IP (Public IP)
 
-### IP Addresses(Internet Protocol)
+*   **定义**：全球唯一的 IP 地址，由互联网管理机构（如 ICANN）统一分配，可直接访问互联网。
+*   **特点**：
+    *   全球唯一性，不会重复。
+    *   可被互联网上的其他设备直接访问（如访问网站、远程连接）。
+    *   通常由互联网服务提供商（ISP）分配给用户或企业。
+*   **用途**：
+    *   服务器、网站托管、云服务等需要对外提供服务的场景。
+    *   家庭或企业网络的出口（如路由器的 WAN 口地址）。
+*   **示例**：`203.0.113.45`（IPv4）、`2001:0db8:85a3::8a2e:0370:7334`（IPv6）。
 
- > used as a way of identifying a host on a network for a period of time, where that IP address can then be associated with another device without the IP address changing.
+#### 1.2.2 私有 IP (Private IP)
 
- > An IP address is a set of numbers that are divided into four octets. The value of each octet will summarise to be the IP address of the device on the network. This number is calculated through a technique known as IP addressing & subnetting. What's important to understand here is that IP addresses can change from device to device but cannot be active simultaneously more than once within the same network.
+*   **定义**：在本地网络内部使用的 IP 地址，不可直接访问互联网，需通过 NAT（网络地址转换）转换为公共 IP。
+*   **特点**：
+    *   非全球唯一，同一地址可在不同局域网中重复使用。
+    *   仅在局域网内可见，无法被互联网直接访问。
+    *   节省公共 IP 资源，提高网络安全性。
+*   **IPv4 私有地址范围**：
+    *   `10.0.0.0/8`（10.0.0.0 到 10.255.255.255）
+    *   `172.16.0.0/12`（172.16.0.0 到 172.31.255.255）
+    *   `192.168.0.0/16`（192.168.0.0 到 192.168.255.255）
+*   **IPv6 私有地址**：ULA（Unique Local Address），如 `fc00::/7`。
 
- <div align=left><img width = '400' src = './assets/20250319_104847.png'></div>
+#### 1.2.3 核心区别 (Core Differences: Public vs. Private IP)
 
-#### **1. 公共IP（Public IP）**
+| 对比项    | 公共 IP               | 私有 IP                 |
+| :-------- | :-------------------- | :---------------------- |
+| **唯一性** | 全球唯一              | 局域网内唯一            |
+| **可访问性** | 直接访问互联网        | 需通过 NAT 转换         |
+| **分配方式** | ISP 或 ICANN 分配     | 本地路由器自动分配（如 DHCP） |
+| **用途**  | 对外服务、互联网连接  | 内部设备通信            |
+| **安全性** | 直接暴露于互联网      | 隐藏在 NAT 后，相对安全 |
 
-- **定义**：全球唯一的IP地址，由互联网管理机构（如ICANN）统一分配，可直接访问互联网。
-- **特点**：
-  - 全球唯一性，不会重复。
-  - 可被互联网上的其他设备直接访问（如访问网站、远程连接）。
-  - 通常由互联网服务提供商（ISP）分配给用户或企业。
-- **用途**：
-  - 服务器、网站托管、云服务等需要对外提供服务的场景。
-  - 家庭或企业网络的出口（如路由器的WAN口地址）。
-- **示例**：`203.0.113.45`（IPv4）、`2001:0db8:85a3::8a2e:0370:7334`（IPv6）。
+#### 1.2.4 如何查看 IP 地址？ (How to Check IP Addresses?)
 
-#### **2. 私有IP（Private IP）**
+*   **公共 IP**：访问网站（如 `whatismyip.com`）或路由器管理界面。
+*   **私有 IP**：在设备的网络设置中查看（如 Windows 的“IP 配置”、手机的“Wi-Fi 详情”）。
 
-- **定义**：在本地网络内部使用的IP地址，不可直接访问互联网，需通过NAT（网络地址转换）转换为公共IP。
-- **特点**：
-  - 非全球唯一，同一地址可在不同局域网中重复使用。
-  - 仅在局域网内可见，无法被互联网直接访问。
-  - 节省公共IP资源，提高网络安全性。
-- **用途**：
-  - 家庭、企业内部设备（如电脑、手机、打印机等）。
-  - 减少对公共IP的需求，降低网络配置复杂度。
-- **IPv4私有地址范围**：
-  - `10.0.0.0/8`（10.0.0.0到10.255.255.255）
-  - `172.16.0.0/12`（172.16.0.0到172.31.255.255）
-  - `192.168.0.0/16`（192.168.0.0到192.168.255.255）
-- **IPv6私有地址**：ULA（Unique Local Address），如`fc00::/7`。
+**总结**：公共 IP 是互联网的“门牌号码”，用于全球通信；私有 IP 是家庭/企业内部的“房间号”，通过 NAT 技术共享一个公共 IP 上网。两者协同工作，既保证了互联网的正常运行，又解决了 IP 地址短缺和网络安全问题。
 
-#### **3. 核心区别**
+#### 1.2.5 IPv6
 
-| **对比项**       | **公共IP**                | **私有IP**                |
-|------------------|---------------------------|---------------------------|
-| **唯一性**       | 全球唯一                  | 局域网内唯一              |
-| **可访问性**     | 直接访问互联网            | 需通过NAT转换            |
-| **分配方式**     | ISP或ICANN分配            | 本地路由器自动分配（如DHCP）|
-| **用途**         | 对外服务、互联网连接      | 内部设备通信              |
-| **安全性**       | 直接暴露于互联网          | 隐藏在NAT后，相对安全     |
+IPv6 是互联网协议寻址方案的新版本，旨在解决 IPv4 地址耗尽问题，并提供多项优势：
+*   支持高达 2^128 个 IP 地址（超过 340 万亿），解决了 IPv4 面临的问题。
+*   由于采用新方法而效率更高。
+[Image: IPv4 and IPv6 comparison with octets/hexadecimal representation]
 
-### **4. 如何查看IP地址？**
+### 1.3 MAC 地址 (Media Access Control Address)
 
-- **公共IP**：访问网站（如`whatismyip.com`）或路由器管理界面。
-- **私有IP**：在设备的网络设置中查看（如Windows的“IP配置”、手机的“Wi-Fi详情”）。
+网络上的设备都具有物理网络接口，即设备主板上的微芯片板。该网络接口在工厂生产时被分配了一个唯一的地址，称为 MAC (Media Access Control) 地址。
+*   **格式**：MAC 地址是一个由冒号分隔的十二个字符的十六进制数（例如 `a4:c3:f0:85:ac:2d`）。
+*   **组成**：前六个字符表示制造网络接口的公司，后六个字符是唯一编号。
+[Image: MAC address breakdown]
 
-**总结**
+## 2. Ping (ICMP)
 
-公共IP是互联网的“门牌号码”，用于全球通信；私有IP是家庭/企业内部的“房间号”，通过NAT技术共享一个公共IP上网。两者协同工作，既保证了互联网的正常运行，又解决了IP地址短缺和网络安全问题。
+Ping 是最基本的网络工具之一，使用 ICMP (Internet Control Message Protocol) 数据包来确定设备之间连接的性能，例如连接是否存在或是否可靠。
 
-#### **5. IPv6**
+ICMP（Internet Control Message Protocol）是互联网控制消息协议，属于 TCP/IP 协议栈的核心协议之一，主要用于在 IP 网络中传递控制和错误消息。
 
-> IPv6 is a new iteration of the Internet Protocol addressing scheme to help tackle this issue. Although it is seemingly more daunting, it boasts a few benefits:
+### 2.1 主要功能 (Main Functions)
 
-- Supports up to 2^128 of IP addresses (340 trillion-plus), resolving the issues faced with IPv4
-- More efficient due to new methodologies
+1.  **错误报告**：当 IP 数据包无法到达目标时，发送错误消息（如目标不可达、超时等）。
+2.  **诊断功能**：
+    *   **Ping**：通过 ICMP 回显请求（类型 8）和应答（类型 0）测试网络连通性。
+    *   **Traceroute**：利用 ICMP 超时消息（类型 11）跟踪数据包路径。
+3.  **网络信息查询**：提供主机或路由器的状态信息（如地址掩码请求、时间戳请求）。
 
-<div align=left><img width = '400' src = './assets/20250321_113549.png'></div>
+### 2.2 常见 ICMP 消息类型 (Common ICMP Message Types)
 
-#### **6. MAC Address**
+| 类型代码 | 消息类型           | 用途描述       |
+| :------- | :----------------- | :------------- |
+| 0        | 回显应答（Echo Reply）   | 响应 Ping 请求 |
+| 8        | 回显请求（Echo Request） | 发起 Ping 测试 |
+| 3        | 目标不可达（Destination Unreachable） | 数据包无法到达目标 |
+| 11       | 超时（Time Exceeded） | 数据包生存时间（TTL）耗尽 |
 
-> Devices on a network will all have a physical network interface, which is a microchip board found on the device's motherboard. This network interface is assigned a unique address at the factory it was built at, called a MAC (Media Access Control ) address. The MAC address is a twelve-character hexadecimal number (a base sixteen numbering system used in computing to represent numbers) split into two's and separated by a colon. These colons are considered separators. For example, a4:c3:f0:85:ac:2d. The first six characters represent the company that made the network interface, and the last six is a unique number.
+### 2.3 典型应用场景 (Typical Application Scenarios)
 
-<div align=left><img width = '400' src = './assets/20250321_114750.png'></div>
+1.  **网络诊断**：使用 `ping` 命令验证主机是否可达；使用 `traceroute` 或 `tracert` 追踪网络路径。
+2.  **故障排查**：通过目标不可达消息（类型 3）定位路由或防火墙问题。
+3.  **监控网络状态**：检测网络延迟、丢包率等指标。
 
-### Ping(ICMP)
+### 2.4 如何测试 ICMP？ (How to Test ICMP?)
 
-> Ping is one of the most fundamental network tools available to us. Ping uses ICMP (Internet Control Message Protocol) packets to determine the performance of a connection between devices, for example, if the connection exists or is reliable.
+1.  **Ping 命令**：
+    ```bash
+    ping example.com # 发送 ICMP 回显请求
+    ```
+2.  **Traceroute 命令**：
+    ```bash
+    traceroute example.com # 在 Linux/macOS 中使用
+    tracert example.com    # 在 Windows 中使用
+    ```
 
-ICMP（Internet Control Message Protocol）是互联网控制消息协议，属于TCP/IP协议栈的核心协议之一，主要用于在IP网络中传递控制和错误消息。以下是关于ICMP的关键信息：
+### 2.5 注意事项 (Notes)
 
-#### **主要功能**
+*   **可靠性**：ICMP 不保证消息的可靠传输，可能因网络拥塞或防火墙规则被丢弃。
+*   **安全性**：某些网络环境会禁用 ICMP（如限制 Ping），导致诊断工具失效。
+*   **替代方案**：若 ICMP 被屏蔽，可尝试使用 TCP/UDP 端口探测（如 `telnet` 或 `nmap`）。
 
-1. **错误报告**  
-   - 当IP数据包无法到达目标时，发送错误消息（如目标不可达、超时等）。
-2. **诊断功能**  
-   - **Ping**：通过ICMP回显请求（类型8）和应答（类型0）测试网络连通性。
-   - **Traceroute**：利用ICMP超时消息（类型11）跟踪数据包路径。
-3. **网络信息查询**  
-   - 提供主机或路由器的状态信息（如地址掩码请求、时间戳请求）。
-
-#### **常见ICMP消息类型**
+## 3. 局域网 (LAN - Local Area Network)
 
-| 类型代码 | 消息类型           | 用途描述                     |
-|----------|--------------------|------------------------------|
-| 0        | 回显应答（Echo Reply） | 响应Ping请求                 |
-| 8        | 回显请求（Echo Request） | 发起Ping测试                 |
-| 3        | 目标不可达（Destination Unreachable） | 数据包无法到达目标           |
-| 11       | 超时（Time Exceeded） | 数据包生存时间（TTL）耗尽    |
-
-#### **典型应用场景**
-
-1. **网络诊断**  
-   - 使用`ping`命令验证主机是否可达。
-   - 使用`traceroute`或`tracert`追踪网络路径。
-2. **故障排查**  
-   - 通过目标不可达消息（类型3）定位路由或防火墙问题。
-3. **监控网络状态**  
-   - 检测网络延迟、丢包率等指标。
-
-#### **如何测试ICMP？**
+LAN (Local Area Network) 是一种覆盖范围较小的计算机网络，通常局限于家庭、办公室、学校或园区内。
 
-1. **Ping命令**  
-
-   ```bash
-   ping example.com  # 发送ICMP回显请求
-   ```
-
-2. **Traceroute命令**  
+### 3.1 核心特点 (Core Characteristics)
 
-   ```bash
-   traceroute example.com  # 在Linux/macOS中使用
-   tracert example.com    # 在Windows中使用
-   ```
-
-#### **注意事项**
-
-- **可靠性**：ICMP不保证消息的可靠传输，可能因网络拥塞或防火墙规则被丢弃。
-- **安全性**：某些网络环境会禁用ICMP（如限制Ping），导致诊断工具失效。
-- **替代方案**：若ICMP被屏蔽，可尝试使用TCP/UDP端口探测（如`telnet`或`nmap`）。
-
-如果需要更具体的操作示例或问题分析，可以进一步说明场景哦！ (^_^)
-
-## LAN
-
-### introduction
+1.  **覆盖范围**：通常在几公里以内（如家庭、一栋楼或一个园区）。
+2.  **高传输速率**：支持 10Mbps 至 10Gbps 甚至更高的传输速度（如光纤网络）。
+3.  **低延迟**：数据传输延迟较低，适合实时应用（如视频会议、在线游戏）。
+4.  **私有性**：多为私有网络，通过路由器或防火墙与外部网络（如互联网）隔离。
 
-LAN（Local Area Network，局域网）是一种覆盖范围较小的计算机网络，通常局限于家庭、办公室、学校或园区内。以下是关于LAN的关键信息：
+### 3.2 优势 (Advantages)
 
-**核心特点**
+1.  **成本效益**：使用共享资源（如打印机、存储设备）降低成本。
+2.  **易于管理**：集中化管理设备和用户权限。
+3.  **高安全性**：通过防火墙和访问控制列表（ACL）保护内部网络。
 
-1. **覆盖范围**  
-   - 通常在几公里以内（如家庭、一栋楼或一个园区）。
-2. **高传输速率**  
-   - 支持10Mbps至10Gbps甚至更高的传输速度（如光纤网络）。
-3. **低延迟**  
-   - 数据传输延迟较低，适合实时应用（如视频会议、在线游戏）。
-4. **私有性**  
-   - 多为私有网络，通过路由器或防火墙与外部网络（如互联网）隔离。
+### 3.3 LAN 的组成 (Components of LAN)
 
-**优势**
+1.  **硬件设备**：
+    *   **交换机/集线器**：连接多台设备，实现数据交换。
+    *   **路由器**：连接 LAN 与外部网络（如互联网），分配 IP 地址。
+    *   **网线/无线接入点（AP）**：提供有线或无线连接。
+    *   **终端设备**：计算机、手机、打印机、智能家居设备等。
+2.  **协议与技术**：
+    *   **以太网**：主流有线 LAN 技术（如 IEEE 802.3）。
+    *   **Wi-Fi**：无线 LAN 技术（如 IEEE 802.11a/b/g/n/ac/ax）。
+    *   **TCP/IP**：基础通信协议，负责 IP 地址分配和数据传输。
 
-1. **成本效益**
-   - 使用共享资源（如打印机、存储设备）降低成本。
-2. **易于管理**
-   - 集中化管理设备和用户权限。
-3. **高安全性**
-   - 通过防火墙和访问控制列表（ACL）保护内部网络。
+### 3.4 常见 LAN 类型 (Common LAN Types)
 
-**LAN的组成**
+1.  **家庭 LAN**：由无线路由器、电脑、手机、智能家电等组成，通过 DHCP 自动分配 IP 地址。
+2.  **企业 LAN**：采用分层架构（核心层、汇聚层、接入层），支持 VLAN 划分、QoS（服务质量）管理。
+3.  **无线 LAN (WLAN)**：通过无线 AP 覆盖区域，适合移动办公或临时网络搭建。
 
-1. **硬件设备**  
-   - **交换机/集线器**：连接多台设备，实现数据交换。
-   - **路由器**：连接LAN与外部网络（如互联网），分配IP地址。
-   - **网线/无线接入点（AP）**：提供有线或无线连接。
-   - **终端设备**：计算机、手机、打印机、智能家居设备等。
-2. **协议与技术**  
-   - **以太网**：主流有线LAN技术（如IEEE 802.3）。
-   - **Wi-Fi**：无线LAN技术（如IEEE 802.11a/b/g/n/ac/ax）。
-   - **TCP/IP**：基础通信协议，负责IP地址分配和数据传输。
+### 3.5 典型应用场景 (Typical Application Scenarios)
 
-**常见LAN类型**
+1.  **资源共享**：文件共享、打印机共享、存储设备共享。
+2.  **内部通信**：局域网内的即时通讯、视频会议。
+3.  **监控与控制**：智能家居设备控制、企业安防监控系统。
+4.  **高带宽应用**：流媒体传输、在线协作、云计算服务。
 
-1. **家庭LAN**  
-   - 由无线路由器、电脑、手机、智能家电等组成，通过DHCP自动分配IP地址。
-2. **企业LAN**  
-   - 采用分层架构（核心层、汇聚层、接入层），支持VLAN划分、QoS（服务质量）管理。
-3. **无线LAN（WLAN）**  
-   - 通过无线AP覆盖区域，适合移动办公或临时网络搭建。
+### 3.6 LAN 配置示例 (LAN Configuration Examples)
 
-**典型应用场景**
+1.  **家庭 LAN 设置**：
+    *   连接路由器，通过管理界面（如 `192.168.1.1`）配置 Wi-Fi 名称和密码。
+    *   启用 DHCP 功能，自动分配 IP 地址（如 `192.168.1.x`）。
+2.  **企业 LAN 配置**：
+    *   使用交换机划分 VLAN 隔离不同部门（如财务、研发）。
+    *   部署防火墙或 VPN 设备保障网络安全。
 
-1. **资源共享**  
-   - 文件共享、打印机共享、存储设备共享。
-2. **内部通信**  
-   - 局域网内的即时通讯、视频会议。
-3. **监控与控制**  
-   - 智能家居设备控制、企业安防监控系统。
-4. **高带宽应用**  
-   - 流媒体传输、在线协作、云计算服务。
+### 3.7 常见问题与解决 (Common Issues & Solutions)
 
-**LAN配置示例**
+1.  **IP 地址冲突**：手动分配静态 IP 或重启 DHCP 服务器。
+2.  **无线信号弱**：调整 AP 位置、更换高增益天线或添加信号放大器。
+3.  **网络延迟高**：检查带宽占用、优化路由策略或升级网络设备。
 
-1. **家庭LAN设置**  
-   - 连接路由器，通过管理界面（如`192.168.1.1`）配置Wi-Fi名称和密码。
-   - 启用DHCP功能，自动分配IP地址（如`192.168.1.x`）。
-2. **企业LAN配置**  
-   - 使用交换机划分VLAN隔离不同部门（如财务、研发）。
-   - 部署防火墙或VPN设备保障网络安全。
+### 3.8 限制 (Limitations)
 
-**常见问题与解决**
+1.  **覆盖范围有限**：仅适用于小范围区域，扩展到广域网（WAN）需要额外设备。
+2.  **依赖性高**：中心设备（如路由器或交换机）故障可能导致整个网络中断。
 
-1. **IP地址冲突**  
-   - 手动分配静态IP或重启DHCP服务器。
-2. **无线信号弱**  
-   - 调整AP位置、更换高增益天线或添加信号放大器。
-3. **网络延迟高**  
-   - 检查带宽占用、优化路由策略或升级网络设备。
+### 3.9 相关工具与命令 (Related Tools & Commands)
 
-**限制**
+1.  **Windows**：
+    *   `ipconfig`：查看 IP 地址和网络配置。
+    *   `ping`：测试设备连通性（如 `ping 192.168.1.1`）。
+    *   `arp -a`：查看局域网内的 MAC 地址与 IP 映射。
+2.  **Linux/macOS**：
+    *   `ifconfig` 或 `ip addr`：查看网络接口信息。
+    *   `traceroute`：追踪数据包路径。
+    *   `nmap`：扫描局域网内的活动设备（如 `nmap -sn 192.168.1.0/24`）。
 
-1. 覆盖范围有限
-   - 仅适用于小范围区域，扩展到广域网（WAN）需要额外设备。
-2. 依赖性高
-   - 中心设备（如路由器或交换机）故障可能导致整个网络中断。
+### 3.10 LAN 拓扑 (LAN Topology)
 
-**相关工具与命令**
+常见的 LAN 拓扑类型包括：
+*   环形拓扑 (Ring Topology)
+*   总线拓扑 (Bus Topology)
+*   星形拓扑 (Star Topology)
+
+#### 3.10.1 交换机 (Switch) 和 路由器 (Router)
+
+**交换机 (Switch)**：
+*   **定义**：网络中用于聚合多个设备（如计算机、打印机）的专用设备，通过以太网连接。
+*   **端口**：通常有 4, 8, 16, 24, 32, 64 等多种端口数量，适用于大型网络。
+*   **效率**：比集线器（Hubs/Repeaters）更高效，交换机记录连接到哪个端口的设备，收到数据包后直接发送给目标设备，从而减少网络流量。
+[Image: Switch and Router comparison diagram]
+
+**路由器 (Router)**：
+*   **定义**：连接不同网络并在它们之间传递数据的设备，通过“路由”实现。
+*   **路由 (Routing)**：数据在网络间传输的过程，涉及在网络之间创建路径以成功传递数据。
+*   **职责**：创建网络间的路径，使数据能够成功传输。
+
+#### 3.10.2 交换机 (Switch) 和 路由器 (Router) 区别
+
+路由器和交换机是网络中常见的设备，但功能和用途有明显区别：
+
+| 对比项    | 路由器 (Router)                   | 交换机 (Switch)                     |
+| :-------- | :-------------------------------- | :---------------------------------- |
+| **功能**  | 连接不同网络（如局域网到互联网）；分配 IP 地址（DHCP）；支持 NAT；具备防火墙、VPN、QoS 等高级功能。 | 连接同一局域网内的多台设备；快速转发数据帧；扩展网络端口数量，提升局域网内数据传输效率。 |
+| **工作层次** | 网络层（OSI 第三层），基于 IP 地址转发数据。 | 数据链路层（OSI 第二层），基于 MAC 地址转发数据。 |
+| **应用场景** | 家庭/企业网络接入互联网；跨网络通信；需要网络安全或高级管理功能时。 | 扩展局域网内设备连接；需要高速内网传输；无需连接外网的场景。 |
+| **连接方式** | 通常连接广域网（如光纤、ADSL）和局域网。 | 直接连接同一局域网内的设备，或级联到路由器扩展端口。 |
+| **安全性** | 可设置防火墙、访问控制列表（ACL），保护内网安全。 | 默认无安全功能，需配合路由器或单独配置。       |
+
+**总结选择建议**：
+*   **家庭用户**：通常只需路由器（带交换功能）即可满足上网和设备连接需求。
+*   **企业/大型网络**：路由器负责连接外网和核心管理，交换机负责扩展内网端口和高速传输。
+*   **特殊需求**：如高速内网传输、视频监控等，可额外添加交换机。
+
+### 3.11 子网划分 (Subnetting)
+
+子网划分是将一个网络划分为更小的、内部的微型网络的过程。这类似于将一个蛋糕切片分给朋友，决定谁获得哪一片并预留该片。
+*   **实现方式**：通过划分网络中可容纳的主机数量来完成，由“子网掩码”表示。
+*   **子网掩码**：也由四个字节（32 位）组成，范围从 0 到 255。
+[Image: IP address and subnet mask example]
+
+子网使用 IP 地址的方式有三种：
+
+| 类型           | 目的                             | 解释                                                         | 示例          |
+| :------------- | :------------------------------- | :----------------------------------------------------------- | :------------ |
+| **网络地址**   | 识别实际网络的起始点，用于标识网络的物理存在。 | 例如，IP 地址为 `192.168.1.100` 的设备将位于 `192.168.1.0` 标识的网络上。 | `192.168.1.0` |
+| **主机地址**   | 用于识别子网上的设备。                 | 例如，一个设备的网络地址可能是 `192.168.1.1`。              | `192.168.1.100` |
+| **默认网关**   | 分配给网络上能够将信息发送到另一个网络的设备的特殊地址。 | 任何需要发送到不在同一网络（例如不在 `192.168.1.0`）的设备的数据都将发送到此设备。这些设备可以使用任何主机地址，但通常使用网络中的第一个或最后一个主机地址（`.1` 或 `.254`）。 | `192.168.1.254` |
+
+### 3.12 地址解析协议 (ARP - Address Resolution Protocol)
+
+地址解析协议（ARP）负责查找与特定 IP 地址相关的 MAC（硬件）地址。
+
+*   **功能**：允许设备在网络上识别自身，将 MAC 地址与 IP 地址关联。
+*   **工作原理**：
+    *   设备维护一个 ARP 缓存，存储网络上其他设备的 MAC 地址与 IP 地址的映射。
+    *   通过发送两种类型的消息：
+        *   **ARP 请求 (ARP Request)**：向网络广播消息，询问“哪个 MAC 地址拥有此 IP 地址？”
+        *   **ARP 响应 (ARP Reply)**：拥有该 IP 地址的设备会回应其 MAC 地址。
+    *   请求设备会将此映射存储在 ARP 缓存中以备将来使用。
+[Image: ARP process diagram]
+
+### 3.13 动态主机配置协议 (DHCP - Dynamic Host Configuration Protocol)
+
+IP 地址可以通过手动输入或自动分配（最常见的是通过 DHCP 服务器）进行配置。
+*   **工作流程 (DORA Process)**：
+    1.  **DHCP Discover (发现)**：当设备连接到网络时，如果尚未手动分配 IP 地址，它会发送请求以查看网络上是否有 DHCP 服务器。
+    2.  **DHCP Offer (提供)**：DHCP 服务器回复一个设备可以使用的 IP 地址。
+    3.  **DHCP Request (请求)**：设备发送回复，确认它想要提供的 IP 地址。
+    4.  **DHCP ACK (确认)**：DHCP 服务器发送回复，确认此过程已完成，设备可以开始使用该 IP 地址。
+[Image: DHCP DORA process diagram]
+
+## 4. OSI 模型 (OSI Model - Open Systems Interconnection Model)
+
+OSI 模型（Open Systems Interconnection Model）是一个重要的网络模型，它提供了一个框架，规定了所有联网设备如何发送、接收和解释数据。
+*   **主要优势**：设备可以在网络上拥有不同的功能和设计，同时与其他设备通信，确保数据遵循 OSI 模型的一致性，从而被其他设备理解。
+*   **封装 (Encapsulation)**：数据在每一层传输时，都会发生特定的处理，并向数据添加信息。
+[Image: OSI 7-layer model diagram]
+[Image: OSI model layers with descriptions]
+
+OSI 模型是一个分层的网络架构模型，用于描述计算机网络通信的各个阶段。它分为七个层级，每一层都有特定的功能，从而使网络设备和系统之间能够标准化通信。这七层从上到下是：
+
+### 4.1 物理层 (Physical Layer - Layer 1)
+
+*   **定义**：处理设备之间的物理连接，包括介质（如电缆）以及二进制数字 0 和 1 的定义。
+*   **数据传输**：可以通过电气、光学或无线信号传输。需要数据线缆或天线。
+*   **示例介质**：以太网电缆、光纤电缆、Wi-Fi 无线频段（2.4 GHz, 5 GHz, 6 GHz）。
+[Image: Ethernet cable connection]
+
+### 4.2 数据链路层 (Data Link Layer - Layer 2)
+
+*   **定义**：在同一网络段上实现节点之间数据传输的协议。描述了同一网络段上不同系统之间如何通信的约定。
+*   **网络段 (Network Segment)**：指一组使用共享介质或信道进行信息传输的联网设备（例如，连接到网络交换机的十台计算机）。
+*   **协议示例**：以太网（IEEE 802.3）、Wi-Fi（IEEE 802.11）。
+*   **地址**：使用六字节的 MAC (Media Access Control) 地址。通常以十六进制格式表示，每两字节由冒号分隔。最左边的三字节标识厂商。
+[Image: Data Link Layer concept]
+*   **帧结构**：在真实的以太网或 Wi-Fi 网络通信中，每个帧中包含两个 MAC 地址：
+    *   目标数据链路地址 (MAC 地址)
+    *   源数据链路地址 (MAC 地址)
+    *   其余部分是传输的数据。
+[Image: Packet at Layer 2 showing MAC addresses]
+*   **物理寻址**：数据链路层关注传输的物理寻址。它从网络层接收数据包（包括远程计算机的 IP 地址），并添加接收端点的物理 MAC 地址。
+*   **网卡 (NIC)**：每台启用网络的计算机都有一张网络接口卡 (NIC)，它带有一个唯一的 MAC 地址来标识自身。MAC 地址由制造商设定并烧录到卡中，无法更改（但可以被欺骗）。
+*   **数据格式**：数据链路层还负责将数据以适合传输的格式呈现。
+
+### 4.3 网络层 (Network Layer - Layer 3)
+
+*   **定义**：处理不同网络之间的数据传输，负责逻辑寻址和路由（即找到在不同网络之间传输网络数据包的路径）。
+*   **协议示例**：互联网协议 (IP)、互联网控制消息协议 (ICMP)、VPN 协议（如 IPSec 和 SSL/TLS VPN）。
+*   **路由**：确定数据块应发送的最优路径。影响路径选择的因素包括：
+    *   **最短路径**：数据包需要跨越的设备数量最少。
+    *   **最可靠路径**：该路径之前是否发生过数据包丢失。
+    *   **更快物理连接**：路径使用铜缆连接（较慢）还是光纤连接（更快）。
+*   **IP 地址**：在此层，所有通信都通过 IP 地址处理，例如 `192.168.1.100`。
+*   **Layer 3 设备**：能够使用 IP 地址传递数据包的设备（如路由器）被称为 Layer 3 设备。
+[Image: Network Layer concept]
+
+### 4.4 传输层 (Transport Layer - Layer 4)
+
+*   **定义**：实现不同主机上运行的应用程序之间的端到端通信。支持流量控制、分段和纠错等功能。
+*   **主要协议**：TCP (Transmission Control Protocol) 和 UDP (User Datagram Protocol)。
+
+#### 4.4.1 TCP (Transmission Control Protocol)
+
+*   **特点**：面向连接的协议，需要 TCP 三次握手来建立连接。提供可靠的数据传输、流量控制和拥塞控制。
+*   **可靠性**：保证数据能够被接收，并通过错误检查确保数据以正确的顺序被接收和重组。
+*   **优点**：
+    *   保证数据的准确性。
+    *   能够同步两个设备，防止彼此被数据淹没。
+    *   执行更多过程以提高可靠性。
+*   **缺点**：
+    *   需要在两个设备之间建立可靠连接。如果一小块数据未被接收，则整个数据块无法使用。
+    *   慢速连接可能成为另一个设备的瓶颈，因为连接会一直保留在接收计算机上。
+    *   比 UDP 慢得多，因为使用此协议的设备需要做更多工作。
+*   **用途**：文件共享、互联网浏览、发送电子邮件等需要数据准确和完整的场景。
+[Image: TCP data reconstruction example]
+
+#### 4.4.2 UDP (User Datagram Protocol)
+
+*   **特点**：无连接协议，不需要建立连接。不提供错误检查和可靠性保证。
+*   **特性**：任何通过 UDP 发送的数据都会被发送到计算机，无论其是否到达。没有同步或保证。
+*   **优点**：
+    *   比 TCP 快得多。
+    *   将如何控制数据包发送速度的决定权留给应用层（用户软件），灵活性高。
+    *   不像 TCP 那样在设备上保留持续连接。
+*   **缺点**：
+    *   不关心数据是否被接收。
+    *   不稳定连接会导致用户体验极差。
+*   **用途**：用于传输小块数据（如设备发现协议 ARP 和 DHCP），或可容忍数据丢失的大文件（如视频流，部分像素丢失可接受）。
+[Image: UDP data loss example]
+
+### 4.5 会话层 (Session Layer - Layer 5)
+
+*   **定义**：负责建立、维护和同步运行在不同主机上的应用程序之间的通信会话。
+*   **会话创建**：建立连接意味着启动应用程序之间的通信并协商会话的必要参数。
+*   **数据同步**：确保数据以正确的顺序传输，并提供传输失败时的恢复机制。
+*   **功能**：创建和维护与其他计算机的连接。连接活跃时，会话也活跃。
+*   **关闭连接**：负责在连接长时间未使用或丢失时关闭连接。
+*   **检查点 (Checkpoints)**：会话可以包含“检查点”，如果数据丢失，只需重新发送最新的数据块，从而节省带宽。
+*   **唯一性**：会话是唯一的，数据只能在各自的会话中传输。
+*   **协议示例**：网络文件系统 (NFS) 和远程过程调用 (RPC)。
+
+### 4.6 表示层 (Presentation Layer - Layer 6)
+
+*   **定义**：确保数据以应用层可以理解的形式传输。处理数据编码、压缩和加密。
+*   **标准化**：作为应用层数据的翻译器。接收计算机将理解以一种格式发送但最终目标是另一种格式的数据。
+*   **编码示例**：字符编码（如 ASCII 或 Unicode）。
+*   **标准示例**：JPEG、GIF、PNG 用于图像保存；MIME (Multipurpose Internet Mail Extensions) 用于在电子邮件中附加文件，它使用 7 位 ASCII 字符编码二进制文件。
+*   **安全性**：数据加密（如访问安全站点时的 HTTPS）发生在此层。
+
+### 4.7 应用层 (Application Layer - Layer 7)
+
+*   **定义**：直接为终端用户应用程序提供网络服务。
+*   **熟悉度**：这是用户最熟悉的层，因为它包含确定用户如何与发送或接收的数据交互的协议和规则。
+*   **用户界面**：电子邮件客户端、浏览器或文件服务器浏览软件（如 FileZilla）等日常应用程序提供友好的图形用户界面（GUI）供用户与数据交互。
+*   **协议示例**：HTTP, FTP, DNS, POP3, SMTP, IMAP。其中 DNS (Domain Name System) 将网站地址转换为 IP 地址。
+
+## 5. 数据包 (Packets) 与 帧 (Frames)
+
+### 5.1 简介 (Introduction)
+
+数据包（Packets）和帧（Frames）都是小块数据，它们组合起来形成更大的信息或消息，但在 OSI 模型中代表不同的事物。
+*   **帧 (Frame)**：位于 OSI 模型第 2 层（数据链路层），不包含 IP 地址信息。
+*   **数据包 (Packet)**：包含 IP 地址信息，位于网络层（第 3 层）。
+*   **封装 (Encapsulation)**：数据在 OSI 模型中从上层向下层传输时，每层都会添加自己的控制信息（如头部），这个过程称为封装。剥离这些封装信息的过程称为解封装。
+*   **效率**：数据以小块形式交换，减少网络拥塞的可能性，提高效率。例如，从网站加载图像时，图像被分割成小块，在计算机上重建。
+[Image: Image loading via packets]
+*   **标准化**：数据包具有不同的结构，取决于所发送的数据包类型。网络中充满了协议和标准，它们是设备如何处理数据包的一套规则，确保了互联网上数十亿设备间的兼容性。
+
+### 5.2 常见数据包头部 (Common Packet Headers)
+
+以 IP 协议数据包为例，其头部包含以下关键信息：
+
+| 头部         | 描述                                                         |
+| :----------- | :----------------------------------------------------------- |
+| **生存时间 (Time to Live - TTL)** | 设置数据包的过期计时器，防止数据包无法到达主机或逃逸而阻塞网络。 |
+| **校验和 (Checksum)** | 为 TCP/IP 等协议提供完整性检查。如果数据发生任何更改，此值将与预期值不同，从而表明数据已损坏。 |
+| **源地址 (Source Address)** | 发送数据包的设备的 IP 地址，以便数据知道返回何处。         |
+| **目标地址 (Destination Address)** | 数据包要发送到的设备的 IP 地址，以便数据知道下一步要传输到何处。 |
+
+### 5.3 TCP (Transmission Control Protocol)
+
+TCP（传输控制协议）是网络中使用的另一套规则。
+*   **TCP/IP 协议栈**：由四层组成，可视为 OSI 模型的简化版：
+    *   应用层 (Application)
+    *   传输层 (Transport)
+    *   互联网层 (Internet)
+    *   网络接口层 (Network Interface)
+*   **封装/解封装**：信息在 TCP 模型的每一层都会被添加到数据包中，这个过程是封装；反之是解封装。
+*   **面向连接**：TCP 是面向连接的协议，数据发送前必须在客户端和服务器之间建立连接。
+*   **数据保证**：TCP 保证任何发送的数据都会在另一端被接收。
+*   **优势与劣势**：
+
+| TCP 优点           | TCP 缺点                                                       |
+| :----------------- | :------------------------------------------------------------- |
+| 保证数据准确性。   | 需要设备间可靠连接。若小块数据未收到，则整个数据块无法使用。     |
+| 能够同步两设备，防止数据泛滥。 | 慢速连接可能导致瓶颈，因连接会持续保留在接收计算机上。     |
+| 为可靠性执行更多处理。 | 比 UDP 慢得多，因使用此协议的设备需要做更多工作。             |
+
+#### 5.3.1 TCP 数据包头部 (TCP Packet Headers)
+
+TCP 数据包包含各种信息段，称为头部：
+
+| 头部               | 描述                                                         |
+| :----------------- | :----------------------------------------------------------- |
+| **源端口 (Source Port)** | 发送方打开的端口值，用于发送 TCP 数据包。该值是随机选择的（从 0-65535 中未被占用的端口）。 |
+| **目标端口 (Destination Port)** | 远程主机上运行的应用程序或服务的端口号（例如，Web 服务器运行在 80 端口）。与源端口不同，此值并非随机选择。 |
+| **源 IP (Source IP)** | 发送数据包的设备的 IP 地址。                               |
+| **目标 IP (Destination IP)** | 数据包要发送到的设备的 IP 地址。                             |
+| **序列号 (Sequence Number)** | 连接发生时，传输的第一块数据会获得一个随机数。               |
+| **确认号 (Acknowledgement Number)** | 在一块数据获得序列号后，下一块数据的编号将是序列号 + 1。   |
+| **校验和 (Checksum)** | 赋予 TCP 完整性的值。进行数学计算并记住输出。如果接收设备执行计算后输出与发送值不同，则数据可能已损坏。 |
+| **数据 (Data)**    | 存储被传输文件的字节数据。                                   |
+| **标志 (Flag)**    | 决定握手过程中数据包应如何被设备处理。特定的标志将决定特定的行为。 |
+
+#### 5.3.2 三次握手 (The Three-way Handshake)
+
+三次握手是建立两个设备之间连接的过程。它使用几个特殊消息：
+
+| 步骤 | 消息     | 描述                                                         |
+| :--- | :------- | :----------------------------------------------------------- |
+| 1    | **SYN**  | 客户端在握手期间发送的初始数据包，用于启动连接并同步两个设备。 |
+| 2    | **SYN/ACK** | 接收设备（服务器）发送此数据包以确认客户端的同步尝试。       |
+| 3    | **ACK**  | 客户端或服务器均可使用此确认数据包，以确认一系列消息/数据包已成功接收。 |
+| 4    | **DATA** | 一旦建立连接，数据（如文件的字节）通过“DATA”消息发送。     |
+| 5    | **FIN**  | 此数据包用于在连接完成后“干净地”关闭连接。                   |
+| #    | **RST**  | 此数据包突然终止所有通信。这是最后的手段，表明过程中存在问题。例如，服务或应用程序无法正常工作，或系统存在资源不足等故障。 |
+[Image: Three-way handshake diagram]
+
+任何发送的数据都会获得一个随机序列号，并使用此序列号和递增 1 来重建。两台计算机必须就相同的序列号达成一致，数据才能以正确的顺序发送。此顺序在三个步骤中达成一致：
+1.  **SYN - 客户端**：这是我的初始序列号 (ISN) 用于同步 (0)。
+2.  **SYN/ACK - 服务器**：这是我的初始序列号 (ISN) 用于同步 (5,000)，我确认你的初始序列号 (0)。
+3.  **ACK - 客户端**：我确认你的初始序列号 (ISN) 为 (5,000)，这是我的 ISN+1 (0 + 1) 的一些数据。
+
+| 设备       | 初始序列号 (ISN) | 最终序列号   |
+| :--------- | :--------------- | :----------- |
+| 客户端 (Sender) | 0                | 0 + 1 = 1    |
+| 客户端 (Sender) | 1                | 1 + 1 = 2    |
+| 客户端 (Sender) | 2                | 2 + 1 = 3    |
+
+#### 5.3.3 TCP 连接关闭 (TCP Closing a Connection)
+
+一旦设备确定对方设备已成功接收所有数据，TCP 将关闭连接。由于 TCP 会占用设备上的系统资源，因此最佳实践是尽快关闭 TCP 连接。
+*   **关闭流程**：
+    1.  设备向另一设备发送一个“FIN”数据包，以启动 TCP 连接的关闭。
+    2.  另一设备必须确认此数据包。
+[Image: TCP closing connection diagram]
+
+### 5.4 UDP (User Datagram Protocol)
+
+UDP（用户数据报协议）是另一种用于设备之间通信数据的协议。
+*   **特点**：无状态协议，不需要在两个设备之间保持持续连接才能发送数据。不进行三次握手，也没有设备间的同步。
+*   **用途**：适用于应用程序可以容忍数据丢失的情况（如视频流或语音聊天），或不稳定连接不是最终问题的情况。
+*   **优势与劣势**：
+
+| UDP 优点       | UDP 缺点                                |
+| :------------- | :-------------------------------------- |
+| 比 TCP 快得多。  | 不关心数据是否被接收。                    |
+| 将数据包发送速度的控制权留给应用程序。 | 灵活性高，但稳定性差。                  |
+| 不像 TCP 那样在设备上保留持续连接。 | 不稳定连接会导致用户体验极差。            |
+
+*   **无保障**：在建立两个设备之间的连接时，不进行任何处理。这意味着不考虑数据是否被接收，也没有 TCP 提供的数据完整性等保障措施。
+
+#### 5.4.1 UDP 数据包头部 (UDP Packet Headers)
+
+UDP 数据包比 TCP 数据包简单得多，头部更少。然而，两者共享一些标准头部：
+
+| 头部         | 描述                                                         |
+| :----------- | :----------------------------------------------------------- |
+| **生存时间 (Time to Live - TTL)** | 设置数据包的过期计时器，防止数据包无法到达主机或逃逸而阻塞网络。 |
+| **源地址 (Source Address)** | 发送数据包的设备的 IP 地址，以便数据知道返回何处。         |
+| **目标地址 (Destination Address)** | 数据包要发送到的设备的 IP 地址，以便数据知道下一步要传输到何处。 |
+| **源端口 (Source Port)** | 发送方打开的端口值，用于发送 UDP 数据包。该值是随机选择的（从 0-65535 中未被占用的端口）。 |
+| **目标端口 (Destination Port)** | 远程主机上运行的应用程序或服务的端口号（例如，Web 服务器运行在 80 端口）。与源端口不同，此值并非随机选择。 |
+| **数据 (Data)**    | 存储被传输文件的字节数据。                                   |
+
+#### 5.4.2 UDP 连接 (UDP Connection)
+
+UDP 是无状态的，连接期间不发送确认。
+[Image: UDP connection diagram]
+
+### 5.5 端口 101 (Ports 101)
+
+端口是数据交换的重要点。它们是介于 0 和 65535 之间的数值。
+*   **作用**：强制执行通信规则，确保应用程序通过标准化的方式接收和发送数据。
+*   **标准化**：应用程序、软件和行为通常与一套标准规则相关联。例如，所有 Web 浏览器数据都通过 80 端口发送，使软件开发人员能够以相同的方式解释数据。
+*   **常用端口 (Common Ports)**：0 到 1024 之间的任何端口被称为常用端口。
+
+| 协议                     | 端口号 | 描述                                                         |
+| :----------------------- | :----- | :----------------------------------------------------------- |
+| **文件传输协议 (FTP)**   | 21     | 用于基于客户端-服务器模型的文件共享应用程序，可以从中央位置下载文件。 |
+| **安全外壳协议 (SSH)**   | 22     | 用于通过基于文本的界面安全登录系统进行管理。                 |
+| **超文本传输协议 (HTTP)** | 80     | 支持万维网 (WWW)！浏览器使用它下载网页的文本、图像和视频。   |
+| **安全超文本传输协议 (HTTPS)** | 443 | 功能与 HTTP 相同，但通过加密提供安全传输。                   |
+| **服务器消息块 (SMB)**   | 445    | 类似于 FTP，但除了文件外，SMB 还允许共享打印机等设备。       |
+| **远程桌面协议 (RDP)**   | 3389   | 一种安全登录系统的方式，使用可视化桌面界面（与 SSH 的文本限制相对）。 |
+
+*   **注意事项**：这些协议仅遵循标准。可以配置应用程序在非标准端口上运行（例如在 8080 端口而不是 80 端口运行 Web 服务器）。但应用程序会假定遵循标准，因此需要提供**冒号（:）**以及端口号。
+
+## 6. 扩展网络 (Extending Your Network)
+
+### 6.1 端口转发简介 (Introduction to Port Forwarding)
+
+端口转发是将应用程序和服务连接到互联网的重要组成部分。如果没有端口转发，应用程序和服务（如 Web 服务器）只能供同一直接网络中的设备访问。
+*   **局域网访问 (Intranet)**：例如，IP 地址为“192.168.1.10”的服务器在 80 端口上运行 Web 服务器，只有同一网络中的其他两台计算机才能访问它（这被称为内部网）。
+[Image: Intranet example]
+*   **互联网访问 (Internet)**：如果管理员希望网站对公众（使用互联网）可访问，他们必须实施端口转发。
+[Image: Port forwarding example]
+*   **配置**：端口转发在网络的路由器上配置。
+*   **与防火墙的区别**：端口转发是开放特定端口；防火墙则决定流量是否可以通过这些端口（即使端口已通过端口转发开放）。
+
+### 6.2 防火墙 101 (Firewalls 101)
+
+防火墙是网络中的设备，负责确定允许哪些流量进入和退出。防火墙是网络的边界安全。管理员可以根据多种因素配置防火墙以**允许 (permit)** 或**拒绝 (deny)** 流量进入或退出网络，例如：
+*   流量来自哪里？（防火墙是否被告知接受/拒绝来自特定网络的流量？）
+*   流量去往哪里？（防火墙是否被告知接受/拒绝发送到特定网络的流量？）
+*   流量的端口是什么？（防火墙是否被告知只接受/拒绝发送到 80 端口的流量？）
+*   流量使用的协议是什么？（防火墙是否被告知接受/拒绝 UDP、TCP 或两者兼有的流量？）
+
+防火墙通过执行数据包检查来确定这些问题的答案。
+*   **类型**：防火墙形式多样，从专用硬件到住宅路由器或软件（如 Snort），可分为 2 到 5 类。
+
+#### 6.2.1 防火墙类别 (Firewall Categories)
+
+| 防火墙类别   | 描述                                                         |
+| :----------- | :----------------------------------------------------------- |
+| **有状态防火墙 (Stateful)** | 使用连接的全部信息；不检查单个数据包，而是根据**整个连接**确定设备行为。<br>消耗的资源比无状态防火墙多，因为决策是动态的。例如，防火墙可能允许 TCP 握手的初始部分，但后来失败。<br>如果来自主机的连接不良，它将阻止整个设备。 |
+| **无状态防火墙 (Stateless)** | 使用一组静态规则来确定**单个数据包**是否可接受。例如，设备发送一个不良数据包并不一定意味着整个设备都被阻止。<br>虽然这些防火墙比替代品消耗的资源少得多，但它们更“笨”。例如，这些防火墙的有效性仅取决于其中定义的规则。如果规则不完全匹配，它就基本无用。<br>然而，当从一组主机接收大量流量（例如分布式拒绝服务攻击）时，这些防火墙非常有用。 |
+
+### 6.3 VPN 基础 (VPN Basics - Virtual Private Network)
+
+虚拟专用网络 (VPN) 是一种在两个网络之间创建安全“隧道”的方式。它允许位于不同网络的设备通过互联网安全地通信，创建一个专用路径。
+*   **隧道**：连接到此隧道内的设备形成自己的专用网络。
+[Image: VPN basics diagram]
+*   **优势**：
+
+| 优势         | 描述                                                         |
+| :----------- | :----------------------------------------------------------- |
+| **连接地理位置不同的网络。** | 例如，拥有多个办公室的企业会发现 VPN 很有用，因为这意味着可以从另一个办公室访问服务器/基础设施等资源。 |
+| **提供隐私。** | VPN 技术使用加密来保护数据。这意味着数据只能在发送方和接收方设备之间理解，从而使数据不易被嗅探。<br>这在没有加密的公共 Wi-Fi 场所非常有用，可以使用 VPN 保护流量不被他人查看。 |
+| **提供匿名性。** | 记者和活动家依赖 VPN 在言论自由受控的国家安全地报道全球问题。<br>通常，您的流量可以被 ISP 和其他中介查看，因此可以被跟踪。<br>VPN 提供的匿名程度仅取决于网络上其他设备如何尊重隐私。例如，记录所有数据/历史记录的 VPN 在这方面与不使用 VPN 基本相同。 |
+
+TryHackMe 使用 VPN 将您连接到其脆弱的机器，而无需直接在互联网上访问它们！这意味着：
+*   您可以安全地与机器交互。
+*   服务提供商（如 ISP）不会认为您正在攻击互联网上的另一台机器（这可能违反服务条款）。
+*   VPN 为 TryHackMe 提供安全性，因为脆弱的机器无法通过互联网访问。
+
+#### 6.3.1 VPN 技术 (VPN Technologies)
+
+| VPN 技术 | 描述                                                         |
+| :------- | :----------------------------------------------------------- |
+| **PPP**  | PPTP 使用此技术进行身份验证并提供数据加密。VPN 通过使用私钥和公钥证书工作（类似于 **SSH**）。私钥和证书必须匹配才能连接。<br>此技术本身无法离开网络（不可路由）。 |
+| **PPTP** | **点对点隧道协议 (Point-to-Point Tunneling Protocol)** 是一种允许 PPP 数据传输并离开网络的技术。<br>PPTP 设置非常简单，并且受大多数设备支持。然而，与替代方案相比，它的加密强度较弱。 |
+| **IPSec** | **互联网协议安全 (Internet Protocol Security)** 使用现有的互联网协议 (IP) 框架加密数据。<br>IPSec 设置难度较大；但如果成功，它具有强大的加密功能，并且也支持许多设备。 |
+
+### 6.4 局域网网络设备 (LAN Networking Devices)
+
+#### 6.4.1 什么是路由器？ (What is a Router?)
+
+*   **职责**：路由器的职责是连接网络并在它们之间传递数据，通过路由实现。
+*   **路由**：_是数据在网络间传输过程的标签。_ 路由涉及在网络之间创建路径，以便数据能够成功传输。
+*   **工作层次**：路由器在 OSI 模型的**第 3 层**运行。
+*   **功能**：通常具有交互式界面（如网站或控制台），允许管理员配置各种规则，如端口转发或防火墙。
+*   **最优路径**：当设备通过多条路径连接时，路由非常有用，它会选择最优路径。影响最优路径的因素包括：
+    *   最短路径？
+    *   最可靠路径？
+    *   哪个路径的介质更快（例如铜缆或光纤）？
+*   **注意**：路由器是专用设备，不执行与交换机相同的功能。
+[Image: Router routing example]
+
+#### 6.4.2 什么是交换机？ (What is a Switch?)
 
-1. **Windows**  
-   - `ipconfig`：查看IP地址和网络配置。
-   - `ping`：测试设备连通性（如`ping 192.168.1.1`）。
-   - `arp -a`：查看局域网内的MAC地址与IP映射。
-2. **Linux/macOS**  
-   - `ifconfig`或`ip addr`：查看网络接口信息。
-   - `traceroute`：追踪数据包路径。
-   - `nmap`：扫描局域网内的活动设备（如`nmap -sn 192.168.1.0/24`）。
+*   **职责**：交换机是专用的网络设备，负责提供连接多个设备的方式。可以通过以太网电缆连接许多设备（从 3 到 63 个）。
+*   **工作层次**：交换机可以在 OSI 模型的第 2 层和第 3 层运行。
+    *   **Layer 2 交换机**：将帧（已剥离 IP 协议，不再是数据包）转发到使用 MAC 地址连接的设备。它们仅负责将帧发送到正确的设备。
+    [Image: Layer 2 switch example]
+    *   **Layer 3 交换机**：比 Layer 2 交换机更复杂，可以执行路由器的一些职责。它们不仅将帧发送到设备（如 Layer 2），还使用 IP 协议将数据包路由到其他设备。
+*   **VLAN (Virtual Local Area Network)**：一种技术，允许网络中的特定设备进行虚拟分割。这意味着它们都可以受益于互联网连接等功能，但被视为独立的网络。这种网络隔离提供了安全性，因为它意味着可以设置规则来确定特定设备之间如何通信。
+[Image: VLAN example with departments]
+    *   在图中，销售部门和会计部门可以访问互联网，但无法相互通信（尽管它们连接到同一个交换机）。
 
-### LAN Topology
+---
 
-   Ring Topology
-   Bus Topology
-   Star Topology
+## 常见问题 (FAQ)
 
-#### Switch and Router
+### 网络基础
 
-**Switch**
+1.  **什么是网络？**
+    网络是相互连接的设备或事物，例如，由于共同兴趣而连接的朋友圈。
 
-> Switches are dedicated devices within a network that are designed to aggregate multiple other devices such as computers, printers, or any other networking-capable device using ethernet. These various devices plug into a switch's port. Switches are usually found in larger networks such as businesses, schools, or similar-sized networks, where there are many devices to connect to the network. Switches can connect a large number of devices by having ports of 4, 8, 16, 24, 32, and 64 for devices to plug into.
+2.  **设备在网络上如何识别？**
+    设备通过 IP 地址（用于在特定时间内识别主机）和 MAC 地址（类似于设备的序列号，是唯一的物理地址）进行识别。
 
-> Switches are much more efficient than their lesser counterpart (hubs/repeaters). Switches keep track of what device is connected to which port. This way, when they receive a packet, instead of repeating that packet to every port like a hub would do, it just sends it to the intended target, thus reducing network traffic.
+3.  **公共 IP 和私有 IP 有什么区别？**
+    公共 IP 是全球唯一的，可直接访问互联网；私有 IP 仅在本地网络内部使用，不可直接访问互联网，需通过 NAT 转换为公共 IP。
 
-**Router**
+4.  **如何查看我的 IP 地址？**
+    公共 IP 可以访问 `whatismyip.com` 或查看路由器管理界面；私有 IP 可以在设备的网络设置中查看（如 Windows 的“IP 配置”、手机的“Wi-Fi 详情”）。
 
-> It's a router's job to connect networks and pass data between them. It does this by using routing (hence the name router!).
+5.  **IPv6 相对于 IPv4 有哪些优势？**
+    IPv6 支持更多 IP 地址（高达 2^128），并由于采用了新方法而效率更高，解决了 IPv4 地址耗尽的问题。
 
-> Routing is the label given to the process of data travelling across networks. Routing involves creating a path between networks so that this data can be successfully delivered.
+6.  **MAC 地址的格式是什么？**
+    MAC 地址是十二个字符的十六进制数，由冒号分隔，例如 `a4:c3:f0:85:ac:2d`。前六个字符表示制造商，后六个是唯一编号。
 
-![switch and router](<assets/switch and router.png>)
+### ICMP 和网络诊断
 
-**Switch 和 Router 区别**
+7.  **Ping 工具的作用是什么？**
+    Ping 使用 ICMP 数据包来确定设备之间连接的性能，例如连接是否存在或是否可靠。
 
-路由器和交换机是网络中常见的设备，但功能和用途有明显区别，以下是它们的主要区别：
+8.  **ICMP 的主要功能有哪些？**
+    ICMP 的主要功能包括错误报告（如目标不可达）、诊断功能（如 Ping 和 Traceroute）以及网络信息查询。
 
-##### **1. 功能不同**
+9.  **ICMP 在网络诊断中如何应用？**
+    ICMP 用于验证主机是否可达（`ping` 命令）、追踪网络路径（`traceroute` 或 `tracert` 命令）以及定位故障（如通过目标不可达消息）。
 
-- **路由器**  
-  - 连接不同网络（如将家庭局域网连接到互联网）。  
-  - 分配IP地址（通过DHCP），实现多设备共享上网。  
-  - 支持NAT（网络地址转换），隐藏内部网络结构。  
-  - 具备防火墙、VPN、QoS（流量控制）等高级功能。
+### 局域网 (LAN)
 
-- **交换机**  
-  - 连接同一局域网内的多台设备（如电脑、打印机）。  
-  - 快速转发数据帧，实现设备间直接通信。  
-  - 扩展网络端口数量，提升局域网内数据传输效率。
+10. **什么是 LAN？**
+    LAN（Local Area Network）是覆盖范围较小的计算机网络，通常局限于家庭、办公室、学校或园区内。
 
-##### **2. 工作层次不同**
+11. **LAN 的核心特点有哪些？**
+    LAN 具有覆盖范围小、高传输速率、低延迟和私有性等特点。
 
-- **路由器**：工作在网络层（OSI第三层），基于IP地址转发数据。  
-- **交换机**：工作在数据链路层（OSI第二层），基于MAC地址转发数据。
+12. **家庭 LAN 通常由哪些设备组成？**
+    家庭 LAN 通常由无线路由器、电脑、手机、智能家电等组成，并通过 DHCP 自动分配 IP 地址。
 
-##### **3. 应用场景**
+13. **交换机和路由器的主要区别是什么？**
+    路由器连接不同网络并进行数据转发，工作在网络层（OSI 第 3 层）；交换机连接同一局域网内的多台设备，进行数据帧转发，工作在数据链路层（OSI 第 2 层）。
 
-- **路由器**  
-  - 家庭/企业网络接入互联网。  
-  - 跨网络通信（如不同楼层或分支之间）。  
-  - 需要网络安全或高级管理功能时。
+14. **子网划分的目的是什么？**
+    子网划分的目的是将一个大型网络分割成更小的、可管理的子网络，从而更有效地分配 IP 地址和管理网络流量。
 
-- **交换机**  
-  - 扩展局域网内设备连接（如办公室、网吧）。  
-  - 需要高速内网传输（如视频监控、文件共享）。  
-  - 无需连接外网的场景。
+15. **ARP (地址解析协议) 的作用是什么？**
+    ARP 负责查找与特定 IP 地址相关的 MAC 地址，允许设备在网络上将 MAC 地址与其 IP 地址关联起来。
 
-##### **4. 连接方式**
+16. **DHCP (动态主机配置协议) 的工作流程是怎样的？**
+    DHCP 通过 DORA (Discover, Offer, Request, ACK) 过程自动为设备分配 IP 地址，简化了网络配置。
 
-- **路由器**：通常连接广域网（如光纤、ADSL）和局域网。  
-- **交换机**：直接连接同一局域网内的设备，或级联到路由器扩展端口。
+### OSI 模型和协议
 
-##### **5. 安全性**
+17. **OSI 模型有哪七层？**
+    OSI 模型从上到下分为：应用层、表示层、会话层、传输层、网络层、数据链路层和物理层。
 
-- **路由器**：可设置防火墙、访问控制列表（ACL），保护内网安全。  
-- **交换机**：默认无安全功能，需配合路由器或单独配置。
+18. **TCP 和 UDP 的主要区别是什么？**
+    TCP 是面向连接的、可靠的协议，保证数据准确性和顺序，但速度较慢；UDP 是无连接的、不可靠的协议，速度快但可能丢包。
 
-##### **总结选择建议**
+19. **TCP 三次握手的作用是什么？**
+    TCP 三次握手是建立客户端和服务器之间可靠连接的过程，确保双方都准备好进行数据传输。
 
-- **家庭用户**：通常只需路由器（带交换功能）即可满足上网和设备连接需求。  
-- **企业/大型网络**：路由器负责连接外网和核心管理，交换机负责扩展内网端口和高速传输。  
-- **特殊需求**：如高速内网传输、视频监控等，可额外添加交换机。
+20. **端口 (Port) 在网络中有什么作用？**
+    端口是数据交换的重要点，通常是 0 到 65535 之间的数值。它们标准化了应用程序如何发送和接收数据，例如 HTTP 使用 80 端口，HTTPS 使用 443 端口。
 
-[OSI model](#osi) <a id="back2router"></a>
+### 网络扩展与安全
 
-### Subnetting 
+21. **什么是端口转发？**
+    端口转发允许外部网络（互联网）访问内部网络中的特定应用程序或服务，通过将公共 IP 地址和端口映射到内部设备的私有 IP 地址和端口实现。
 
-> As we've previously discussed throughout the module so far, Networks can be found in all shapes and sizes - ranging from small to large. Subnetting is the term given to splitting up a network into smaller, miniature networks within itself. Think of it as slicing up a cake for your friends. There's only a certain amount of cake to go around, but everybody wants a piece. Subnetting is you deciding who gets what slice & reserving such a slice of this metaphorical cake.
+22. **防火墙的主要作用是什么？**
+    防火墙是网络中的设备，负责根据预设规则（如来源、目的地、端口、协议）决定允许或拒绝哪些流量进入和退出网络。
 
-> Subnetting is achieved by splitting up the number of hosts that can fit within the network, represented by a number called a subnet mask.
-As we can recall, an IP address is made up of four sections called octets. The same goes for a subnet mask which is also represented as a number of four bytes (32 bits), ranging from 0 to 255 (0-255).
+23. **有状态防火墙和无状态防火墙有什么不同？**
+    有状态防火墙根据整个连接的信息进行决策，消耗资源多但更智能；无状态防火墙根据单个数据包的静态规则进行决策，资源消耗少但灵活性差。
 
-![alt text](assets/20250319_104847.png)
+24. **什么是 VPN？它有什么主要优势？**
+    VPN（虚拟专用网络）是一种在两个网络之间创建安全“隧道”的技术。其主要优势包括连接地理位置不同的网络、提供数据隐私（通过加密）和一定程度的匿名性。
 
-Subnets use IP addresses in three different ways
-- Identify the network addressIdentify the network address
-- Identify the host address
-- Identify the default gateway
-Let's split these three up to understa
+25. **VLAN 的作用是什么？**
+    VLAN（虚拟局域网）技术允许在同一个物理交换机上将设备逻辑地分割成不同的虚拟网络，从而提供网络隔离和安全性，即使它们连接到同一物理设备。
 
-| **Type**        | **Purpose**                                                  | **Explanation**                                              | **Example**   |
-| --------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------- |
-| Network Address | This address identifies the start of the actual network and is used to identify a network's existence. | For example, a device with the IP address of 192.168.1.100 will be on the network identified by 192.168.1.0 | 192.168.1.0   |
-| Host Address    | An IP address here is used to identify a device on the subnet | For example, a device will have the network address of 192.168.1.1 | 192.168.1.100 |
-| Default Gateway | The default gateway address is a special address assigned to a device on the network that is capable of sending information to another network | Any data that needs to go to a device that isn't on the same network (i.e. isn't on 192.168.1.0) will be sent to this device. These devices can use any host address but usually use either the first or last host address in a network (.1 or .254) | 192.168.1.254 |
-
-
-### ARP
-
-**Address Resolution Protocol (ARP)** is responsible for finding the MAC (hardware) address related to a specific IP address. It works by broadcasting an ARP query, "Who has this IP address? Tell me." And the response is of the form, "The IP address is at this MAC address."
-
-Recalling from our previous tasks that devices can have two identifiers: A MAC address and an IP address, the **Address Resolution Protocol** or ARP for short, is the technology that is responsible for allowing devices to identify themselves on a network.
-
-Simply, ARP allows a device to associate its MAC address with an IP address on the network. Each device on a network will keep a log of the MAC addresses associated with other devices.
-
-Each device within a network has a ledger to store information on, which is called a cache. In the context of ARP, this cache stores the identifiers of other devices on the network.
-
-In order to map these two identifiers together (IP address and MAC address), ARP sends two types of messages:
-
-- ARP Request
-- ARP Reply
-
-When an ARP request is sent, a message is broadcasted on the network to other devices asking, "What is the mac address that owns this IP address?" When the other devices receive that message, they will only respond if they own that IP address and will send an ARP reply with its MAC address. The requesting device can now remember this mapping and store it in its ARP cache for future use.
-
-This process is illustrated in the diagram below:
-
-![ARP](<assets/Address resolution protocol.png>)
-
-
-### DHCP
-
-> IP addresses can be assigned either manually, by entering them physically into a device, or automatically and most commonly by using a DHCP (Dynamic Host Configuration Protocol) server. When a device connects to a network, if it has not already been manually assigned an IP address, it sends out a request (DHCP Discover) to see if any DHCP servers are on the network. The DHCP server then replies back with an IP address the device could use (DHCP Offer). The device then sends a reply confirming it wants the offered IP Address (DHCP Request), and then lastly, the DHCP server sends a reply acknowledging this has been completed, and the device can start using the IP Address (DHCP ACK).
-
-![DHCP](<assets/Dynamic Host Configuration Protocol.png>)
-
-
-## OSI 
-
-[router](#back2router)
-
-![OSI model](<assets/OSI model.gif>)
-
-> The OSI model (or **Open Systems Interconnection Model**) is an essential model used in networking.  This critical model provides a framework dictating how all networked devices will send, receive and interpret data.
-
-> One of the main benefits of the OSI model is that devices can have different functions and designs on a network while communicating with other devices. Data sent across a network that follows the uniformity of the OSI model can be understood by other devices.
-
-> At every individual layer that data travels through, specific processes take place, and pieces of information are added to this data, which is what we'll come to discuss in the upcoming tasks within this room. However, for now, we only need to understand that this process is called encapsulation and what the OSI model looks like in the diagram below:
-
-![alt text](<assets/OSI 7.svg>)
-
-OSI（Open System Interconnect 开放式系统互联）模型是一个分层的网络架构模型，用于描述计算机网络通信的各个阶段。它分为七个层级，每一层都有特定的功能，从而使网络设备和系统之间能够标准化通信。这七层从上到下是：
-
-1. **物理层**（Physical Layer）：涉及网络硬件设备之间的物理连接，如电缆、信号和接口等。
-2. **数据链路层**（Data Link Layer）：处理物理地址（如MAC地址）并确保数据帧在物理介质上传输的正确性。
-3. **网络层**（Network Layer）：负责数据的路由和逻辑地址（如IP地址）的管理。
-4. **传输层**（Transport Layer）：确保数据的可靠传输，控制流量和纠错，常用协议有TCP和UDP。
-5. **会话层**（Session Layer）：管理和维护通信会话，包括建立、维护和终止连接。
-6. **表示层**（Presentation Layer）：负责数据的翻译、加密和压缩等操作。
-7. **应用层**（Application Layer）：提供直接为用户应用程序服务的接口，例如网页浏览器、电子邮件等。
-
-这个模型的意义在于提供了一个通用框架，使各种设备和网络可以互相兼容。
-
-### 1.physical
-
-> The physical layer, also referred to as layer 1, deals with the physical connection between devices; this includes the medium, such as a wire, and the definition of the binary digits 0 and 1. Data transmission can be via an electrical, optical, or wireless signal. Consequently, we need data cables or antennas, depending on our physical medium.
-
-> In addition to Ethernet cable, shown in the illustration below, and optical fibre cable, examples of the physical layer medium include the WiFi radio bands, the 2.4 GHz band, the 5 GHz band, and the 6 GHz band.
-
-<div align=left><img width = '400' src = './assets/20250411_092244.png'></div>
-
-
-### 2.Data link
-
-The physical layer defines a medium to transmit our signal. The data link layer, i.e., layer 2, represents the protocol that enables data transfer between nodes on the same network segment. Let’s put it in simpler terms. The data link layer describes an agreement between the different systems on the same network segment on how to communicate. A network segment refers to a group of networked devices using a shared medium or channel for information transfer. For example, consider a company office with ten computers connected to a network switch; that’s a network segment.
-
-Examples of layer 2 include Ethernet, i.e., 802.3, and WiFi, i.e., 802.11. Ethernet and WiFi addresses are six bytes. Their address is called a MAC address, where MAC stands for Media Access Control. They are usually expressed in hexadecimal format with a colon separating each two bytes. The three leftmost bytes identify the vendor.
-
-![Data Link Layer](<assets/Data Link Layer.svg>)
-
-We expect to see two MAC addresses in each frame in real network communication over Ethernet or WiFi. The packet in the screenshot below shows:
-
-- The destination data-link address (MAC address) highlighted in yellow
-- The source data link address (MAC address) is highlighted in blue
-- The remaining bits show the data being sent
-
-![packet layer2](<assets/packet layer2.png>)
-
-> The data link layer focuses on the physical addressing of the transmission. It receives a packet from the network layer (including the IP address for the remote computer) and adds in the physical MAC (Media Access Control) address of the receiving endpoint. Inside every network-enabled computer is a Network Interface Card (NIC) which comes with a unique MAC address to identify it.
-
-> MAC addresses are set by the manufacturer and literally burnt into the card; they can’t be changed – although they can be spoofed. When information is sent across a network, it’s actually the physical address that is used to identify where exactly to send the information.
-
-> Additionally, it’s also the job of the data link layer to present the data in a format suitable for transmission.
-
-### 3.network
-
-The data link layer focuses on sending data between two nodes on the same network segment. The network layer, i.e., layer 3, is concerned with sending data between different networks. In more technical terms, the network layer handles logical addressing and routing, i.e., finding a path to transfer the network packets between the diverse networks.
-
-Examples of the network layer include Internet Protocol (IP), Internet Control Message Protocol (ICMP), and Virtual Private Network (VPN) protocols such as IPSec and SSL/TLS VPN.
-
-> The third layer of the OSI model (network layer) is where the magic of routing & re-assembly of data takes place (from these small chunks to the larger chunk). Firstly, routing simply determines the most optimal path in which these chunks of data should be sent.
-
-> Whilst some protocols at this layer determine exactly what is the "optimal" path that data should take to reach a device, we should only know about their existence at this stage of the networking module. Briefly, these protocols include OSPF (Open Shortest Path First) and RIP (Routing Information Protocol). The factors that decide what route is taken is decided by the following:
- > - What path is the shortest? I.e. has the least amount of devices that the packet needs to travel across.
-
-> - What path is the most reliable? I.e. have packets been lost on that path before?
-
-> - Which path has the faster physical connection? I.e. is one path using a copper connection (slower) or a fibre (considerably faster)?
-
-> At this layer, everything is dealt with via IP addresses such as 192.168.1.100. Devices such as routers capable of delivering packets using IP addresses are known as Layer 3 devices — because they are capable of working at the third layer of the OSI model.
-
-
-![network layer](<assets/network layer.svg>)
-
-
-### 4.Transport
-
-Layer 4, the transport layer, enables end-to-end communication between running applications on different hosts. Your web browser is connected to the web server over the transport layer, which can support various functions like flow control, segmentation, and error correction.
-
-> Layer 4 of the OSI model plays a vital part in transmitting data across a network and can be a little bit difficult to grasp. When data is sent between devices, it follows one of two different protocols that are decided based upon several factors:
-> - TCP
-> 
-> Transmission Control Protocol (TCP) is a connection-oriented protocol requiring a TCP three-way-handshake to establish a connection. TCP provides reliable data transfer, flow control and congestion control. Higher-level protocols such as HTTP, POP3, IMAP and SMTP use TCP
-> - UDP 
->
-> User Datagram Protocol (UDP) is a connectionless protocol; UDP does not require a connection to be established. UDP is suitable for protocols that rely on fast queries, such as DNS, and for protocols that prioritise real-time communications, such as audio/video conferencing and broadcast.
-
-
-
-> Let's begin with TCP. The Transmission Control Protocol (TCP). Potentially hinted by the name, this protocol is designed with reliability and guarantee in mind. This protocol reserves a constant connection between the two devices for the amount of time it takes for the data to be sent and received.
-
-> Not only this, but TCP incorporates error checking into its design. Error checking is how TCP can guarantee that data sent from the small chunks in the session layer (layer 5) has then been received and reassembled in the same order.
-
-> Let's summarise the advantages and disadvantages of TCP in the table below:
-
-|                    **Advantages of TCP**                     |                   **Disadvantages of TCP**                   |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
-|               Guarantees the accuracy of data.               | Requires a reliable connection between the two devices. If one small chunk of data is not received, then the entire chunk of data cannot be used. |
-| Capable of synchronising two devices to prevent each other from being flooded with data. | A slow connection can bottleneck another device as the connection will be reserved on the receiving computer the whole time. |
-|        Performs a lot more processes for reliability.        | TCP is significantly slower than UDP because more work has to be done by the devices using this protocol. |
-
-> TCP is used for situations such as file sharing, internet browsing or sending an email. This usage is because these services require the data to be accurate and complete (no good having half a file!).
-
-> In the diagram below, we can see how a picture of a cat is broken down into small pieces of data (known as packets) from the "webserver", where the "computer" re-constructs the picture of the cat into the correct order.
-
-![trnasport_tcp](assets/trnasport_tcp.svg)
-
-> Now let's move onto the User Datagram Protocol (or UDP for short). This protocol is not nearly as advanced as its brother - the TCP protocol. It doesn't boast the many features offered by TCP, such as error checking and reliability. In fact, any data that gets sent via UDP is sent to the computer whether it gets there or not. There is no synchronisation between the two devices or guarantee; just hope for the best, and fingers crossed.
-
-> Whilst this sounds disadvantageous, it does have its merits, which we'll layout in the table below:
-
-|                    **Advantages of UDP**                     |                   **Disadvantages of UDP**                   |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
-|                 UDP is much faster than TCP.                 |          UDP doesn't care if the data is received.           |
-| UDP leaves the application layer (user software) to decide if there is any control over how quickly packets are sent. |  It is quite flexible to software developers in this sense.  |
-| UDP does not reserve a continuous connection on a device as TCP does. | This means that unstable connections result in a terrible experience for the user. |
-
-Using the same example as before, we can now see that only Packets #1 and #3 have been received by the "Computer", meaning that half of the image is missing.
-
-![tranport_udp](assets/tranport_udp.svg)
-
-> UDP is useful in situations where there are small pieces of data being sent. For example, protocols used for discovering devices (ARP and DHCP that we discussed in Intro to LAN) or larger files such as video streaming (where it is okay if some part of the video is pixelated. Pixels are just lost pieces of data!)
-
-### 5.Session
-
-The session layer is responsible for establishing, maintaining, and synchronising communication between applications running on different hosts. Establishing a session means initiating communication between applications and negotiating the necessary parameters for the session. Data synchronisation ensures that data is transmitted in the correct order and provides mechanisms for recovery in case of transmission failures.
-
-Examples of the session layer are Network File System (NFS) and Remote Procedure Call (RPC).
-
-> Once data has been correctly translated or formatted from the presentation layer (layer 6), the session layer (layer 5) will begin to create and maintain the connection to other computer for which the data is destined. When a connection is established, a session is created. Whilst this connection is active, so is the session.
-
-> The session layer is also responsible for closing the connection if it hasn't been used in a while or if it is lost. Additionally, a session can contain "checkpoints," where if the data is lost, only the newest pieces of data are required to be sent, saving bandwidth. 
-
-> What is worthy of noting is that sessions are unique — meaning that data cannot travel over different sessions, but in fact, only across each session instead.
-
-### 6.Presentation
-
-The presentation layer ensures the data is delivered in a form the application layer can understand. Layer 6 handles data encoding, compression, and encryption. An example of encoding is character encoding, such as ASCII or Unicode.
-
-Various standards are used at the presentation layer. Consider the scenario where we want to send an image via email. First, we use JPEG, GIF, and PNG to save our images; furthermore, although hidden from the user by the email client, we use MIME (Multipurpose Internet Mail Extensions) to attach the file to our email. MIME encodes a binary file using 7-bit ASCII characters.
-
-> Layer 6 of the OSI model is the layer in which standardisation starts to take place. Because software developers can develop any software such as an email client differently, the data still needs to be handled in the same way — no matter how the software works.
-
-> This layer acts as a translator for data to and from the application layer (layer 7). The receiving computer will also understand data sent to a computer in one format destined for in another format. For example, when you send an email, the other user may have another email client to you, but the contents of the email will still need to display the same.
-
-> Security features such as data encryption (like HTTPS when visiting a secure site) occur at this layer.
-
-### 7.Application
-
-The application layer provides network services directly to end-user applications. Your web browser would use the HTTP protocol to request a file, submit a form, or upload a file.
-
-The application layer is the top layer, and you might have encountered many of its protocols as you use different applications. Examples of Layer 7 protocols are HTTP, FTP, DNS, POP3, SMTP, and IMAP. Don’t worry if you are not familiar with all of them.
-
-> The application layer of the OSI model is the layer that you will be most familiar with. This familiarity is because the application layer is the layer in which protocols and rules are in place to determine how the user should interact with data sent or received.
-
-> Everyday applications such as email clients, browsers, or file server browsing software such as FileZilla provide a friendly, Graphical User Interface (GUI) for users to interact with data sent or received. Other protocols include DNS (Domain Name System), which is how website addresses are translated into IP addresses.
-
-
-## Packets & Frames
-
-### introduction
-
-> Packets and frames are small pieces of data that, when forming together, make a larger piece of information or message. However, they are two different things in the OSI model. A frame is at layer 2 - the data link layer, meaning there is no such information as IP addresses. Think of this as putting an envelope within an envelope and sending it away. The first envelope will be the packet that you mail, but once it is opened, the envelope within still exists and contains data (this is a frame).
-
-> This process is called encapsulation which we discussed in the [OSI model](#osi) . At this stage, it's safe to assume that when we are talking about anything IP addresses, we are talking about packets. When the encapsulating information is stripped away, we're talking about the frame itself.
-
-> Packets are an efficient way of communicating data across networked devices such as those explained in Task 1. Because this data is exchanged in small pieces, there is less chance of bottlenecking occurring across a network than large messages being sent at once.
-
-> For example, when loading an image from a website, this image is not sent to your computer as a whole, but rather small pieces where it is reconstructed on your computer. Take the image below as an illustration of this process. The cat's picture is divided into three packets, where it is reconstructed when it reaches the computer to form the final image.
-
-![loding image](<assets/loding image.gif>)
-
-> Packets have different structures that are dependant upon the type of packet that is being sent. As we'll come on to discuss, networking is full of standards and protocols that act as a set of rules for how the packet is handled on a device. With billions of devices connected on the internet, things can quickly break down if there is no standardisation.
-
-> Let's continue with our example of the Internet Protocol. A packet using this protocol will have a set of headers that contain additional pieces of information to the data that is being sent across a network.
-
-> Some notable headers include:
-
-
-|     **Header**      |                       **Description**                        |
-| :-----------------: | :----------------------------------------------------------: |
-|    Time to Live     | This field sets an expiry timer for the packet to not clog up your network if it never manages to reach a host or escape! |
-|      Checksum       | This field provides integrity checking for protocols such as TCP/IP. If any data is changed, this value will be different from what was expected and therefore corrupt. |
-|   Source Address    | The IP address of the device that the packet is being sent **from** so that data knows where to **return to**. |
-| Destination Address | The device's IP address the packet is being sent to so that data knows where to travel next. |
-
-### TCP
-
- <span style="font-size: 23px;">**TCP/IP(The Three-Way Handshake)**</span>
-
-> TCP (or Transmission Control Protocol for short) is another one of these rules used in networking.
-
-- 传输控制协议 （TCP） 是一种面向连接的协议，需要 TCP 三次握手来建立连接。TCP 提供可靠的数据传输、流量控制和拥塞控制。HTTP、POP3、IMAP 和 SMTP 等更高级别的协议使用 TCP
-
-> This protocol is very similar to the OSI model. The TCP/IP protocol consists of four layers and is arguably just a summarised version of the OSI model. These layers are:
-> - Application
-> - Transport
-> - Internet
-> - Network Interface
-
-> very similar to how the OSI model works, information is added to each layer of the TCP model as the piece of data (or packet) traverses it. As you may recall, this process is known as encapsulation - where the reverse of this process is decapsulation. 
-
-> One defining feature of TCP is that it is **connection-based**, which means that TCP must establish a connection between both a client and a device acting as a server **before** data is sent.
-
-> Because of this, TCP guarantees that any data sent will be received on the other end. This process is named the Three-way handshake, which is something we'll come on to discuss shortly. A table comparing the advantages and disadvantages of TCP is located below:
-
-|                    **Advantages of TCP**                     |                   **Disadvantages of TCP**                   |
-| :----------------------------------------------------------: | :----------------------------------------------------------: |
-|               Guarantees the accuracy of data.               | Requires a reliable connection between the two devices. If one small chunk of data is not received, then the entire chunk of data cannot be used. |
-| Capable of synchronising two devices to prevent each other from being flooded with data. | A slow connection can bottleneck another device as the connection will be reserved on the receiving computer the whole time. |
-|        Performs a lot more processes for reliability.        | TCP is significantly slower than UDP because more work has to be done by the devices using this protocol. |
-
-TCP packets contain various sections of information known as headers that are added from encapsulation. Let's explain some of the crucial headers in the table below:
-
-| Header             | Description                                                                                                                                                                                  |
-| :----------------: | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------: |
-| Source Port        | This value is the port opened by the sender to send the TCP packet from. This value is chosen randomly (out of the ports from 0-65535 that aren't already in use at the time).              |
-| Destination Port   | This value is the port number that an application or service is running on the remote host (the one receiving data); for example, a webserver running on port 80. Unlike the source port, this value is not chosen at random. |
-| Source IP          | This is the IP address of the device that is sending the packet.                                                                                                                              |
-| Destination IP     | This is the IP address of the device that the packet is destined for.                                                                                                                        |
-| Sequence Number    | When a connection occurs, the first piece of data transmitted is given a random number. We'll explain this more in-depth further on.                                                        |
-| Acknowledgement Number | After a piece of data has been given a sequence number, the number for the next piece of data will have the sequence number + 1. We'll also explain this more in-depth further on.         |
-| Checksum           | This value is what gives TCP integrity. A mathematical calculation is made where the output is remembered. When the receiving device performs the mathematical calculation, the data must be corrupt if the output is different from what was sent. |
-| Data               | This header is where the data, i.e. bytes of a file that is being transmitted, is stored.                                                                                                     |
-| Flag               | This header determines how the packet should be handled by either device during the handshake process. Specific flags will determine specific behaviours, which is what we'll come on to explain below. |
-
-Next, we'll come on to discuss the *Three-way handshake -* the term given for the process used to establish a connection between two devices. The Three-way handshake communicates using a few special messages - the table below highlights the main ones: 
-
-| Step | Message | Description |
-| :---: | :---: | --- |
-| 1 | SYN | A SYN message is the initial packet sent by a client during the handshake. This packet is used to initiate a connection and synchronise the two devices together (we'll explain this further later on). |
-| 2 | SYN/ACK | This packet is sent by the receiving device (server) to acknowledge the synchronisation attempt from the client. |
-| 3 | ACK | The acknowledgement packet can be used by either the client or server to acknowledge that a series of messages/packets have been successfully received. |
-| 4 | DATA | Once a connection has been established, data (such as bytes of a file) is sent via the "DATA" message. |
-| 5 | FIN | This packet is used to *cleanly (properly)* close the connection after it has been complete. |
-| # | RST | This packet abruptly ends all communication. This is the last resort and indicates there was some problem during the process. For example, if the service or application is not working correctly, or the system has faults such as low resources. | 
-
-The diagram below shows a normal Three-way handshake process between Alice and Bob. In real life, this would be between two devices.
-
-![Three-way handshake](<assets/Three-way handshake.svg>)
-
-Any sent data is given a random number sequence and is reconstructed using this number sequence and incrementing by 1. Both computers must agree on the same number sequence for data to be sent in the correct order. This order is agreed upon during three steps:
-
-1. SYN - Client: Here's my Initial Sequence Number(ISN) to SYNchronise with (0)
-2. SYN/ACK - Server: Here's my Initial Sequence Number (ISN) to SYNchronise with (5,000), and I ACKnowledge your initial number sequence (0)
-3. ACK - Client: I ACKnowledge your Initial Sequence Number (ISN) of (5,000), here is some data that is my ISN+1 (0 + 1)
-
-| Device           | Initial Number Sequence (ISN) | Final Number Sequence |
-| :--------------: | :---------------------------: | :-------------------: |
-| Client (Sender)  |               0               |       0 + 1 = 1       |
-| Client (Sender)  |               1               |       1 + 1 = 2       |
-| Client (Sender)  |               2               |       2 + 1 = 3       | 
-
-**TCP Closing a Connection:**
-
-Let's quickly explain the process behind TCP closing a connection. First, TCP will close a connection once a device has determined that the other device has successfully received all of the data.
-
-Because TCP reserves system resources on a device, it is best practice to close TCP connections as soon as possible.
-
-To initiate the closure of a TCP connection, the device will send a "FIN" packet to the other device. Of course, with TCP, the other device will also have to acknowledge this packet.
-
-Let's show this process using Alice and Bob as we have previously.
-
-![TCP Closing a Connection](<assets/TCP Closing a Connection.svg>)
-
-In the illustration, we can see that Alice has sent Bob a **"FIN"** packet. Because Bob received this, he will let Alice know that he received it and that he also wants to close the connection (using FIN). Alice has heard Bob loud and clear and will let Bob know that she acknowledges this.
-
-### UDP/IP
-
-The **User Datagram Protocol** (UDP) is another protocol that is used to communicate data between devices.
-
-用户数据报协议 （UDP） 是一种无连接协议;UDP 不需要建立连接。UDP 适用于依赖快速查询的协议 （如 DNS） 和优先考虑实时通信的协议 （如音频/视频会议和广播）。
-
-> Unlike its brother TCP, UDP is a **stateless** protocol that doesn't require a constant connection between the two devices for data to be sent. For example, the Three-way handshake does not occur, nor is there any synchronisation between the two devices.
-
-> Recall some of the comparisons made about these two protocols in "OSI Model". Namely, UDP is used in situations where applications can tolerate data being lost (such as video streaming or voice chat) or in scenarios where an unstable connection is not the end-all. A table comparing the advantages and disadvantages of UDP is located below:
-
-| **Advantages of UDP** | **Disadvantages of UDP** |
-| :---: | :---: |
-| UDP is much faster than TCP. | UDP doesn't care if the data is received or not. |
-| UDP leaves the application (user software) to decide if there is any control over how quickly packets are sent. | It is quite flexible to software developers in this sense. |
-| UDP does not reserve a continuous connection on a device as TCP does. | This means that unstable connections result in a terrible experience for the user. | 
-
-> As mentioned, no process takes place in setting up a connection between two devices. Meaning that there is no regard for whether or not data is received, and there are no safeguards such as those offered by TCP, such as data integrity.
-
-> UDP packets are much simpler than TCP packets and have fewer headers. However, both protocols share some standard headers, which are what is annotated in the table below:
-
-| Header | Description |
-| :---: | :---: |
-| Time to Live (TTL) | This field sets an expiry timer for the packet, so it doesn't clog up your network if it never manages to reach a host or escape! |
-| Source Address | The IP address of the device that the packet is being sent from, so that data knows where to return to. |
-| Destination Address | The device's IP address the packet is being sent to so that data knows where to travel next. |
-| Source Port | This value is the port that is opened by the sender to send the UDP packet from. This value is randomly chosen (out of the ports from 0-65535 that aren't already in use at the time). |
-| Destination Port | This value is the port number that an application or service is running on the remote host (the one receiving the data); for example, a webserver running on port 80. Unlike the source port, this value is not chosen at random. |
-| Data | This header is where data, i.e. bytes of a file that is being transmitted, is stored. | 
-
-> Next, we'll come on to discuss how the process of a connection via UDP differs from that of something such as TCP.  We should recall that UDP is **stateless**. No acknowledgement is sent during a connection.
-
-> The diagram below shows a normal UDP connection between Alice and Bob. In real life, this would be between two devices.
-
-![UDP connection](<assets/UDP connection.svg>)
-
-### Ports 101
-
-> Perhaps aptly titled by their name, ports are an essential point in which data can be exchanged. Think of a harbour and port. Ships wishing to dock at the harbour will have to go to a port compatible with the dimensions and the facilities located on the ship. When the ship lines up, it will connect to a port at the harbour. Take, for instance, that a cruise liner cannot dock at a port made for a fishing vessel and vice versa.
-
-> These ports enforce what can park and where — if it isn't compatible, it cannot park here. Networking devices also use ports to enforce strict rules when communicating with one another. When a connection has been established (recalling from the OSI model's room), any data sent or received by a device will be sent through these ports. In computing, ports are a numerical value between 0 and 65535 (65,535).
-
-> Because ports can range from anywhere between 0-65535, there quickly runs the risk of losing track of what application is using what port. A busy harbour is chaos! Thankfully, we associate applications, software and behaviours with a standard set of rules. For example, by enforcing that any web browser data is sent over port 80, software developers can design a web browser such as Google Chrome or Firefox to interpret the data the same way as one another.
-
-> This means that all web browsers now share one common rule: data is sent over port 80. How the browsers look, feel and easy to use is up to the designer or the user's decision.
-
-> While the standard rule for web data is port 80, a few other protocols have been allocated a standard rule. Any port that is within 0 and 1024 (1,024) is known as a common port. Let's explore some of these other protocols below:
-
-| Protocol | Port Number | Description |
-| :---: | :---: | :---: |
-| File Transfer Protocol (FTP) | 21 | This protocol is used by a file - sharing application built on a client - server model, meaning you can download files from a central location. |
-| Secure Shell (SSH) | 22 | This protocol is used to securely login to systems via a text - based interface for management. |
-| HyperText Transfer Protocol (HTTP) | 80 | This protocol powers the World Wide Web (WWW)! Your browser uses this to download text, images and videos of web pages. |
-| HyperText Transfer Protocol Secure (HTTPS) | 443 | This protocol does the exact same as above; however, securely using encryption. |
-| Server Message Block (SMB) | 445 | This protocol is similar to the File Transfer Protocol (FTP); however, as well as files, SMB allows you to share devices like printers. |
-| Remote Desktop Protocol (RDP) | 3389 | This protocol is a secure means of logging in to a system using a visual desktop interface (as opposed to the text - based limitations of the SSH protocol). | 
-
-> We have only briefly covered the more common protocols in cybersecurity. You can find a table of the 1024 common ports listed for more information.
-
-> What is worth noting here is that these protocols only follow the standards. I.e. you can administer applications that interact with these protocols on a different port other than what is the standard (running a web server on 8080 instead of the 80 standard port). Note, however, applications will presume that the standard is being followed, so you will have to provide a **colon （:）** along with the port number.
-
-
-## Extending Your Network
-
-### Introduction to Port Forwarding
-
-Port forwarding is an essential component in connecting applications and services to the Internet. Without port forwarding, applications and services such as web servers are only available to devices within the same direct network.
-
-Take the network below as an example. Within this network, the server with an IP address of "192.168.1.10" runs a webserver on port 80. Only the two other computers on this network will be able to access it (this is known as an intranet).
-
-![Intranet](assets/Intranet.svg)
-
-If the administrator wanted the website to be accessible to the public (using the Internet), they would have to implement port forwarding, like in the diagram below:
-
-![port forwarding](assets/port_forwarding.svg)
-
-With this design, Network #2 will now be able to access the webserver running on Network #1 using the public IP address of Network #1 (82.62.51.70).
-
-It is easy to confuse port forwarding with the behaviours of a firewall (a technology we'll come on to discuss in a later task). However, at this stage, just understand that port forwarding opens specific ports (recall how packets work). In comparison, firewalls determine if traffic can travel across these ports (even if these ports are open by port forwarding).
-
-Port forwarding is configured at the router of a network.
-
-### Firewalls 101
-
-> A firewall is a device within a network responsible for determining what traffic is allowed to enter and exit. Think of a firewall as border security for a network. An administrator can configure a firewall to **permit** or **deny** traffic from entering or exiting a network based on numerous factors such as:
-
-> Where the traffic is coming from? (has the firewall been told to accept/deny traffic from a specific network?)
-Where is the traffic going to? (has the firewall been told to accept/deny traffic destined for a specific network?)
-What port is the traffic for? (has the firewall been told to accept/deny traffic destined for port 80 only?)
-What protocol is the traffic using? (has the firewall been told to accept/deny traffic that is UDP, TCP or both?)
-Firewalls perform packet inspection to determine the answers to these questions.
-
-> Firewalls come in all shapes and sizes. From dedicated pieces of hardware (often found in large networks like businesses) that can handle a magnitude of data to residential routers (like at your home!) or software such as Snort, firewalls can be categorised into 2 to 5 categories.
-
-> We'll cover the two primary categories of firewalls in the table below:
-
-| Firewall Category | Description |
-| :-------------: | :-------------: |
-| Stateful | This type of firewall uses the entire information from a connection; rather than inspecting an individual packet, this firewall determines the behaviour of a device **based upon the entire connection**.<br><br>This firewall type consumes many resources in comparison to stateless firewalls as the decision making is dynamic. For example, a firewall could allow the first parts of a TCP handshake that would later fail.<br><br>If a connection from a host is bad, it will block the entire device. |
-| Stateless | This firewall type uses a static set of rules to determine whether or not **individual packets** are acceptable or not. For example, a device sending a bad packet will not necessarily mean that the entire device is then blocked.<br><br>Whilst these firewalls use much fewer resources than alternatives, they are much dumber. For example, these firewalls are only effective as the rules that are defined within them. If a rule is not exactly matched, it is effectively useless.<br><br>However, these firewalls are great when receiving large amounts of traffic from a set of hosts (such as a Distributed Denial - of - Service attack) | 
-
-### VPN Basics
-
-虚拟专用网络（VPN）是在两个网络之间创建安全 "隧道 "的一种方式。 例如，你可以在 TryHackMe 上使用 VPN 访问机器运行所在的专用网络。 VPN 也常用于员工不在现场（如在家工作或因公务出差）时登录工作场所。 VPN 还可用于网络（如咖啡店）不提供加密的地方，是防止他人读取你的网络流量的好方法。
-
-> A **Virtual Private Network** (or VPN for short) is a technology that allows devices on separate networks to communicate securely by creating a dedicated path between each other over the Internet (known as a tunnel). Devices connected within this tunnel form their own private network.
-
-> For example, only devices within the same network (such as within a business) can directly communicate. However, a VPN allows two offices to be connected. Let's take the diagram below, where there are three networks:
-
-![vpn basics](assets/vpn_basics.svg)
-
-1. Network #1 (Office #1)
-2. Network #2 (Office #2)
-3. Network #3 (Two devices connected via a VPN)
-
-The devices connected on Network #3 are still a part of Network #1 and Network #2 but also form together to create a private network (Network #3) that only devices that are connected via this VPN can communicate over.
-
-Let's cover some of the other benefits offered by a VPN in the table below:
-
-| Benefit | Description |
-| :---: | :---: |
-| Allows networks in different geographical locations to be connected. | For example, a business with multiple offices will find VPNs beneficial, as it means that resources like servers/infrastructure can be accessed from another office. |
-| Offers privacy. | VPN technology uses encryption to protect data. This means that it can only be understood between the devices it was being sent from and is destined for, meaning the data isn't vulnerable to sniffing.<br><br>This encryption is useful in places with public WiFi, where no encryption is provided by the network. You can use a VPN to protect your traffic from being viewed by other people. |
-| Offers anonymity. | Journalists and activists depend upon VPNs to safely report on global issues in countries where freedom of speech is controlled.<br><br>Usually, your traffic can be viewed by your ISP and other intermediaries and, therefore, tracked.<br><br>The level of anonymity a VPN provides is only as much as how other devices on the network respect privacy. For example, a VPN that logs all of your data/history is essentially the same as not using a VPN in this regard. | 
-
-TryHackMe uses a VPN to connect you to our vulnerable machines without making them directly accessible on the Internet! This means that:
-
-- You can securely interact with our machines
-- Service providers such as ISPs don't think you are attacking another machine on the Internet (which could be against the terms of service)
-- The VPN provides security to TryHackMe as vulnerable machines are not accessible using the Internet.
-
-Secure Shell(SSH)是一种加密网络协议，用于设备之间的安全通信。 SSH 使用高级加密系统（AES）等加密算法对数据进行加密，通常用于远程登录计算机或服务器。
-
-VPN technology has improved over the years. Let's explore some existing VPN technologies below:
-
-| VPN Technology | Description |
-| :---: | :---: |
-| PPP | This technology is used by PPTP (explained below) to allow for authentication and provide encryption of data. VPNs work by using a private key and public certificate (similar to **SSH**). A private key & certificate must match for you to connect.<br><br>This technology is not capable of leaving a network by itself (non-routable). |
-| PPTP | The **Point-to-Point Tunneling Protocol** (PPTP) is the technology that allows the data from PPP to travel and leave a network.<br><br>PPTP is very easy to set up and is supported by most devices. It is, however, weakly encrypted in comparison to alternatives. |
-| IPSec | Internet Protocol Security (IPSec) encrypts data using the existing Internet Protocol (IP) framework.<br><br>IPSec is difficult to set up in comparison to alternatives; however, if successful, it boasts strong encryption and is also supported on many devices. | 
-
-### LAN Networking Devices
-
-<span style="font-size: 23px;">**What is a Router?**</span>
-
-It's a router's job to connect networks and pass data between them. It does this by using routing (hence the name router!).
-
-**Routing** *is the label given to the **process of data travelling across networks**.* Routing involves creating a path between networks so that this data can be successfully delivered. Routers operate at **Layer 3** of the OSI model. They often feature an interactive interface (such as a website or a console) that allows an administrator to configure various rules such as port forwarding or firewalling.
-
-Routing is useful when devices are connected by many paths, such as in the example diagram below, where the most optimal path is taken:
-
-![router](assets/router.svg)
-
-Routers are dedicated devices and do not perform the same functions as switches.
-
-We can see that Computer A's network is connected to the network of Computer B by two routers in the middle. The question is: what path will be taken? Different protocols will decide what path should be taken, but factors include:
-
-- What path is the shortest?
-
-- What path is the most reliable?
-
-- Which path has the faster medium (e.g. copper or fibre)?
-
-<span style="font-size: 23px;">**What is a Switch?**</span>
-
-A switch is a dedicated networking device responsible for providing a means of connecting to multiple devices. Switches can facilitate many devices (from 3 to 63) using Ethernet cables.
-
-Switches can operate at both layer 2 and layer 3 of the OSI model. However, these are exclusive in the sense that Layer 2 switches cannot operate at layer 3.
-
-Take, for example, a layer 2 switch in the diagram below. These switches will forward frames (remember these are no longer packets as the IP protocol has been stripped) onto the connected devices using their MAC address.
-
-![switch](assets/switch.svg)
-
-These switches are solely responsible for sending frames to the correct device.
-
-Now, let's move onto layer 3 switches. These switches are more sophisticated than layer 2, as they can perform some of the responsibilities of a router. Namely, these switches will send frames to devices (as layer 2 does) and route packets to other devices using the IP protocol. 
-
-Let's take a look at the diagram below of a layer 3 switch in action. We can see that there are two IP addresses: 
-
-- 192.168.1.1
-- 192.168.2.1
-
-A technology called **VLAN (Virtual Local Area Network)** allows specific devices within a network to be virtually split up. This split means they can all benefit from things such as an Internet connection but are treated separately. This network separation provides security because it means that rules in place determine how specific devices communicate with each other. This segregation is illustrated in the diagram below:
-
-![vlan](assets/vlan.svg)
-
-In the context of the diagram above, the "Sales Department" and "Accounting Department" will be able to access the Internet, but not able to communicate with each other (although they are connected to the same switch).
+---

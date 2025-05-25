@@ -1,111 +1,83 @@
 ---
 title: "web"
-quote: tryhackme
 categories:
   - 技术
   - 教程
 tags: [Markdown, web]
 description: How The Web Works
 draft: false
-sidebar: true
+sidebar: false
 outline: deep
 ---
 
-# web
+# Web基础
 
-To become a better hacker it's vital to understand the underlying functions of the world wide web and what makes it work.
+## DNS 详解
 
-## DNS in Detail
+### DNS 是什么？
 
-Learn how DNS works and how it helps you access internet services.
+DNS（域名系统）提供了一种简单的方式，让我们在互联网上与设备通信，而无需记住复杂的数字。就像每栋房子都有一个唯一的地址用于直接发送邮件一样，互联网上的每台计算机都有其唯一的地址来与之通信，称为 IP 地址。IP 地址类似于 104.26.10.229，是由句点分隔的 4 组 0 - 255 之间的数字组成。当您想访问网站时，记住这组复杂的数字并不方便，而 DNS 可以提供帮助。因此，您无需记住 104.26.10.229，而是可以记住 tryhackme.com。
 
-### What is DNS?
-
-> DNS (Domain Name System) provides a simple way for us to communicate with devices on the internet without remembering complex numbers. Much like every house has a unique address for sending mail directly to it, every computer on the internet has its own unique address to communicate with it called an IP address. An IP address looks like the following 104.26.10.229, 4 sets of digits ranging from 0 - 255 separated by a period. When you want to visit a website, it's not exactly convenient to remember this complicated set of numbers, and that's where DNS can help. So instead of remembering 104.26.10.229, you can remember tryhackme.com instead.
-
-### Domain Hierarchy
+### 域名层次结构
 
 域名层次结构指的是在域名系统（DNS）中域名的组织方式，它分为三个主要层级：
 
-1. **顶级域名（TLD）**：
-   - 这是域名最右边的部分，例如 `.com`、`.org` 或 `.gov`。
-   - 顶级域名分为两种类型：**通用顶级域名（gTLD）** 和 **国家代码顶级域名（ccTLD）**。 
-   - gTLD 历史上表示域名的用途，例如 `.com` 代表商业用途，`.org` 代表组织机构，`.edu` 代表教育机构，`.gov` 代表政府部门。现在，有许多新的 gTLD，例如 `.online` 和 `.biz`。
-   - ccTLD 表示特定的地理区域，例如 `.ca` 代表加拿大，`.co.uk` 代表英国。
-
-2. **二级域名**：
-   - 它位于顶级域名前面，例如在 `tryhackme.com` 中，`tryhackme` 是二级域名。二级域名在注册时通常受到字符和长度限制。
-
-3. **子域名**：
-   - 子域名位于二级域名前面，通过点号分隔，例如在 `admin.tryhackme.com` 中，`admin` 是子域名。
-   - 子域名可以有多个层次，例如 `jupiter.servers.tryhackme.com`。
+1.  **顶级域名（TLD）**：
+    *   这是域名最右边的部分，例如 `.com`、 `.org` 或 `.gov`。
+    *   顶级域名分为两种类型：**通用顶级域名（gTLD）** 和 **国家代码顶级域名（ccTLD）**。
+    *   gTLD 历史上表示域名的用途，例如 `.com` 代表商业用途， `.org` 代表组织机构， `.edu` 代表教育机构， `.gov` 代表政府部门。现在，有许多新的 gTLD，例如 `.online` 和 `.biz`。
+    *   ccTLD 表示特定的地理区域，例如 `.ca` 代表加拿大， `.co.uk` 代表英国。
+2.  **二级域名**：
+    *   它位于顶级域名前面，例如在 `tryhackme.com` 中， `tryhackme` 是二级域名。二级域名在注册时通常受到字符和长度限制。
+3.  **子域名**：
+    *   子域名位于二级域名前面，通过点号分隔，例如在 `admin.tryhackme.com` 中， `admin` 是子域名。
+    *   子域名可以有多个层次，例如 `jupiter.servers.tryhackme.com`。
 
 这一层次结构确保了互联网中网站的有序管理和访问。
 
-![Domain Hierarchy](<assets/Domain Hierarchy.png>)
+### DNS 记录类型
 
-**TLD (Top-Level Domain)**
+DNS 不仅仅适用于网站，还存在多种类型的 DNS 记录。我们将介绍一些您可能会遇到的最常见的记录类型。
 
-A TLD is the most righthand part of a domain name. So, for example, the tryhackme.com TLD is .com. There are two types of TLD, gTLD (Generic Top Level) and ccTLD (Country Code Top Level Domain). Historically a gTLD was meant to tell the user the domain name's purpose; for example, a .com would be for commercial purposes, .org for an organisation, .edu for education and .gov for government. And a ccTLD was used for geographical purposes, for example, .ca for sites based in Canada, .co.uk for sites based in the United Kingdom and so on. Due to such demand, there is an influx of new gTLDs ranging from .online , .club , .website , .biz and so many more. For a full list of over 2000 TLDs [click here](https://data.iana.org/TLD/tlds-alpha-by-domain.txt).
+*   **A 记录**
 
-**Second-Level Domain**
+    这些记录解析为 IPv4 地址，例如 104.26.10.229
+*   **AAAA 记录**
 
-Taking tryhackme.com as an example, the .com part is the TLD, and tryhackme is the Second Level Domain. When registering a domain name, the second-level domain is limited to 63 characters + the TLD and can only use a-z 0-9 and hyphens (cannot start or end with hyphens or have consecutive hyphens).
+    这些记录解析为 IPv6 地址，例如 2606:4700:20::681a:be5
+*   **CNAME 记录**
 
-**Subdomain**
+    规范名称
 
-A subdomain sits on the left-hand side of the Second-Level Domain using a period to separate it; for example, in the name admin.tryhackme.com the admin part is the subdomain. A subdomain name has the same creation restrictions as a Second-Level Domain, being limited to 63 characters and can only use a-z 0-9 and hyphens (cannot start or end with hyphens or have consecutive hyphens). You can use multiple subdomains split with periods to create longer names, such as jupiter.servers.tryhackme.com. But the length must be kept to 253 characters or less. There is no limit to the number of subdomains you can create for your domain name.
+    这些记录解析为另一个域名，例如，TryHackMe 的在线商店具有子域名 store.tryhackme.com，该子域名返回 CNAME 记录 shops.shopify.com。然后将向 shops.shopify.com 发出另一个 DNS 请求，以确定 IP 地址。
+*   **MX 记录**
 
-### DNS Record Types
+    邮件交换
 
-DNS isn't just for websites though, and multiple types of DNS record exist. We'll go over some of the most common ones that you're likely to come across.
+    这些记录解析为处理您正在查询的域的电子邮件的服务器地址，例如，tryhackme.com 的 MX 记录响应如下所示：alt1.aspmx.l.google.com。这些记录还带有优先级标志。这告诉客户端按什么顺序尝试服务器，如果主服务器出现故障并且需要将电子邮件发送到备份服务器，这非常完美。
+*   **TXT 记录**
 
-**A Record**
+    TXT 记录是自由文本字段，可以在其中存储任何基于文本的数据。TXT 记录有多种用途，但一些常见的用途是列出有权代表域发送电子邮件的服务器（这有助于对抗垃圾邮件和欺骗电子邮件）。它们还可以用于在注册第三方服务时验证域名所有权。
 
-These records resolve to IPv4 addresses, for example 104.26.10.229
+### 发出 DNS 请求
 
-**AAAA Record**
+**发出 DNS 请求时会发生什么**
 
-These records resolve to IPv6 addresses, for example 2606:4700:20::681a:be5
+1.  当您请求域名时，您的计算机首先检查其本地缓存，以查看您最近是否查找过该地址。如果没有，则会向您的递归 DNS 服务器发出请求。
 
-**CNAME Record**
+2.  **递归 DNS 服务器**通常由您的 ISP 提供，但您也可以选择自己的服务器。该服务器还具有最近查找的域名的本地缓存。如果在本地找到结果，则会将其发送回您的计算机，并且您的请求在此处结束（这对于流行的和大量请求的服务（如 Google、Facebook、Twitter）很常见）。如果无法在本地找到该请求，则开始查找正确答案的旅程，从 Internet 的根 DNS 服务器开始。
 
-Canonical Name
+3.  **根服务器**充当 Internet 的 DNS 主干。他们的工作是将您重定向到正确的顶级域服务器，具体取决于您的请求。例如，如果您请求 weasontang.github.io，则根服务器将识别 .io 的顶级域，并将您转到处理 .io 地址的正确 TLD 服务器。
 
-These records resolve to another domain name, for example, TryHackMe's online shop has the subdomain name store.tryhackme.com which returns a CNAME record shops.shopify.com. Another DNS request would then be made to shops.shopify.com to work out the IP address.
+4.  **TLD 服务器**保存有关在哪里可以找到权威服务器来回答 DNS 请求的记录。权威服务器通常也称为域的名称服务器。例如，tryhackme.com 的名称服务器是 kip.ns.cloudflare.com 和 uma.ns.cloudflare.com。您通常会找到域名的多个名称服务器，以在其中一个服务器出现故障时充当备份。
 
-**MX Record**
+5.  **权威 DNS 服务器**是负责存储特定域名的 DNS 记录的服务器，也是对域名 DNS 记录进行任何更新的地方。根据记录类型，DNS 记录随后会发送回递归 DNS 服务器，其中本地副本将被缓存以供将来请求，然后中继回发出请求的原始客户端。DNS 记录都带有 **TTL（生存时间）**值。此值是以秒为单位表示的数字，应将响应本地保存该时间，直到您必须再次查找它为止。缓存可以节省每次与服务器通信时都发出 DNS 请求的麻烦。
 
-Mail Exchange
+> **生存时间 (TTL)** 指的是数据包在被路由器丢弃之前在网络中存在的持续时间或“跃点数”。TTL 也用于其他上下文中，包括 CDN 缓存和 DNS 缓存。
 
-These records resolve to the address of the servers that handle the email for the domain you are querying, for example an MX record response for tryhackme.com would look something like alt1.aspmx.l.google.com. These records also come with a priority flag. This tells the client in which order to try the servers, this is perfect for if the main server goes down and email needs to be sent to a backup server.
+### 实践
 
-**TXT Record**
-
-TXT records are free text fields where any text-based data can be stored. TXT records have multiple uses, but some common ones can be to list servers that have the authority to send an email on behalf of the domain (this can help in the battle against spam and spoofed email). They can also be used to verify ownership of the domain name when signing up for third party services.
-
- ### Making A DNS Request
-
-<span style="font-size: 23px;">**What happens when you make a DNS request**</span>
-
-![make a DNS request](<assets/make a DNS request.png>)
-
-1. When you request a domain name, your computer first checks its local cache to see if you've previously looked up the address recently; if not, a request to your Recursive DNS Server will be made.
-
-2. A **Recursive DNS Server** is usually provided by your ISP, but you can also choose your own. This server also has a local cache of recently looked up domain names. If a result is found locally, this is sent back to your computer, and your request ends here (this is common for popular and heavily requested services such as Google, Facebook, Twitter). If the request cannot be found locally, a journey begins to find the correct answer, starting with the internet's root DNS servers.
-
-3. The **root servers** act as the DNS backbone of the internet; their job is to redirect you to the correct Top Level Domain Server, depending on your request. If, for example, you request [weasontang.github.io](https://weasontang.github.io), the root server will recognise the Top Level Domain of .io and refer you to the correct TLD server that deals with .io addresses.
-
-4. The **TLD server** holds records for where to find the authoritative server to answer the DNS request. The authoritative server is often also known as the nameserver for the domain. For example, the name server for tryhackme.com is kip.ns.cloudflare.com and uma.ns.cloudflare.com. You'll often find multiple nameservers for a domain name to act as a backup in case one goes down.
-
-5. An **authoritative DNS server** is the server that is responsible for storing the DNS records for a particular domain name and where any updates to your domain name DNS records would be made. Depending on the record type, the DNS record is then sent back to the Recursive DNS Server, where a local copy will be cached for future requests and then relayed back to the original client that made the request. DNS records all come with a **TTL (Time To Live)** value. This value is a number represented in seconds that the response should be saved for locally until you have to look it up again. Caching saves on having to make a DNS request every time you communicate with a server.
-
-> - **Time to live (TTL)** refers to the amount of time or “hops” that a packet is set to exist inside a network before being discarded by a router. TTL is also used in other contexts including CDN caching and DNS caching.
-
-### practice
-
-nslookup 是一个网络命令行工具，用于查询 DNS（域名系统）记录。
-它可以帮助你查找域名对应的 IP 地址，或反查 IP 地址对应的域名，也可以用来调试 DNS 相关问题。
+nslookup 是一个网络命令行工具，用于查询 DNS（域名系统）记录。 它可以帮助你查找域名对应的 IP 地址，或反查 IP 地址对应的域名，也可以用来调试 DNS 相关问题。
 
 ```bash
 # What is the CNAME of shop.website.thm?
@@ -142,337 +114,342 @@ Name: website.thm
 Address: 10.10.10.10
 ```
 
-## HTTP in Detail
+## HTTP 详解
 
-Learn about how you request content from a web server using the HTTP protocol
+### 什么是 HTTP(S)?
 
-### What is HTTP(S)?
+> 超文本传输协议 (HTTP) 是一种协议，用于指定 Web 浏览器和 Web 服务器如何通信。
 
-> Hypertext Transfer Protocol (HTTP) is the protocol that specifies how a web browser and a web server communicate.
+**什么是 HTTP？（超文本传输协议）**
 
-**What is HTTP? (HyperText Transfer Protocol)**
+每当您查看网站时都会使用 HTTP，由 Tim Berners-Lee 及其团队在 1989 年至 1991 年间开发。HTTP 是一组用于与 Web 服务器通信以传输网页数据（无论是 HTML、图像、视频等）的规则。
 
-HTTP is what's used whenever you view a website, developed by Tim Berners-Lee and his team between 1989-1991. HTTP is the set of rules used for communicating with web servers for the transmitting of webpage data, whether that is HTML, Images, Videos, etc.
+**什么是 HTTPS？（安全超文本传输协议）**
 
-**What is HTTPS? (HyperText Transfer Protocol Secure)**
+HTTPS 是 HTTP 的安全版本。HTTPS 数据已加密，因此它不仅可以阻止人们看到您接收和发送的数据，还可以确保您与正确的 Web 服务器而不是冒充它的服务器进行通信。
 
-HTTPS is the secure version of HTTP. HTTPS data is encrypted so it not only stops people from seeing the data you are receiving and sending, but it also gives you assurances that you're talking to the correct web server and not something impersonating it.
+### 请求和响应
 
-### Requests And Responses
+当我们访问网站时，您的浏览器需要向 Web 服务器发出请求，以获取 HTML、图像等资产并下载响应。在此之前，您需要具体告诉浏览器如何以及在何处访问这些资源，这就是 URL 将提供帮助的地方。
 
-When we access a website, your browser will need to make requests to a web server for assets such as HTML, Images, and download the responses. Before that, you need to tell the browser specifically how and where to access these resources, this is where URLs will help.
+**什么是 URL？（统一资源定位符）**
 
-**What is a URL? (Uniform Resource Locator)**
+如果您使用过 Internet，那么您之前一定使用过 URL。URL 主要是一个关于如何访问 Internet 上资源的指令。下图显示了 URL 的外观及其所有功能（并非每个请求都使用所有功能）。
 
-If you’ve used the internet, you’ve used a URL before. A URL is predominantly an instruction on how to access a resource on the internet. The below image shows what a URL looks like with all of its features (it does not use all features in every request).
+*   **Scheme:** 这指示使用什么协议来访问资源，例如 HTTP、HTTPS、FTP（文件传输协议）。
+*   **User:** 某些服务需要身份验证才能登录，您可以将用户名和密码放入 URL 中以登录。
+*   **Host:** 您希望访问的服务器的域名或 IP 地址。
+*   **Port:** 您要连接的端口，HTTP 通常为 80，HTTPS 通常为 443，但它可以托管在 1 - 65535 之间的任何端口上。
+*   **Path:** 您尝试访问的资源的文件名或位置。
+*   **Query String:** 可以发送到请求路径的额外信息位。例如，/blog?id=1 会告诉博客路径您希望接收 id 为 1 的博客文章。
+*   **Fragment:** 这是对所请求实际页面上某个位置的引用。这通常用于内容较长的页面，并且可以直接链接到页面的某个部分，以便用户在访问页面后立即可以查看该部分。
 
-![url](assets/url.png)
+**发出请求**
 
-**Scheme:** This instructs on what protocol to use for accessing the resource such as HTTP, HTTPS, FTP (File Transfer Protocol).
+只需一行 **GET / HTTP/1.1** 即可向 Web 服务器发出请求
 
-**User:** Some services require authentication to log in, you can put a username and password into the URL to log in.
+但是为了获得更丰富的 Web 体验，您还需要发送其他数据。此其他数据在所谓的标头中发送，其中标头包含要提供给您正在与之通信的 Web 服务器的额外信息，但我们将在标头任务中对此进行更多介绍。
 
-**Host:** The domain name or IP address of the server you wish to access.
+### HTTP 方法
 
-**Port:** The Port that you are going to connect to, usually 80 for HTTP and 443 for HTTPS, but this can be hosted on any port between 1 - 65535.
+HTTP 方法是客户端在发出 HTTP 请求时显示其预期操作的一种方式。HTTP 方法有很多，但我们将介绍最常见的方法，尽管您主要处理 GET 和 POST 方法。
 
-**Path:** The file name or location of the resource you are trying to access.
+*   **GET 请求**
 
-**Query String:** Extra bits of information that can be sent to the requested path. For example, /blog? id=1 would tell the blog path that you wish to receive the blog article with the id of 1.
+    这用于从 Web 服务器获取信息。
+*   **POST 请求**
 
-**Fragment:** This is a reference to a location on the actual page requested. This is commonly used for pages with long content and can have a certain part of the page directly linked to it, so it is viewable to the user as soon as they access the page.
+    这用于将数据提交到 Web 服务器并可能创建新记录
+*   **PUT 请求**
 
-**Making a Request**
+    这用于将数据提交到 Web 服务器以更新信息
+*   **DELETE 请求**
 
-It's possible to make a request to a web server with just one line **GET / HTTP/1.1**
+    这用于从 Web 服务器删除信息/记录。
 
-![request](assets/request.png)
+### HTTP 状态代码
 
-But for a much richer web experience, you’ll need to send other data as well. This other data is sent in what is called headers, where headers contain extra information to give to the web server you’re communicating with, but we’ll go more into this in the Header task.
+在上一个任务中，您了解到当 HTTP 服务器响应时，第一行始终包含一个状态代码，告知客户端其请求的结果以及如何处理它。这些状态代码可以分为 5 个不同的范围：
 
-### HTTP Methods
+| 状态代码               | 描述                                                                                          |
+| :--------------------- | :-------------------------------------------------------------------------------------------- |
+| 100-199 - 信息响应     | 发送这些信息是为了告诉客户端他们的请求的第一部分已被接受，他们应该继续发送其余的请求。这些代码不再很常见。 |
+| 200-299 - 成功         | 此范围的状态代码用于告诉客户端他们的请求已成功。                                                        |
+| 300-399 - 重定向       | 这些用于将客户端的请求重定向到另一个资源。这可以是重定向到不同的网页或完全不同的网站。                            |
+| 400-499 - 客户端错误     | 用于通知客户端他们的请求存在错误。                                                                       |
+| 500-599 - 服务器错误     | 这是为服务器端发生的错误保留的，通常表示服务器处理请求时存在相当大的问题。                                          |
 
-HTTP methods are a way for the client to show their intended action when making an HTTP request. There are a lot of HTTP methods but we'll cover the most common ones, although mostly you'll deal with the GET and POST method.
+**常见的 HTTP 状态代码：**
 
-**GET Request**
+有很多不同的 HTTP 状态代码，这还不包括应用程序甚至可以定义自己的状态代码，我们将介绍您可能遇到的最常见的 HTTP 响应：
 
-This is used for getting information from a web server.
+| 状态代码               | 描述                                                                              |
+| :--------------------- | :-------------------------------------------------------------------------------- |
+| 200 - 确定             | 请求已成功完成。                                                                   |
+| 201 - 已创建           | 已创建资源（例如，新用户或新博客文章）。                                                       |
+| 301 - 永久移动         | 这会将客户端的浏览器重定向到新的网页，或者告诉搜索引擎该页面已移动到其他位置并应改为在那里查找。                       |
+| 302 - 已找到           | 与上面的永久重定向类似，但顾名思义，这只是一个临时更改，将来可能会再次更改。                                 |
+| 400 - 错误的请求         | 这告诉浏览器他们的请求中存在错误或缺少某些内容。如果正在请求的 Web 服务器资源需要客户端未发送的某个参数，有时可以使用此代码。 |
+| 401 - 未授权           | 在您使用 Web 应用程序授权之前，您当前不允许查看此资源，最常见的是使用用户名和密码授权。                              |
+| 403 - 禁止             | 无论您是否已登录，您都无权查看此资源。                                                           |
+| 405 - 方法不允许         | 该资源不允许此方法请求，例如，您向资源 /create-account 发送 GET 请求，而该资源期望的是 POST 请求。           |
+| 404 - 找不到页面         | 您请求的页面/资源不存在。                                                                   |
+| 500 - 内部服务错误       | 服务器遇到了某种无法正确处理的请求错误。                                                            |
+| 503 - 服务不可用         | 此服务器无法处理您的请求，因为它已过载或正在维护中。                                                         |
 
-**POST Request**
+### 标头
 
-This is used for submitting data to the web server and potentially creating new records
+标头是在发出请求时可以发送到 Web 服务器的额外数据位。
 
-**PUT Request**
+尽管在发出 HTTP 请求时严格来说不需要任何标头，但您会发现很难正确查看网站。
 
-This is used for submitting data to a web server to update information
+**常见的请求标头**
 
-**DELETE Request**
+这些标头是从客户端（通常是您的浏览器）发送到服务器的标头。
 
-This is used for deleting information/records from a web server.
+*   **Host:** 某些 Web 服务器托管多个网站，因此通过提供主机标头，您可以告诉它您需要哪个网站，否则您只会收到服务器的默认网站。
+*   **User-Agent:** 这是您的浏览器软件和版本号，告诉 Web 服务器您的浏览器软件可以帮助它正确地为您的浏览器设置网站格式，并且某些 HTML、JavaScript 和 CSS 元素仅在某些浏览器中可用。
+*   **Content-Length:** 当将数据发送到 Web 服务器（例如在表单中）时，内容长度会告诉 Web 服务器在 Web 请求中期望多少数据。这样，服务器可以确保它没有丢失任何数据。
+*   **Accept-Encoding:** 告诉 Web 服务器浏览器支持哪些类型的压缩方法，以便可以减小数据的大小，以便通过 Internet 传输。
+*   **Cookie:** 发送到服务器以帮助记住您的信息的数据（有关更多信息，请参阅 Cookie 任务）。
 
-### HTTP Status Codes
+**常见的响应标头**
 
-In the previous task, you learnt that when a HTTP server responds, the first line always contains a status code informing the client of the outcome of their request and also potentially how to handle it. These status codes can be broken down into 5 different ranges:
+这些是在发出请求后从服务器返回到客户端的标头。
 
-| status code | Description |
-|:--------------------:|:----------------:|
-| 100-199 - Information Response | These are sent to tell the client the first part of their request has been accepted and they should continue sending the rest of their request. These codes are no longer very common. |
-| 200-299 - Success              | This range of status codes is used to tell the client their request was successful.                                                                                              |
-| 300-399 - Redirection          | These are used to redirect the client's request to another resource. This can be either to a different webpage or a different website altogether.                               |
-| 400-499 - Client Errors        | Used to inform the client that there was an error with their request.                                                                                                             |
-| 500-599 - Server Errors        | This is reserved for errors happening on the server-side and usually indicate quite a major problem with the server handling the request.                                        |
-
-**Common HTTP Status Codes:**
-
-There are a lot of different HTTP status codes and that's not including the fact that applications can even define their own, we'll go over the most common HTTP responses you are likely to come across:
-
-| status code | Description |
-|:---:|:---:|
-| 200 - OK | The request was completed successfully. |
-| 201 - Created | A resource has been created (for example a new user or new blog post). |
-| 301 - Moved Permanently | This redirects the client's browser to a new webpage or tells search engines that the page has moved somewhere else and to look there instead. |
-| 302 - Found | Similar to the above permanent redirect, but as the name suggests, this is only a temporary change and it may change again in the near future. |
-| 400 - Bad Request | This tells the browser that something was either wrong or missing in their request. This could sometimes be used if the web server resource that is being requested expected a certain parameter that the client didn't send. |
-| 401 - Not Authorised | You are not currently allowed to view this resource until you have authorised with the web application, most commonly with a username and password. |
-| 403 - Forbidden | You do not have permission to view this resource whether you are logged in or not. |
-| 405 - Method Not Allowed | The resource does not allow this method request, for example, you send a GET request to the resource /create-account when it was expecting a POST request instead. |
-| 404 - Page Not Found | The page/resource you requested does not exist. |
-| 500 - Internal Service Error | The server has encountered some kind of error with your request that it doesn't know how to handle properly. |
-| 503 - Service Unavailable | This server cannot handle your request as it's either overloaded or down for maintenance. | 
-
-### Headers
-
-Headers are additional bits of data you can send to the web server when making requests.
-
-Although no headers are strictly required when making a HTTP request, you’ll find it difficult to view a website properly.
-
-<span style="font-size: 19px;">**Common Request Headers**</span>
-
-
-These are headers that are sent from the client (usually your browser) to the server.
-
-**Host:** Some web servers host multiple websites so by providing the host headers you can tell it which one you require, otherwise you'll just receive the default website for the server.
-
-**User-Agent:** This is your browser software and version number, telling the web server your browser software helps it format the website properly for your browser and also some elements of HTML, JavaScript and CSS are only available in certain browsers.
-
-**Content-Length:** When sending data to a web server such as in a form, the content length tells the web server how much data to expect in the web request. This way the server can ensure it isn't missing any data.
-
-**Accept-Encoding:** Tells the web server what types of compression methods the browser supports so the data can be made smaller for transmitting over the internet.
-
-**Cookie:** Data sent to the server to help remember your information (see cookies task for more information).
-
-
-<span style="font-size: 19px;">**Common Response Headers**</span>
-
-These are the headers that are returned to the client from the server after a request.
-
-**Set-Cookie:** Information to store which gets sent back to the web server on each request (see cookies task for more information).
-
-**Cache-Control:** How long to store the content of the response in the browser's cache before it requests it again.
-
-**Content-Type:** This tells the client what type of data is being returned, i.e., HTML, CSS, JavaScript, Images, PDF, Video, etc. Using the content-type header the browser then knows how to process the data.
-
-**Content-Encoding:** What method has been used to compress the data to make it smaller when sending it over the internet.
-
+*   **Set-Cookie:** 要存储的信息，每次请求时都会发送回 Web 服务器（有关更多信息，请参阅 Cookie 任务）。
+*   **Cache-Control:** 在浏览器再次请求之前，将响应内容存储在浏览器缓存中的时间。
+*   **Content-Type:** 这告诉客户端正在返回什么类型的数据，即 HTML、CSS、JavaScript、图像、PDF、视频等。使用 content-type 标头，浏览器就知道如何处理数据。
+*   **Content-Encoding:** 用于压缩数据以在通过 Internet 发送时减小其大小的方法。
 
 ### Cookies
 
-You've probably heard of cookies before, they're just a small piece of data that is stored on your computer. Cookies are saved when you receive a "Set-Cookie" header from a web server. Then every further request you make, you'll send the cookie data back to the web server. Because HTTP is stateless (doesn't keep track of your previous requests), cookies can be used to remind the web server who you are, some personal settings for the website or whether you've been to the website before. Let's take a look at this as an example HTTP request:
+您可能以前听说过 Cookie，它们只是存储在您计算机上的一小段数据。当您收到来自 Web 服务器的“Set-Cookie”标头时，会保存 Cookie。然后，您发出的每个进一步的请求都会将 Cookie 数据发送回 Web 服务器。因为 HTTP 是无状态的（不跟踪您以前的请求），所以 Cookie 可用于提醒 Web 服务器您是谁、网站的一些个人设置或您以前是否访问过该网站。让我们看一个例子 HTTP 请求：
 
-![cookies](assets/cookies.png)
+Cookie 可用于多种用途，但最常用于网站身份验证。Cookie 值通常不是您可以查看密码的明文字符串，而是一个令牌（不易被人猜测的唯一密钥代码）。
 
-Cookies can be used for many purposes but are most commonly used for website authentication. The cookie value won't usually be a clear-text string where you can see the password, but a token (unique secret code that isn't easily humanly guessable).
+**查看您的 Cookie**
 
-Viewing Your Cookies
+您可以使用浏览器中的开发者工具轻松查看浏览器发送到网站的 Cookie。
 
-You can easily view what cookies your browser is sending to a website by using the developer tools, in your browser. 
+打开开发者工具后，单击“网络”选项卡。此选项卡将向您显示浏览器已请求的所有资源的列表。您可以单击每个资源以接收请求和响应的详细细目分类。如果您的浏览器发送了 Cookie，您将在请求的“Cookie”选项卡上看到这些 Cookie。
 
-Once you have developer tools open, click on the "Network" tab. This tab will show you a list of all the resources your browser has requested. You can click on each one to receive a detailed breakdown of the request and response. If your browser sent a cookie, you will see these on the "Cookies" tab of the request.
+## 网站如何工作
 
-## How Websites Work
+要利用网站，您首先需要知道它们是如何创建的。
 
-To exploit a website, you first need to know how they are created.
+### 网站如何工作
 
-### How websites work
+在本教程结束时，您将了解网站是如何创建的，并将被介绍一些基本的安全问题。
 
-By the end of this room, you'll know how websites are created and will be introduced to some basic security issues.
+当您访问网站时，您的浏览器（如 Safari 或 Google Chrome）会向 Web 服务器发出请求，询问有关您正在访问的页面的信息。它将响应您的浏览器用于向您显示页面的数据；Web 服务器只是世界其他地方的一台专用计算机，用于处理您的请求。
 
-When you visit a website, your browser (like Safari or Google Chrome) makes a request to a web server asking for information about the page you're visiting. It will respond with data that your browser uses to show you the page; a web server is just a dedicated computer somewhere else in the world that handles your requests.
+构成网站的两个主要组件：
 
-![how websites work](<assets/how websites work.gif>)
+1.  前端（客户端）- 浏览器呈现网站的方式。
 
-There are two major components that make up a website:
+2.  后端（服务器端）- 处理您的请求并返回响应的服务器。
 
-<div style="text-indent: 2em;">
-1.Front End (Client-Side) - the way your browser renders a website.
-
-2.Back End (Server-Side) - a server that processes your request and returns a response.
-</div>
-
-
-There are many other processes involved in your browser making a request to a web server, but for now, you just need to understand that you make a request to a server, and it responds with data your browser uses to render information to you.
+浏览器向 Web 服务器发出请求涉及许多其他过程，但现在，您只需要了解您向服务器发出请求，服务器会响应浏览器用于向您呈现数据的数据。
 
 ### HTML
 
-Websites are primarily created using:
+网站主要使用以下内容创建：
 
-- HTML, to build websites and define their structure
-- CSS, to make websites look pretty by adding styling options
-- JavaScript, implement complex features on pages using interactivity
+*   HTML，用于构建网站并定义其结构
+*   CSS，通过添加样式选项使网站看起来更漂亮
+*   JavaScript，使用交互性在页面上实现复杂的功能
 
-**HyperText Markup Language (HTML)** is the language websites are written in. Elements (also known as tags) are the building blocks of HTML pages and tells the browser how to display content. The code snippet below shows a simple HTML document, the structure of which is the same for every website:
+**超文本标记语言 (HTML)** 是网站编写所用的语言。元素（也称为标签）是 HTML 页面的构建块，并告诉浏览器如何显示内容。下面的代码片段显示了一个简单的 HTML 文档，其结构与每个网站的结构相同：
 
 ```html
-<!DOCTYPE html> 
-<html>
-   <head>
-      <title>Page Title</title>
-   </head>  
-   <body>
-      <h1>Example Heading</h1> 
-      <p>Example paragraph..</p> 
-   </body>   
-</html> 
-```
-
-The HTML structure (as shown in the screenshot) has the following components:
-
-- The **\<!DOCTYPE html>** defines that the page is a HTML5 document. This helps with standardisation across different browsers and tells - the browser to use HTML5 to interpret the page.
-- The **\<html>** element is the root element of the HTML page - all other elements come after this element.
-- The **\<head>** element contains information about the page (such as the page title)
-- The **\<body>** element defines the HTML document's body; only content inside of the body is shown in the browser.
-- The **\<h1>** element defines a large heading
-- The **\<p>** element defines a paragraph
-- There are many other elements (tags) used for different purposes. For example, there are tags for buttons (**\<button>**), images (**\<img>**), lists, and much more. 
-
-Tags can contain attributes such as the class attribute which can be used to style an element (e.g. make the tag a different color) **\<p class="bold-text">**, or the src attribute which is used on images to specify the location of an image: **\<img src="img/cat.jpg">**.An element can have multiple attributes each with its own unique purpose, e.g., **\<p attribute1="value1" attribute2="value2">**.
-
-Elements can also have an id attribute (**\<p id="example">**), which is unique to the element. Unlike the class attribute, where multiple elements can use the same class, an element must have different id's to identify them uniquely. Element id's are used for styling and to identify it by JavaScript.
-
-You can view the HTML of any website by right-clicking and selecting "View Page Source" (Chrome) / "Show Page Source" (Safari).
-
-### JavaScript
-
-JavaScript (JS) is one of the most popular coding languages in the world and allows pages to become interactive. HTML is used to create the website structure and content, while JavaScript is used to control the functionality of web pages - without JavaScript, a page would not have interactive elements and would always be static. JS can dynamically update the page in real-time, giving functionality to change the style of a button when a particular event on the page occurs (such as when a user clicks a button) or to display moving animations.
-
-JavaScript is added within the page source code and can be either loaded within **\<script>** tags or can be included remotely with the src attribute: **\<script src="/location/of/javascript_file.js">\</script>**
-
-The following JavaScript code finds a HTML element on the page with the id of "demo" and changes the element's contents to "Hack the Planet" : **document.getElementById("demo").innerHTML = "Hack the Planet"**;
-
-HTML elements can also have events, such as "onclick" or "onhover" that execute JavaScript when the event occurs. The following code changes the text of the element with the demo ID to Button Clicked: **\<button onclick='document.getElementById("demo").innerHTML = "Button Clicked";'>Click Me!\</button>** - onclick events can also be defined inside the JavaScript script tags, and not on elements directly. 
-
-### Sensitive Data Exposure
-
-Sensitive Data Exposure occurs when a website doesn't properly protect (or remove) sensitive clear-text information to the end-user; usually found in a site's frontend source code.
-
-We now know that websites are built using many HTML elements (tags), all of which we can see simply by "viewing the page source". A website developer may have forgotten to remove login credentials, hidden links to private parts of the website or other sensitive data shown in HTML or JavaScript.
-
-```htm
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Fake Website</title>
-    </head>
-    <body>
-        <form>
-            <input type='text' name='username'>
-            <input type='password' name='password'>
-            <button>Login</button>
-            <!-- TODO: remove test credentials admin:password123 -->
-        </form>
-    </body>
+  <head>
+    <title>Page Title</title>
+  </head>
+  <body>
+    <h1>Example Heading</h1>
+    <p>Example paragraph..</p>
+  </body>
 </html>
 ```
 
-Sensitive information can be potentially leveraged to further an attacker's access within different parts of a web application. For example, there could be HTML comments with temporary login credentials, and if you viewed the page's source code and found this, you could use these credentials to log in elsewhere on the application (or worse, used to access other backend components of the site).
+HTML 结构（如屏幕截图所示）具有以下组件：
 
-Whenever you're assessing a web application for security issues, one of the first things you should do is review the page source code to see if you can find any exposed login credentials or hidden links.
+*   **\<!DOCTYPE html>** 定义该页面是 HTML5 文档。这有助于跨不同浏览器的标准化，并告诉浏览器使用 HTML5 解释该页面。
+*   **\<html>** 元素是 HTML 页面的根元素 - 所有其他元素都位于此元素之后。
+*   **\<head>** 元素包含有关页面的信息（例如页面标题）
+*   **\<body>** 元素定义 HTML 文档的正文；只有正文中的内容才会显示在浏览器中。
+*   **\<h1>** 元素定义一个大标题
+*   **\<p>** 元素定义一个段落
+*   有许多其他元素（标签）用于不同的目的。例如，有用于按钮 ( **\<button>**) 、图像 ( **\<img>**) 、列表等的标签。
 
-### HTML Injection
+标签可以包含属性，例如 class 属性（可用于设置元素的样式（例如，使标签具有不同的颜色） **\<p class="bold-text">**）或 src 属性（用于在图像上指定图像的位置：**\<img src="img/cat.jpg">**）。一个元素可以有多个属性，每个属性都有其独特的用途，例如 **\<p attribute1="value1" attribute2="value2">**。
 
-HTML Injection is a vulnerability that occurs when unfiltered user input is displayed on the page. If a website fails to sanitise user input (filter any "malicious" text that a user inputs into a website), and that input is used on the page, an attacker can inject HTML code into a vulnerable website.
+元素还可以具有 id 属性 ( **\<p id="example">**)，该属性对于该元素是唯一的。与多个元素可以使用相同类的 class 属性不同，元素必须具有不同的 id 才能唯一标识它们。元素 id 用于样式设置以及通过 JavaScript 标识它。
 
-Input sanitisation is very important in keeping a website secure, as information a user inputs into a website is often used in other frontend and backend functionality. A vulnerability you'll explore in another lab is database injection, where you can manipulate a database lookup query to log in as another user by controlling the input that's directly used in the query - but for now, let's focus on HTML injection (which is client-side).
+您可以通过右键单击并选择“查看页面源代码”（Chrome）/“显示页面源代码”（Safari）来查看任何网站的 HTML。
 
-When a user has control of how their input is displayed, they can submit HTML (or JavaScript) code, and the browser will use it on the page, allowing the user to control the page's appearance and functionality.
+### JavaScript
 
-![HTML injection](<assets/html injection.svg>)
+JavaScript (JS) 是世界上最流行的编码语言之一，它允许页面具有交互性。HTML 用于创建网站结构和内容，而 JavaScript 用于控制网页的功能 - 如果没有 JavaScript，页面将不具有交互元素，并且始终是静态的。JS 可以实时动态更新页面，从而使页面具有在页面上发生特定事件（例如，用户单击按钮）时更改按钮样式的能力或显示移动动画。
 
-The image above shows how a form outputs text to the page. Whatever the user inputs into the "What's your name" field is passed to a JavaScript function and output to the page, which means if the user adds their own HTML or JavaScript in the field, it's used in the sayHi function and is added to the page - this means you can add your own HTML (such as a **\<h1>** tag) and it will output your input as pure HTML.
+JavaScript 添加在页面源代码中，可以加载在 **\<script>** 标记中，也可以使用 src 属性远程包含：**\<script src="/location/of/javascript\_file.js">\</script>**
 
-The general rule is never to trust user input. To prevent malicious input, the website developer should sanitise everything the user enters before using it in the JavaScript function; in this case, the developer could remove any HTML tags.
+以下 JavaScript 代码查找页面上 id 为“demo”的 HTML 元素，并将该元素的内容更改为“Hack the Planet”：**document.getElementById("demo").innerHTML = "Hack the Planet"**;
 
-## Putting it all together
+HTML 元素还可以具有事件，例如“onclick”或“onhover”，这些事件会在事件发生时执行 JavaScript。以下代码将 ID 为 demo 的元素的文本更改为“Button Clicked”：**\<button onclick='document.getElementById("demo").innerHTML = "Button Clicked";'>Click Me!\</button>** \- onclick 事件也可以在 JavaScript 脚本标记内定义，而不是直接在元素上定义。
 
-Learn how all the individual components of the web work together to bring you access to your favourite web sites.
+### 敏感数据泄露
 
-### Putting It All Together
+当网站没有正确保护（或删除）最终用户的敏感明文信息时，会发生敏感数据泄露；通常在网站的前端源代码中找到。
 
-From the previous modules, you'll have learned that quite a lot of things go on behind the scenes when you request a webpage in your browser.
+我们现在知道网站是使用许多 HTML 元素（标签）构建的，我们只需“查看页面源代码”即可看到所有这些元素。网站开发人员可能忘记删除登录凭据、隐藏指向网站私有部分的链接或 HTML 或 JavaScript 中显示的其他敏感数据。
 
-To summarise, when you request a website, your computer needs to know the server's IP address it needs to talk to; for this, it uses DNS. Your computer then talks to the web server using a special set of commands called the HTTP protocol; the webserver then returns HTML, JavaScript, CSS, Images, etc., which your browser then uses to correctly format and display the website to you.
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Fake Website</title>
+  </head>
+  <body>
+    <form>
+      <input type="text" name="username" />
+      <input type="password" name="password" />
+      <button>Login</button>
+      <!-- TODO: remove test credentials admin:password123 -->
+    </form>
+  </body>
+</html>
+```
 
-![putting it all together](<assets/putting it all together.gif>)
+敏感信息可能会被用来进一步扩大攻击者在 Web 应用程序的不同部分中的访问权限。例如，可能存在包含临时登录凭据的 HTML 注释，如果您查看页面的源代码并找到这些注释，则可以使用这些凭据在应用程序的其他位置登录（或者更糟糕的是，用于访问网站的其他后端组件）。
 
-There are also a few other components that help the web run more efficiently and provide extra features.
+每当您评估 Web 应用程序是否存在安全问题时，您应该做的第一件事是查看页面源代码，看看是否可以找到任何公开的登录凭据或隐藏的链接。
 
-### Other Components
+### HTML 注入
 
-**Load Balancers**
+当未经过滤的用户输入显示在页面上时，会发生 HTML 注入漏洞。如果网站未能清理用户输入（过滤用户输入到网站中的任何“恶意”文本），并且该输入用于页面上，则攻击者可以将 HTML 代码注入到易受攻击的网站中。
 
-When a website's traffic starts getting quite large or is running an application that needs to have high availability, one web server might no longer do the job. Load balancers provide two main features, ensuring high traffic websites can handle the load and providing a failover if a server becomes unresponsive.
-When you request a website with a load balancer, the load balancer will receive your request first and then forward it to one of the multiple servers behind it. The load balancer uses different algorithms to help it decide which server is best to deal with the request. A couple of examples of these algorithms are **round-robin**, which sends it to each server in turn, or **weighted**, which checks how many requests a server is currently dealing with and sends it to the least busy server.
+输入清理对于保持网站安全非常重要，因为用户输入到网站中的信息通常用于其他前端和后端功能中。您将在另一个实验中探索的一个漏洞是数据库注入，您可以通过控制直接用于查询的输入来操纵数据库查找查询以登录为另一个用户 - 但现在，让我们专注于 HTML 注入（客户端）。
 
-Load balancers also perform periodic checks with each server to ensure they are running correctly; this is called a **health check**. If a server doesn't respond appropriately or doesn't respond, the load balancer will stop sending traffic until it responds appropriately again.
+当用户可以控制如何显示其输入时，他们可以提交 HTML（或 JavaScript）代码，并且浏览器将在页面上使用它，从而允许用户控制页面的外观和功能。
 
-![load balancer](<assets/load balancer.svg>)
+上图显示了表单如何将文本输出到页面。用户在“你的名字是什么”字段中输入的任何内容都将传递到 JavaScript 函数并输出到页面，这意味着如果用户在该字段中添加他们自己的 HTML 或 JavaScript，它将在 sayHi 函数中使用并添加到页面中 - 这意味着您可以添加您自己的 HTML（例如 **\<h1>** 标签），它会将您的输入输出为纯 HTML。
 
-**CDN (Content Delivery Networks)**
+一般规则是永远不要信任用户输入。为了防止恶意输入，网站开发人员应该在 JavaScript 函数中使用用户输入的所有内容之前对其进行清理；在这种情况下，开发人员可以删除任何 HTML 标签。
 
-A CDN can be an excellent resource for cutting down traffic to a busy website. It allows you to host static files from your website, such as JavaScript, CSS, Images, Videos, and host them across thousands of servers all over the world. When a user requests one of the hosted files, the CDN works out where the nearest server is physically located and sends the request there instead of potentially the other side of the world.
+## 整合在一起
 
-**Databases**
+了解 Web 的所有各个组件如何协同工作，使您可以访问您最喜欢的网站。
 
-Often websites will need a way of storing information for their users. Webservers can communicate with databases to store and recall data from them. Databases can range from just a simple plain text file up to complex clusters of multiple servers providing speed and resilience. You'll come across some common databases: MySQL, MSSQL, MongoDB, Postgres, and more; each has its specific features.
+### 整合在一起
 
-**WAF (Web Application Firewall)**
+从前面的模块中，您将了解到当您在浏览器中请求网页时，幕后会发生很多事情。
 
-A WAF sits between your web request and the web server; its primary purpose is to protect the webserver from hacking or denial of service attacks. It analyses the web requests for common attack techniques, whether the request is from a real browser rather than a bot. It also checks if an excessive amount of web requests are being sent by utilising something called rate limiting, which will only allow a certain amount of requests from an IP per second. If a request is deemed a potential attack, it will be dropped and never sent to the webserver.
+总而言之，当您请求网站时，您的计算机需要知道它需要与之通信的服务器的 IP 地址；为此，它使用 DNS。然后，您的计算机使用一组称为 HTTP 协议的特殊命令与 Web 服务器进行通信；然后，Web 服务器会返回 HTML、JavaScript、CSS、图像等，然后您的浏览器会使用这些内容来正确设置网站格式并将其显示给您。
 
-![Web Application Firewall](<assets/Web Application Firewall.svg>)
+还有一些其他组件可以帮助 Web 更有效地运行并提供额外的功能。
 
-### How Web servers work
+### 其他组件
 
-**What is a Web Server?**
+**负载均衡器**
 
-A web server is a software that listens for incoming connections and then utilises the HTTP protocol to deliver web content to its clients. The most common web server software you'll come across is Apache, Nginx, IIS and NodeJS. A Web server delivers files from what's called its root directory, which is defined in the software settings. For example, Nginx and Apache share the same default location of /var/www/html in Linux operating systems, and IIS uses C:\inetpub\wwwroot for the Windows operating systems. So, for example, if you requested the file http://www.example.com/picture.jpg, it would send the file /var/www/html/picture.jpg from its local hard drive.
+当网站的流量开始变得非常大或正在运行需要高可用性的应用程序时，一台 Web 服务器可能不再能够胜任这项工作。负载均衡器提供两个主要功能：确保高流量网站可以处理负载，以及在服务器无响应时提供故障转移。当您请求带有负载均衡器的网站时，负载均衡器将首先接收您的请求，然后将其转发到其后面的多个服务器之一。负载均衡器使用不同的算法来帮助它确定哪个服务器最适合处理请求。这些算法的几个示例是**轮询**，它依次将其发送到每个服务器，或者**加权**，它检查服务器当前处理的请求数，并将其发送到最不繁忙的服务器。
 
-**Virtual Hosts**
+负载均衡器还定期检查每个服务器，以确保它们正常运行；这称为**运行状况检查**。如果服务器未正确响应或未响应，则负载均衡器将停止发送流量，直到它再次正确响应为止。
 
-Web servers can host multiple websites with different domain names; to achieve this, they use virtual hosts. The web server software checks the hostname being requested from the HTTP headers and matches that against its virtual hosts (virtual hosts are just text-based configuration files). If it finds a match, the correct website will be provided. If no match is found, the default website will be provided instead.
+**CDN（内容分发网络）**
 
-Virtual Hosts can have their root directory mapped to different locations on the hard drive. For example, one.com being mapped to /var/www/website_one, and two.com being mapped to /var/www/website_two
+CDN 可能是减少繁忙网站流量的绝佳资源。它允许您托管网站的静态文件，例如 JavaScript、CSS、图像、视频，并将它们托管在世界各地成千上万台服务器上。当用户请求其中一个托管文件时，CDN 会计算出物理上最近的服务器的位置，并将请求发送到该服务器，而不是可能发送到世界另一端的服务器。
 
-There's no limit to the number of different websites you can host on a web server.
+**数据库**
 
-**Static Vs Dynamic Content**
+通常，网站需要一种存储其用户信息的方式。Web 服务器可以与数据库通信，以存储和调用其中的数据。数据库的范围可以从简单的纯文本文件到提供速度和弹性的多个服务器的复杂集群。您会遇到一些常见的数据库：MySQL、MSSQL、MongoDB、Postgres 等；每个数据库都有其特定的功能。
 
-Static content, as the name suggests, is content that never changes. Common examples of this are pictures, javascript, CSS, etc., but can also include HTML that never changes. Furthermore, these are files that are directly served from the webserver with no changes made to them.
+**WAF（Web 应用程序防火墙）**
 
-Dynamic content, on the other hand, is content that could change with different requests. Take, for example, a blog. On the homepage of the blog, it will show you the latest entries. If a new entry is created, the home page is then updated with the latest entry, or a second example might be a search page on a blog. Depending on what word you search, different results will be displayed.
+WAF 位于您的 Web 请求和 Web 服务器之间；其主要目的是保护 Web 服务器免受黑客攻击或拒绝服务攻击。它分析 Web 请求中是否存在常见的攻击技术，以及请求是否来自真正的浏览器而不是机器人。它还会检查是否每秒从 IP 发送过多的 Web 请求，方法是利用称为速率限制的功能，该功能每秒仅允许来自一个 IP 的一定数量的请求。如果请求被认为是潜在的攻击，它将被丢弃，并且永远不会发送到 Web 服务器。
 
-These changes to what you end up seeing are done in what is called the Backend with the use of programming and scripting languages. It's called the Backend because what is being done is all done behind the scenes. You can't view the websites' HTML source and see what's happening in the **Backend**, while the HTML is the result of the processing from the Backend. Everything you see in your browser is called the **Frontend**.
+### Web 服务器的工作原理
 
-**Scripting and Backend Languages**
+**什么是 Web 服务器？**
 
-There's not much of a limit to what a backend language can achieve, and these are what make a website interactive to the user. Some examples of these languages (in no particular order :p) are PHP, Python, Ruby, NodeJS, Perl and many more. These languages can interact with databases, call external services, process data from the user, and so much more. A very basic PHP example of this would be if you requested the website http://example.com/index.php?name=adam
+Web 服务器是一种侦听传入连接，然后利用 HTTP 协议向其客户端传递 Web 内容的软件。您会遇到的最常见的 Web 服务器软件是 Apache、Nginx、IIS 和 NodeJS。Web 服务器从所谓的根目录传递文件，该目录在软件设置中定义。例如，Nginx 和 Apache 共享 /var/www/html 在 Linux 操作系统中的相同默认位置，而 IIS 使用 C:\\inetpub\\wwwroot 用于 Windows 操作系统。因此，例如，如果您请求文件 [http://www.example.com/picture.jpg](http://www.example.com/picture.jpg)，它将从其本地硬盘驱动器发送文件 /var/www/html/picture.jpg。
 
-If index.php was built like this:
+**虚拟主机**
 
-**\<html>\<body>Hello \<?php echo $_GET["name"]; ?>\</body>\</html>**
+Web 服务器可以使用不同的域名托管多个网站；为此，它们使用虚拟主机。Web 服务器软件检查从 HTTP 标头请求的主机名，并将其与虚拟主机进行匹配（虚拟主机只是基于文本的配置文件）。如果找到匹配项，将提供正确的网站。如果找不到匹配项，将改为提供默认网站。
 
-It would output the following to the client:
+虚拟主机的根目录可以映射到硬盘驱动器上的不同位置。例如，one.com 映射到 /var/www/website\_one，而 two.com 映射到 /var/www/website\_two
+
+您可以托管在 Web 服务器上的不同网站的数量没有限制。
+
+**静态与动态内容**
+
+顾名思义，静态内容是永远不会更改的内容。常见的示例包括图片、JavaScript、CSS 等，但也包括永远不会更改的 HTML。此外，这些文件直接从 Web 服务器提供，而未对其进行任何更改。
+
+另一方面，动态内容是可能随不同请求而更改的内容。以博客为例。在博客的主页上，它将向您显示最新的条目。如果创建了一个新条目，则主页将使用最新的条目进行更新，或者第二个示例可能是博客上的搜索页面。根据您搜索的词，将显示不同的结果。
+
+对您最终看到的内容的这些更改是在所谓的后端使用编程和脚本语言完成的。之所以称为后端，是因为所做的事情都是在幕后完成的。您无法查看网站的 HTML 源代码并查看后端发生的情况，而 HTML 是后端处理的结果。您在浏览器中看到的所有内容都称为前端。
+
+**脚本和后端语言**
+
+后端语言可以实现的目标没有太大的限制，这些语言使网站对用户具有交互性。这些语言的一些示例（不按特定顺序排列 :p）是 PHP、Python、Ruby、NodeJS、Perl 等等。这些语言可以与数据库交互、调用外部服务、处理来自用户的数据等等。一个非常基本的 PHP 示例是如果您请求网站 [http://example.com/index.php?name=adam](http://example.com/index.php?name=adam)
+
+如果 index.php 的构建方式如下：
+
+**\<html>\<body>Hello \<?php echo $\_GET\["name"\]; ?>\</body>\</html>**
+
+它会将以下内容输出到客户端：
 
 **\<html>\<body>Hello adam\</body>\</html>**
 
-You'll notice that the client doesn't see any PHP code because it's on the Backend. This interactivity opens up a lot more security issues for web applications that haven't been created securely, as you learn in further modules.
+您会注意到客户端看不到任何 PHP 代码，因为它在后端。这种交互性为未安全创建的 Web 应用程序打开了更多的安全问题，正如您在其他模块中所了解的那样。
+
+## 常见问题解答
+
+### 什么是 DNS？
+
+DNS（域名系统）提供了一种简单的方式，让我们在互联网上与设备通信，而无需记住复杂的数字。它将域名（例如 tryhackme.com）转换为 IP 地址（例如 104.26.10.229）。
+
+### 什么是域名层次结构？
+
+域名层次结构分为三个主要层级：顶级域名（TLD）、二级域名和子域名。例如，在 `admin.tryhackme.com` 中，`.com` 是 TLD，`tryhackme` 是二级域名，`admin` 是子域名。
+
+### 常见的 DNS 记录类型有哪些？
+
+常见的 DNS 记录类型包括 A 记录（IPv4 地址）、AAAA 记录（IPv6 地址）、CNAME 记录（规范名称）、MX 记录（邮件交换）和 TXT 记录（自由文本）。
+
+### 什么是 HTTP？
+
+HTTP（超文本传输协议）是一种协议，用于指定 Web 浏览器和 Web 服务器如何通信。HTTPS 是 HTTP 的安全版本，数据已加密。
+
+### 什么是 URL？
+
+URL（统一资源定位符）是一个关于如何访问 Internet 上资源的指令。它包括方案（例如 HTTP、HTTPS）、主机（域名或 IP 地址）、端口、路径、查询字符串和片段。
+
+### 常见的 HTTP 方法有哪些？
+
+常见的 HTTP 方法包括 GET（获取信息）、POST（提交数据）、PUT（更新信息）和 DELETE（删除信息）。
+
+### 常见的 HTTP 状态代码有哪些？
+
+常见的 HTTP 状态代码包括 200（成功）、201（已创建）、301（永久移动）、302（已找到）、400（错误的请求）、401（未授权）、403（禁止）、404（找不到页面）、500（内部服务错误）和 503（服务不可用）。
+
+### 什么是 Cookie？
+
+Cookie 是一小段数据，存储在您的计算机上，用于提醒 Web 服务器您是谁、网站的一些个人设置或您以前是否访问过该网站。
+
+### 网站是如何创建的？
+
+网站主要使用 HTML（构建结构）、CSS（添加样式）和 JavaScript（实现交互性）创建。
+
+### 什么是敏感数据泄露？
+
+当网站没有正确保护（或删除）最终用户的敏感明文信息时，会发生敏感数据泄露，通常在网站的前端源代码中找到。
+
+### 什么是 HTML 注入？
+
+当未经过滤的用户输入显示在页面上时，会发生 HTML 注入漏洞。攻击者可以将 HTML 代码注入到易受攻击的网站中。
