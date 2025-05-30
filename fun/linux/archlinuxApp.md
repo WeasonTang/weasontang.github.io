@@ -6,7 +6,6 @@ categories:
   - 教程
 tags: [Markdown, linux]
 description: Archlinux 应用
-draft: false
 sidebar: false
 outline: 2
 ---
