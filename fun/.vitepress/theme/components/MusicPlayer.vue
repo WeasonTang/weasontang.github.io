@@ -12,6 +12,7 @@ const musics = [
   '转眼.mp3',
   '匿名的好友.mp3',
   '聚集记忆的时间.mp3',
+  'Location Unknown.mp3',
 ]
 // 当前音乐
 const currentMusic = ref('/music/转眼.mp3')
