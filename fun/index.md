@@ -35,7 +35,7 @@ features:
   - icon: 
       src: /cocoon.png
     title: cocoon  
-    details: The cocoon is not a prison—it’s where the caterpillar weaves its courage into colors.
+    details: The cocoon is not a prison—it's where the caterpillar weaves its courage into colors.
   - title: butterfly
     icon: 
       src: /butterfly.png

@@ -57,8 +57,6 @@ features:
 
 * [在线计算](https://www.wolframalpha.com/)
 
-* [sha256algorithm](https://sha256algorithm.com/)
-
 ---
 
 ![Nemophila](/Nemophila.jpg){ loading=eager }
