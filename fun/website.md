@@ -9,6 +9,9 @@ hero:
         text: cloud
         link: website.md#cloud
       - theme: brand
+        text: 软件
+        link: website.md#software
+      - theme: brand
         text: myself
         link: website.md#myself
 
@@ -61,6 +64,15 @@ features:
 
 ![Nemophila](/Nemophila.jpg){ loading=eager }
 
+---
+
+
+## software
+
+* [自定义屏幕点击应用](https://gkd.li/)
+
+---
+
 ## myself
 
 **如果无法连接 那是我没开我的服务器**
@@ -86,6 +98,9 @@ features:
 * ~~[moniter](https://weamonitor.591746.xyz)~~
 
 ---
+
+
+
 
 
 

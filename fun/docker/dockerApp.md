@@ -99,7 +99,7 @@ Password: changeme
 Advanced 高级
 Custom Nginx Configuration 自定义 Nginx 配置 
 
-```htm
+```html
 location / {
   default_type text/html;
   add_header Content-Type "text/html; charset=utf-8";

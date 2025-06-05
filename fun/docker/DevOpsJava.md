@@ -81,7 +81,7 @@ http://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
 
 2. 编写Dockerfile
 
-```do
+```dockerfile
 FROM openjdk:8-jdk-slim
 LABEL maintainer=weason
 
