@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: "just for fun"
+  name: "Just for fun "
   # text: "zone to gather memories"
   tagline: 回忆是你 我生存的地方
   image:
