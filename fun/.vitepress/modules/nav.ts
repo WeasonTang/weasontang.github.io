@@ -5,8 +5,7 @@ export const nav = [
     items: [
       { text: 'network基础', link: '/cyber/network.md' },
       { text: 'network进阶', link: '/cyber/networkpro.md' },
-      { text: 'web基础', link: '/cyber/web.md' },
-      { text: '书签脚本', link: '/cyber/Bookmarklet.md' },
+      { text: 'web基础', link: '/cyber/web.md' }
     ]
   },
   {
