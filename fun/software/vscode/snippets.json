@@ -1,0 +1,98 @@
+{
+    "markdown code block": {
+        "scope": "markdown",
+        "prefix": "code",
+        "body": [
+            "```${1:js}",
+            "$2",
+            "```"
+        ],
+        "description": "markdown 块级代码"
+    },
+    "vitepress custom containers info": {
+        "scope": "markdown",
+        "prefix": "info",
+        "body": [
+            "::: info $1",
+            "$2",
+            ":::"
+        ],
+        "description": "vitepress 自定义容器 info"
+    },
+    "vitepress custom containers tip": {
+        "scope": "markdown",
+        "prefix": "tip",
+        "body": [
+            "::: tip $1",
+            "$2",
+            ":::"
+        ],
+        "description": "vitepress 自定义容器 tip"
+    },
+    "vitepress custom containers warn": {
+        "scope": "markdown",
+        "prefix": "warn",
+        "body": [
+            "::: warning $1",
+            "$2",
+            ":::"
+        ],
+        "description": "vitepress 自定义容器 warning"
+    },
+    "vitepress custom containers danger": {
+        "scope": "markdown",
+        "prefix": "danger",
+        "body": [
+            "::: danger $1",
+            "$2",
+            ":::"
+        ],
+        "description": "vitepress 自定义容器 danger"
+    },
+    "vitepress custom containers details": {
+        "scope": "markdown",
+        "prefix": "details",
+        "body": [
+            "::: details $1",
+            "$2",
+            ":::"
+        ],
+        "description": "vitepress 自定义容器 details"
+    },
+    "Large Bold Context Span": {
+        "scope": "markdown",
+        "prefix": "lcontent",
+        "body": [
+            "<span style=\"font-size: 23px;\">**${1:content}**</span>"
+        ],
+        "description": "Inserts a span with large, bold 'content' text"
+    },
+    "superscript": {
+        "scope": "markdown",
+        "prefix": "sup",
+        "body": [
+            "${1:content}<sup>${2:content}</sup>"
+        ],
+        "description": "math superscript"
+    },
+    "typescript challenges": {
+        "scope": "markdown",
+        "prefix": "challenge",
+        "body": [
+            "### $1",
+            "",
+            "$2",
+            "",
+            "```ts",
+            "type result$3",
+            "```",
+            "",
+            "**实现**:",
+            "",
+            "```ts",
+            "$4",
+            "```"
+        ],
+        "description": "typescript 类型体操"
+    }
+}

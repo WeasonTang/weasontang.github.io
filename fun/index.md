@@ -11,20 +11,21 @@ hero:
 
   actions:
     - theme: brand
+      text: software
+      link: /software/windows.md
+    - theme: brand
       text: shortcut
       link: /shortcut.md
-    - theme: alt
-      text: linux
-      link: /linux/linux命令
     - theme: brand
       text: docker
       link: /docker/dockerApp.md
     - theme: alt
+      text: linux
+      link: /linux/linux命令
+    - theme: alt
       text: algo
       link: /algo/javaAlgo.md
-    - theme: alt
-      text: go
-      link: /go/goIssues.md
+      
 
 features:
   - title: caterpillar
@@ -36,7 +37,6 @@ features:
       src: /cocoon.png
     title: cocoon  
     details: The cocoon is not a prison—it's where the caterpillar weaves its courage into colors.
-    link: /Bookmarklet.md
   - title: butterfly
     icon: 
       src: /butterfly.png

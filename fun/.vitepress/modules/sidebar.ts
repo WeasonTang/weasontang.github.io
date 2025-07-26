@@ -51,15 +51,36 @@ export const sidebar = {
       ]
     }
   ],
-  '/windows/':
-    [
-      {
-        text: 'windows',
-        collapsed: false,
-        items: [
-          { text: 'WindowsCommand', link: 'windows/WindowsCommand' },
-          { text: 'WindowsFundamentals', link: 'windows/WindowsFundamentals' }
-        ]
-      }
-    ],
+  '/windows/': [
+    {
+      text: 'windows',
+      collapsed: false,
+      items: [
+        { text: 'WindowsCommand', link: 'windows/WindowsCommand' },
+        { text: 'WindowsFundamentals', link: 'windows/WindowsFundamentals' }
+      ]
+    }
+  ],
+  '/software/': [
+    {
+      text: 'software',
+      collapsed: false,
+      items: [
+        { text: '多平台软件', link: '/software/cross-platform.md' },
+        { text: 'Windows 平台', link: '/software/windows.md' },
+        { text: 'Mac 平台', link: '/software/mac.md' },
+        { text: 'Android 平台', link: '/software/android.md' },
+        { text: '浏览器设置与扩展', link: '/software/browser.md' },
+        { text: 'Visual Studio Code 配置', link: '/software/vscode.md' },
+      ],
+    },
+    {
+      link: '/software/Bookmarklet.md',
+      collapsed: false,
+      items: [
+        { text: '在线工具', link: '/software/online-tools.md' },
+        { text: '书签脚本', link: '/software/Bookmarklet.md' },
+      ]
+    },
+  ],
 }

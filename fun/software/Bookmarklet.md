@@ -1,16 +1,13 @@
 ---
 title: "Bookmarklet"
-categories:
-  - 技术
-  - 教程
-tags: [Bookmarklet, 书签脚本]
-sidebar: false
-outline: 2
+description: '收录一些实用的书签脚本，没想到书签还能这么玩'
 ---
 
 # 书签脚本
 
 ## 回到顶部
+
+只支持窗口滚动，不支持内联滚动
 
 ```javascript
 javascript: void (function () {
