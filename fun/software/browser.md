@@ -79,3 +79,19 @@ description: 收录一些能提升使用体验的浏览器扩展、油猴脚本�
 ### 打开不安全网页
 
 在当前页面任意地方点击，直接输入 `thisisunsafe` 后回车就能访问
+
+###  修改Chrome浏览器的磁盘缓存位置
+
+开始菜单里的快捷方式位于 `C:\ProgramData\Microsoft\Windows\Start Menu\Programs` 里
+
+查看**属性**，在**目标**的末尾添加空格和参数。
+
+参数如 `--disk-cache-dir="D:\ChromeCache"`（注意需要在 --disk 前面加个空格）
+
+![chrome modify](<assets/chrome modify.png>)
+
+你可以修改目标文件夹的路径；不需要手动新建 `ChromeCache` 文件夹，因为 Chrome 会自动创建该文件夹。
+
+修改后确定，重新启动 **Chrome**，如果看到设置的文件夹被创建就说明修改成功了。
+
+PS: 上面的参数只修改了磁盘缓存的位置，不会影响浏览器有的浏览记录、下载记录、IndexedDB 等数据，因为它们仍然在原来的位置，所以使用起来和之前一样。
