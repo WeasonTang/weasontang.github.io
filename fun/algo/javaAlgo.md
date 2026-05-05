@@ -10,7 +10,7 @@ sidebar: false
 outline: deep
 ---
 
-# 数据结构和算法(java)
+# 数据结构和算法(java algo)
 
 ## 0.概述
 

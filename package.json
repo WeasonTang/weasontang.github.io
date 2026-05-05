@@ -1,5 +1,6 @@
 {
   "devDependencies": {
+    "@cloudflare/ai-search-snippet": "^0.0.39",
     "@types/node": "^22.15.19",
     "sass-embedded": "^1.89.0",
     "vitepress": "^1.6.3"

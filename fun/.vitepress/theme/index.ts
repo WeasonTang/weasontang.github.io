@@ -4,6 +4,7 @@ import './my-fonts.css'
 import MusicPlayer from './components/MusicPlayer.vue'
 import Visitor from './components/Visitor.vue'
 import './style/index.css'
+import CloudflareAISearch from './components/CFAISearch.vue'
 
 // 彩虹背景动画样式
 let homePageStyle: HTMLStyleElement | undefined
@@ -45,7 +46,9 @@ export default Object.assign({}, DefaultTheme, {
     h(DefaultTheme.Layout, null, {
       // 相关插槽
       // https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/Layout.vue
-      'nav-bar-title-after': () => h(Visitor)
+      'nav-bar-title-after': () => h(Visitor),
+       // 挂载CloudflareAISearch
+      'layout-bottom': () => h(CloudflareAISearch)
     })
 })
 

@@ -28,7 +28,7 @@ export default defineConfig({
   lastUpdated: true,
   cleanUrls: true,
   sitemap: {
-    hostname: 'https://weasontang.github.io'
+    hostname: env.VITE_SITEMAP_URL || 'https://weasontang.github.io/'
   },
   markdown: {
       lineNumbers: true,
@@ -51,7 +51,14 @@ export default defineConfig({
     sidebar,
     socialLinks
   },
-
+  vue: {
+    template: {
+      compilerOptions: {
+        // 告诉 Vue 所有带 -snippet 的标签都是自定义元素，不要报错
+        isCustomElement: (tag) => tag.includes('-snippet')
+      }
+    }
+  },
   head: [
     // 添加图标
     ['link', { rel: 'icon', href: '/butterfly-flower.svg', type: 'image/svg+xml' }],
@@ -72,20 +79,20 @@ export default defineConfig({
       gtag('config', 'G-RJMPP58S6J');`
     ],
     // 添加 n8n chat
-    [
-      'link',
-      { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css' }
-    ],
-    [
-      'script',
-      { type: 'module' },
-      `
-        import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
-        createChat({
-          webhookUrl: '${env.VITE_N8N_WEBHOOK_URL}'
-        });
-      `
-    ],
+    // [
+    //   'link',
+    //   { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css' }
+    // ],
+    // [
+    //   'script',
+    //   { type: 'module' },
+    //   `
+    //     import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
+    //     createChat({
+    //       webhookUrl: '${env.VITE_N8N_WEBHOOK_URL}'
+    //     });
+    //   `
+    // ],
     // vocechat
     // [
     //   'script',
