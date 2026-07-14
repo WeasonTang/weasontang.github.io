@@ -32,15 +32,15 @@ features:
     icon: 
       src: /caterpillar.png
     details: The caterpillar molts not once, but many times—to outgrow itself, not its past.
-    link: /website.md
+    link: /tools/generator.md    
   - icon: 
       src: /cocoon.png
     title: cocoon  
     details: The cocoon is not a prison—it's where the caterpillar weaves its courage into colors.
+    link: /website.md
   - title: butterfly
     icon: 
       src: /butterfly.png
     details: The only way to grow is to embrace discomfort.
-    # link: /cyber/tools.md
 ---
 

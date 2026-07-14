@@ -71,16 +71,18 @@ export const sidebar = {
         { text: 'Mac 平台', link: '/software/mac.md' },
         { text: 'Android 平台', link: '/software/android.md' },
         { text: '浏览器设置与扩展', link: '/software/browser.md' },
-        { text: 'Visual Studio Code 配置', link: '/software/vscode.md' },
+        { text: 'Visual Studio Code 配置', link: '/software/vscode.md' }
       ],
-    },
-    {
-      link: '/software/Bookmarklet.md',
-      collapsed: false,
-      items: [
-        { text: '在线工具', link: '/software/online-tools.md' },
-        { text: '书签脚本', link: '/software/Bookmarklet.md' },
-      ]
-    },
+    }
   ],
+  '/tools/': [
+    {
+      text: 'tools',
+      items: [
+        { text: '🛠️ 生成器', link: '/tools/generator.md' },
+        { text: '📍 Bookmarklet', link: '/tools/Bookmarklet.md' },
+        { text: '🔧 在线工具', link: '/tools/online-tools.md' }
+      ]
+    }
+  ]
 }
